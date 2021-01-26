@@ -9,6 +9,15 @@ export default StyleSheet.create({
     flex: 1,
     height: hp('95'),
   },
+  containerThree: {
+    borderRadius: 40,
+    height: '100%',
+    paddingBottom: 22,
+    zIndex: 1,
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
   coverImgCon: {
     width: '100%',
     height: '100%',
@@ -16,7 +25,7 @@ export default StyleSheet.create({
     borderRadius: 50,
     zIndex: 0,
     position: 'absolute',
-    opacity: 0.4,
+    opacity: 0.3,
   },
   coverImg: {
     width: '100%',
@@ -37,6 +46,13 @@ export default StyleSheet.create({
     color: 'white',
     paddingLeft: wp('4'),
   },
+  loader: {
+    position: 'absolute',
+    top: hp('65.7'),
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
   img: {
     width: 100,
     height: 100,
@@ -53,7 +69,6 @@ export default StyleSheet.create({
     marginTop: wp('6'),
     backgroundColor: 'green',
     width: '40%',
-    borderWidth: 1,
     borderRadius: 20,
   },
   btnText: {

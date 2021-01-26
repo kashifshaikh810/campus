@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, TextInput} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import SignUpHeader from '../Headerss/SignUpHeader';
-import {heightPercentageToDP as hp} from '../responsive/responsive';
+import SignUpHeader from '../Headerss/SignupHeader/SignUpHeader';
+import SignUpButton from '../ScreensMaterials/SignupMaterial/SignUpButton/index';
+import {
+  SignUpImgOne,
+  SignUpImgTwo,
+} from '../ScreensMaterials/SignupMaterial/SignUpImages';
+import SignUpLoader from '../ScreensMaterials/SignupMaterial/SignUpLoader';
+import SignUpNavigation from '../ScreensMaterials/SignupMaterial/SignUpNavigation/index';
 
 const SignUp = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -18,8 +17,6 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [img] = useState(require('../../../assets/kashif.jpeg'));
-  const [myImg] = useState(require('../../../assets/live.jpg'));
 
   const Submit = () => {
     setIsLoading(true);
@@ -44,23 +41,10 @@ const SignUp = ({navigation}) => {
       <View style={style.container}>
         <SignUpHeader />
         <View style={{padding: 10, flex: 1}}>
-          <View
-            style={{
-              borderWidth: 1,
-              borderRadius: 40,
-              height: '100%',
-              paddingBottom: 22,
-              zIndex: 1,
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'space-around',
-            }}>
-            <View style={style.coverImgCon}>
-              <Image source={myImg} style={style.coverImg} />
-            </View>
-            <View style={style.imgContainer}>
-              <Image source={img} style={style.img} />
-            </View>
+          <View style={style.containerThree}>
+            <SignUpImgOne />
+
+            <SignUpImgTwo />
 
             <View style={style.txtContainer}>
               <TextInput
@@ -106,33 +90,15 @@ const SignUp = ({navigation}) => {
               />
             </View>
 
-            <TouchableOpacity onPress={Submit}>
-              <View style={style.btnContainer}>
-                <Text style={style.btnText}> {!isLoading && 'Sign Up'}</Text>
-              </View>
-            </TouchableOpacity>
+            <SignUpButton
+              navigation={navigation}
+              isLoading={isLoading}
+              Submit={Submit}
+            />
 
-            {!isLoading ? (
-              <View
-                style={{
-                  position: 'absolute',
-                  top: hp('65'),
-                  bottom: 0,
-                  right: 0,
-                  left: 0,
-                }}>
-                <ActivityIndicator size="small" color="#00ff00" />
-              </View>
-            ) : (
-              <></>
-            )}
+            <SignUpLoader isLoading={isLoading} />
 
-            <View style={style.signupContainer}>
-              <Text>Already have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
-                <Text style={style.signupTxt}>Click Here.</Text>
-              </TouchableOpacity>
-            </View>
+            <SignUpNavigation navigation={navigation} />
           </View>
         </View>
       </View>

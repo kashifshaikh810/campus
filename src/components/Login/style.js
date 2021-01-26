@@ -6,6 +6,15 @@ export default StyleSheet.create({
     flex: 1,
     height: hp('95'),
   },
+  containerThree: {
+    borderRadius: 40,
+    height: '100%',
+    paddingBottom: 22,
+    zIndex: 1,
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
   coverImgCon: {
     width: '100%',
     height: '100%',
@@ -13,7 +22,7 @@ export default StyleSheet.create({
     borderRadius: 50,
     zIndex: 0,
     position: 'absolute',
-    opacity: 0.5,
+    opacity: 0.3,
   },
   coverImg: {
     width: '100%',
@@ -40,6 +49,10 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 80,
   },
+  mainTwo: {
+    padding: 10,
+    flex: 1,
+  },
   imgContainer: {
     alignItems: 'center',
     marginTop: 30,
@@ -53,8 +66,14 @@ export default StyleSheet.create({
     marginTop: 25,
     backgroundColor: 'green',
     width: '40%',
-    borderWidth: 1,
     borderRadius: 20,
+  },
+  loader: {
+    position: 'absolute',
+    top: hp('59.3'),
+    bottom: 0,
+    right: 0,
+    left: 0,
   },
   btnText: {
     textAlign: 'center',

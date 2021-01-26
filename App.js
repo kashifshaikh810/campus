@@ -1,5 +1,5 @@
 import React from 'react';
-import AppView from './src/components/AppView';
+import AppView from './src/components/AppNavigation/index';
 
 const App = () => {
   return (
