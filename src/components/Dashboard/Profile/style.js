@@ -10,9 +10,10 @@ export default StyleSheet.create({
     height: hp('100'),
   },
   img: {
-    width: 85,
-    height: 85,
+    width: hp('15'),
+    height: hp('15'),
     borderRadius: 80,
+    backgroundColor: 'blue',
   },
   imgContainer: {
     alignItems: 'center',

@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
-import JobsHeader from '../../Headerss/JobsHeader/JobsHeader';
+import JobsHeader from '../../ScreensMaterials/Headerss/JobsHeader/JobsHeader';
+import JobImg from '../../ScreensMaterials/JobsMaterial/JobsImage/index';
 
-const JobsScreen = () => {
+const JobsScreen = ({navigation}) => {
   return (
     <View style={style.container}>
       <JobsHeader />
+      <JobImg navigation={navigation} />
       <Text>This is Jobs Screen</Text>
     </View>
   );

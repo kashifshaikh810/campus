@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, TextInput} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import SignUpHeader from '../Headerss/SignupHeader/SignUpHeader';
+import SignUpHeader from '../ScreensMaterials/Headerss/SignupHeader/SignUpHeader';
 import SignUpButton from '../ScreensMaterials/SignupMaterial/SignUpButton/index';
 import {
   SignUpImgOne,

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Text} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
-import LogInHeader from '../Headerss/LoginHeader/LogInHeader';
+import LogInHeader from '../ScreensMaterials/Headerss/LoginHeader/LogInHeader';
 import {
   LoginImgOne,
   LoginImgTwo,
@@ -15,6 +15,7 @@ const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  // const [errMsg, setErrMsg] = useState();
 
   const Submit = () => {
     setIsLoading(true);
@@ -27,6 +28,7 @@ const SignIn = ({navigation}) => {
       setEmail('');
       setPassword('');
     } catch (err) {
+      // setErrMsg(err);
       console.log(err);
       setIsLoading(false);
     }

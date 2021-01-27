@@ -5,7 +5,7 @@ const StudentsHeader = () => {
   return (
     <View style={style.container}>
       <View style={style.txtContainer}>
-        <Text style={style.mainTxt}>Welcome To Student Page</Text>
+        <Text style={style.mainTxt}>Welcome To Students Page</Text>
       </View>
     </View>
   );
