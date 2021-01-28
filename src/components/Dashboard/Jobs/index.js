@@ -7,8 +7,8 @@ import JobImg from '../../ScreensMaterials/JobsMaterial/JobsImage/index';
 const JobsScreen = ({navigation}) => {
   return (
     <View style={style.container}>
-      <JobsHeader />
-      <JobImg navigation={navigation} />
+      <JobsHeader navigation={navigation} />
+      <JobImg />
       <Text>This is Jobs Screen</Text>
     </View>
   );

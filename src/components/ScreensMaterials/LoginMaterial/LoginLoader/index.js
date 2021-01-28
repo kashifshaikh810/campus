@@ -7,7 +7,7 @@ const LoginLoader = ({isLoading}) => {
     <>
       {isLoading ? (
         <View style={style.loader}>
-          <ActivityIndicator size="small" color="#00ff00" />
+          <ActivityIndicator size={16} color="#00ff00" />
         </View>
       ) : (
         <></>

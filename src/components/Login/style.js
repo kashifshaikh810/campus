@@ -70,7 +70,7 @@ export default StyleSheet.create({
   },
   loader: {
     position: 'absolute',
-    top: hp('59.3'),
+    top: hp('59.7'),
     bottom: 0,
     right: 0,
     left: 0,
@@ -81,7 +81,6 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   signupContainer: {
-    // backgroundColor: 'red',
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 20,

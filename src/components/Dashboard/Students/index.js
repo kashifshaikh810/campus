@@ -7,8 +7,8 @@ import StudentImg from '../../ScreensMaterials/StudentsMaterial/StudentsImage/in
 const StudentsScreen = ({navigation}) => {
   return (
     <View style={style.container}>
-      <StudentsHeader />
-      <StudentImg navigation={navigation} />
+      <StudentsHeader navigation={navigation} />
+      <StudentImg />
       <Text>This Is Students Screen</Text>
     </View>
   );

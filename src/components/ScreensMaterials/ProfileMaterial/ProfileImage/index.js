@@ -1,16 +1,43 @@
 import React, {useState} from 'react';
-import {View, Image, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import style from '../../../Dashboard/Profile/style';
-import MenuIcon from '../../MenuIcon/index';
+import UploadIcon from 'react-native-vector-icons/Feather';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from '../../../responsive/responsive';
 
-const ProfileImage = ({navigation}) => {
-  const myImage = useState(require('../../../../../assets/luck.jpg'));
+const ProfileImage = () => {
+  const myImage = useState(require('../../../../../assets/kashif.jpg'));
   return (
     <View style={style.imgContainer}>
-      <MenuIcon navigation={navigation} />
       <View style={style.img} />
+      <View style={styles.uploadIconContainer}>
+        <UploadIcon
+          name="upload"
+          size={25}
+          color="black"
+          style={styles.uploadIcon}
+        />
+      </View>
     </View>
   );
 };
 
 export default ProfileImage;
+
+const styles = StyleSheet.create({
+  uploadIconContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  uploadIcon: {
+    marginBottom: hp('1'),
+    marginLeft: hp('6'),
+    width: 35,
+    height: 35,
+    borderRadius: 20,
+    textAlign: 'center',
+    backgroundColor: 'white',
+  },
+});

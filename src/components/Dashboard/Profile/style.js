@@ -17,6 +17,25 @@ export default StyleSheet.create({
   },
   imgContainer: {
     alignItems: 'center',
-    marginTop: wp('3'),
+    marginTop: wp('10'),
+  },
+  txtContainer: {
+    paddingHorizontal: hp('5'),
+    marginTop: wp('10'),
+  },
+  text: {
+    borderWidth: 1,
+    borderColor: 'green',
+    borderRadius: 20,
+    padding: 5,
+    color: 'black',
+    paddingLeft: 12,
+  },
+  loader: {
+    position: 'absolute',
+    top: hp('59.3'),
+    bottom: 0,
+    right: 0,
+    left: 0,
   },
 });

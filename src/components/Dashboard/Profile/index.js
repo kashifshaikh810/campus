@@ -1,16 +1,56 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View, TextInput} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 
 const ProfileScreen = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [education, setEducation] = useState('');
   return (
-    <View style={style.container}>
-      <ProfileHeader />
-      <ProfileImage navigation={navigation} />
-      <Text>This is Profile Screen</Text>
-    </View>
+    <KeyboardAwareScrollView>
+      <View style={style.container}>
+        <ProfileHeader navigation={navigation} />
+        <ProfileImage />
+
+        <View>
+          <View style={style.txtContainer}>
+            <TextInput
+              style={style.text}
+              value={name}
+              placeholder="Your Name"
+              onChangeText={(text) => setName(text)}
+              placeholderTextColor="green"
+              keyboardType="name-phone-pad"
+            />
+          </View>
+
+          <View style={style.txtContainer}>
+            <TextInput
+              style={style.text}
+              placeholder="Your Date Of Birth"
+              value={dateOfBirth}
+              onChangeText={(text) => setDateOfBirth(text)}
+              placeholderTextColor="green"
+            />
+          </View>
+
+          <View style={style.txtContainer}>
+            <TextInput
+              style={style.text}
+              placeholder="Your Education"
+              value={education}
+              onChangeText={(text) => setEducation(text)}
+              placeholderTextColor="green"
+            />
+          </View>
+        </View>
+
+        {/* <LoginButton Submit={Submit} isLoading={isLoading} /> */}
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 

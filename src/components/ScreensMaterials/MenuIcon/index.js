@@ -11,7 +11,7 @@ const MenuIcon = ({navigation}) => {
     <View style={styles.iconContainer}>
       <Icon
         name="menu"
-        color="black"
+        color="white"
         size={27}
         style={styles.mainIcon}
         onPress={() => navigation.openDrawer()}
@@ -25,12 +25,11 @@ export default MenuIcon;
 const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
     alignSelf: 'flex-start',
+    justifyContent: 'flex-end',
   },
   mainIcon: {
-    padding: wp('4'),
-    marginVertical: wp('3'),
-    color: 'white',
+    marginBottom: wp('2'),
+    marginLeft: wp('4'),
   },
 });
