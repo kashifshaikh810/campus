@@ -7,7 +7,7 @@ const ProfileHeader = ({navigation}) => {
   return (
     <View style={style.container}>
       <View style={style.txtContainer}>
-        <Text style={style.mainTxt}>Welcome To Your Profile</Text>
+        <Text style={style.mainTxt}>Editing Your Profile</Text>
       </View>
       <View>
         <MenuIcon navigation={navigation} />

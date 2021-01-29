@@ -1,17 +1,40 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import style from '../../../Dashboard/Profile/style';
 import UploadIcon from 'react-native-vector-icons/Feather';
+import DocumentPicker from 'react-native-document-picker';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../responsive/responsive';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ProfileImage = () => {
-  const myImage = useState(require('../../../../../assets/kashif.jpg'));
+  const [myImage] = useState(require('../../../../../assets/pro.jpg'));
+  const upload = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      });
+      console.log(
+        res.uri,
+        res.type, // mime type
+        res.name,
+        res.size,
+      );
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  };
   return (
-    <View style={style.imgContainer}>
-      <View style={style.img} />
+    <TouchableOpacity style={style.imgContainer} onPress={upload}>
+      <View>
+        <Image source={myImage} style={style.img} />
+      </View>
       <View style={styles.uploadIconContainer}>
         <UploadIcon
           name="upload"
@@ -20,7 +43,7 @@ const ProfileImage = () => {
           style={styles.uploadIcon}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -35,7 +58,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('1'),
     marginLeft: hp('6'),
     width: 35,
-    height: 35,
+    height: 32,
     borderRadius: 20,
     textAlign: 'center',
     backgroundColor: 'white',

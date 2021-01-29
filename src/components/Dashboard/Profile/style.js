@@ -7,13 +7,12 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('100'),
+    height: hp('90'),
   },
   img: {
     width: hp('15'),
     height: hp('15'),
     borderRadius: 80,
-    backgroundColor: 'blue',
   },
   imgContainer: {
     alignItems: 'center',
@@ -37,5 +36,19 @@ export default StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
+  },
+  btnContainer: {
+    justifyContent: 'center',
+    padding: 4,
+    alignSelf: 'center',
+    marginTop: wp('10'),
+    backgroundColor: 'green',
+    width: '40%',
+    borderRadius: 20,
+  },
+  btnText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

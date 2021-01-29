@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, Button, Text} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import {
+  ProfileButton,
+  ProfileCv,
+} from '../../ScreensMaterials/ProfileMaterial/ProfileButton/index';
 
 const ProfileScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -48,7 +52,9 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
 
-        {/* <LoginButton Submit={Submit} isLoading={isLoading} /> */}
+        <ProfileCv />
+
+        <ProfileButton />
       </View>
     </KeyboardAwareScrollView>
   );
