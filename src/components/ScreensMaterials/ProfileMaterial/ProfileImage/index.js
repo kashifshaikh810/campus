@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
-import style from '../../../Dashboard/Profile/style';
+import style from '../../../MyDrawer/Profile/style';
 import UploadIcon from 'react-native-vector-icons/Feather';
 import DocumentPicker from 'react-native-document-picker';
 import {

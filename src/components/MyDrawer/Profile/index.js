@@ -8,11 +8,32 @@ import {
   ProfileButton,
   ProfileCv,
 } from '../../ScreensMaterials/ProfileMaterial/ProfileButton/index';
+import DatePicker from 'react-native-date-picker';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import ProfileLoader from '../../ScreensMaterials/ProfileMaterial/ProfileLoader/index';
 
 const ProfileScreen = ({navigation}) => {
   const [name, setName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [DateOb] = useState('Your Date Of Birth :');
   const [education, setEducation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const SubmitBtn = () => {
+    setIsLoading(true);
+    try {
+      console.log('Data!');
+      setTimeout(function () {
+        setIsLoading(false);
+      }, 2000);
+      setName('');
+      setEducation('');
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View style={style.container}>
@@ -31,15 +52,16 @@ const ProfileScreen = ({navigation}) => {
             />
           </View>
 
-          <View style={style.txtContainer}>
-            <TextInput
-              style={style.text}
-              placeholder="Your Date Of Birth"
-              value={dateOfBirth}
-              onChangeText={(text) => setDateOfBirth(text)}
-              placeholderTextColor="green"
+          <Text style={style.dateOB}>{DateOb}</Text>
+
+          <TouchableOpacity style={style.dateContainer}>
+            <DatePicker
+              date={date}
+              onDateChange={setDate}
+              mode="date"
+              style={style.datePicker}
             />
-          </View>
+          </TouchableOpacity>
 
           <View style={style.txtContainer}>
             <TextInput
@@ -48,13 +70,16 @@ const ProfileScreen = ({navigation}) => {
               value={education}
               onChangeText={(text) => setEducation(text)}
               placeholderTextColor="green"
+              keyboardType="name-phone-pad"
             />
           </View>
         </View>
 
         <ProfileCv />
 
-        <ProfileButton />
+        <ProfileButton Submit={SubmitBtn} isLoading={isLoading} />
+
+        <ProfileLoader isLoading={isLoading} />
       </View>
     </KeyboardAwareScrollView>
   );

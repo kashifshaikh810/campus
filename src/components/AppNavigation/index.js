@@ -1,7 +1,7 @@
 import React from 'react';
 import SignIn from '../Login';
 import SignUp from '../SignUp';
-import DrawerNav from '../Dashboard/DrawerNavigation/index';
+import DrawerNav from '../MyDrawer/DrawerNavigation/index';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 

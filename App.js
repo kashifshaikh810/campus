@@ -5,7 +5,7 @@ import AppView from './src/components/AppNavigation/index';
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="green" />
+      <StatusBar backgroundColor="green" />
       <AppView />
     </>
   );

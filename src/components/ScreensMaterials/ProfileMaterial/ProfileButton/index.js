@@ -1,39 +1,54 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import style from '../../../Dashboard/Profile/style';
+import style from '../../../MyDrawer/Profile/style';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../responsive/responsive';
+import DocumentPicker from 'react-native-document-picker';
 
-const ProfileButton = () => {
+const ProfileButton = ({isLoading, Submit}) => {
   const [BtnText] = useState('Submit');
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={Submit}>
       <View style={style.btnContainer}>
-        <Text style={style.btnText}> {BtnText}</Text>
+        <Text style={style.btnText}>{!isLoading && BtnText}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const ProfileCv = () => {
+  const cvUpload = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      });
+      console.log(
+        res.uri,
+        res.type, // mime type
+        res.name,
+        res.size,
+      );
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  };
   return (
-    <TouchableOpacity
-      style={{
-        alignSelf: 'center',
-        height: hp('5'),
-        width: hp('30'),
-        backgroundColor: 'blue',
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: hp('5'),
-      }}>
-      <Text style={{color: '#f2f2f2', fontWeight: 'bold'}}>
-        Attech Your Cv...
-      </Text>
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity style={style.cvUploaded} onPress={cvUpload}>
+        <Text style={style.cvMain}>Attech Your Cv...</Text>
+      </TouchableOpacity>
+
+      <View>
+        {/* show cv selected cv image */}
+        <Text></Text>
+      </View>
+    </View>
   );
 };
 

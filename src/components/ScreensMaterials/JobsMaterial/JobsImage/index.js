@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
-import style from '../../../Dashboard/Jobs/style';
+import style from '../../../MyDrawer/Jobs/style';
 
 const JobImg = () => {
   const [myImg] = useState(require('../../../../../assets/kashif.jpg'));

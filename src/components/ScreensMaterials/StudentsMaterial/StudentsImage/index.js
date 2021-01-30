@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
-import style from '../../../Dashboard/Students/style';
+import style from '../../../MyDrawer/Profile/style';
 
 const StudentImg = () => {
   const [myImg] = useState(require('../../../../../assets/students.jpg'));
