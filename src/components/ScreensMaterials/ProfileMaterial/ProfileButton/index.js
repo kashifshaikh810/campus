@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import style from '../../../MyDrawer/Profile/style';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from '../../../responsive/responsive';
 import DocumentPicker from 'react-native-document-picker';
 
 const ProfileButton = ({isLoading, Submit}) => {

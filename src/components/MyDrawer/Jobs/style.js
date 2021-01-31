@@ -7,7 +7,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('100'),
+    height: hp('95'),
   },
   img: {
     width: 85,
@@ -16,6 +16,36 @@ export default StyleSheet.create({
   },
   imgContainer: {
     alignItems: 'center',
-    marginTop: wp('3'),
+    marginTop: wp('4'),
+  },
+  mainCard: {
+    borderWidth: 1,
+    borderColor: 'green',
+    width: wp('90'),
+    height: hp('83'),
+    alignSelf: 'center',
+    margin: wp('3'),
+    marginBottom: wp('20'),
+    borderRadius: wp('7'),
+  },
+  touchAbleContent: {
+    borderWidth: 1,
+    borderColor: 'green',
+    width: wp('80'),
+    height: hp('9'),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: wp('5'),
+    borderRadius: wp('5'),
+    padding: wp('3'),
+    backgroundColor: '#b3b3b3',
+  },
+  teXt: {
+    maxWidth: wp('100'),
+    maxHeight: hp('8'),
+    fontWeight: 'bold',
+    color: '#f1f1f1',
+    letterSpacing: 0.6,
+    lineHeight: hp('2.3'),
   },
 });
