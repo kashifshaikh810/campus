@@ -10,8 +10,8 @@ export default StyleSheet.create({
     height: hp('100'),
   },
   img: {
-    width: 85,
-    height: 85,
+    width: hp('12'),
+    height: hp('12'),
     borderRadius: 80,
   },
   imgContainer: {

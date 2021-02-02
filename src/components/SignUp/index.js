@@ -10,6 +10,7 @@ import {
 } from '../ScreensMaterials/SignupMaterial/SignUpImages';
 import SignUpLoader from '../ScreensMaterials/SignupMaterial/SignUpLoader';
 import SignUpNavigation from '../ScreensMaterials/SignupMaterial/SignUpNavigation/index';
+import DropDown from '../ScreensMaterials/SignupMaterial/SignUpDropDown/index';
 
 const SignUp = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -89,6 +90,8 @@ const SignUp = ({navigation}) => {
                 secureTextEntry={true}
               />
             </View>
+
+            <DropDown />
 
             <SignUpButton
               navigation={navigation}

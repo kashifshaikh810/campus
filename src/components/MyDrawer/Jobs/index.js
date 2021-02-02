@@ -16,7 +16,7 @@ const JobsScreen = ({navigation}) => {
       <View style={style.container}>
         <JobsHeader navigation={navigation} />
         <View style={style.mainCard}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <JobImg />
             <TouchableOpacity
               style={style.touchAbleContent}
@@ -24,10 +24,81 @@ const JobsScreen = ({navigation}) => {
               <Text numberOfLines={3} style={style.teXt}>
                 Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
                 kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
               </Text>
             </TouchableOpacity>
 
-            <View style={{paddingBottom: wp('5')}} />
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={style.touchAbleContent}
+              onPress={jobDetail}>
+              <Text numberOfLines={3} style={style.teXt}>
+                Kashif Kashif kashif kashif kashif kashif kashif kashif kashif
+                kashif kashif kashif kashif kashif kashif kashifs kashif kashif
+                jsaosjoasjoasjoa
+              </Text>
+            </TouchableOpacity>
+
+            <View style={{paddingBottom: wp('4')}} />
           </ScrollView>
         </View>
       </View>

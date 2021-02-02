@@ -26,7 +26,7 @@ export default StyleSheet.create({
   },
   imgContainer: {
     alignItems: 'center',
-    marginTop: wp('5'),
+    marginTop: wp('3'),
     position: 'relative',
   },
   backIcon: {
@@ -143,5 +143,19 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 17,
     maxWidth: wp('60'),
+  },
+  btnContainer: {
+    justifyContent: 'center',
+    padding: 4,
+    alignSelf: 'center',
+    backgroundColor: 'green',
+    width: '40%',
+    borderRadius: 20,
+    marginVertical: wp('2'),
+  },
+  btnText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

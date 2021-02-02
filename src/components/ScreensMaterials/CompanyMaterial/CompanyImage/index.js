@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, Image} from 'react-native';
-import style from '../../../MyDrawer/Profile/style';
+import style from '../../../MyDrawer/Company/style';
 
-const StudentImg = () => {
-  const [myImg] = useState(require('../../../../../assets/students.jpg'));
+const CompanyImg = () => {
+  const [myImg] = useState(require('../../../../../assets/company.jpg'));
   return (
     <View style={style.imgContainer}>
       <Image source={myImg} style={style.img} />
@@ -11,4 +11,4 @@ const StudentImg = () => {
   );
 };
 
-export default StudentImg;
+export default CompanyImg;

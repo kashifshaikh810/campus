@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text} from 'react-native';
 import style from './style';
 import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader/index';
 // import DetailsImage from '../ScreensMaterials/JobsDetailsMaterial/DetailsImage/index';
+import DetailsButton from '../ScreensMaterials/JobsDetailsMaterial/DetailsButton/index';
 
 const JobsDetails = ({navigation}) => {
   return (
@@ -19,8 +20,6 @@ const JobsDetails = ({navigation}) => {
           <Text numberOfLines={4} style={style.text}>
             This is Jobs Titlefsdafsafdsafsadfsadfsafdsadadasddsdsdsdsd
             fakjfadjfadkojfadkojfdapojfdapojfdaojfdapojfadoijfdpoijfadoijfdsaoijfdoifjdsojfdojf
-            sofjsdofjsdojfsdofjoifsdfsdfafasdfsafsafsf
-            fojfoijfoiddsadsadsadddddddddddddddddsadasdasdsadsdasdsadsadsadsa
           </Text>
         </View>
       </View>
@@ -35,7 +34,7 @@ const JobsDetails = ({navigation}) => {
         <View>
           <Text numberOfLines={4} style={style.tiTle}>
             This is Jobs Titlefskfjnaosjgosajgosaijgpoasijgoasijg
-            lajfa;djnfosdjfosdjfosjdfosjdfosjdfoijsdfojsdfojosdjfosjfosjdpoifjsdoijfsdpojfojfsjdjfosdjfosdjfosdjfsdosdoifjsdofiofjofjsdojfsdoi
+            lajfa;djnfosdjfosdjfosjdfosjdfosjdfoijsdfojsdfojosdjfosjfosjdpoifjsdoijfsdpojfo
           </Text>
         </View>
       </View>
@@ -95,10 +94,11 @@ const JobsDetails = ({navigation}) => {
         <View>
           <Text numberOfLines={5} style={style.descTitle}>
             This is Jobs Title
-            FDA;FKS;DLOFKJNAOPFJHISLOFHAFGASUIFGYISU8YFGUSDYFGSUIFGYUIYFGUOFGyouiygdfisuygdfofgyifhaiflkfmlakfmldkfmsl;dddddddddddddddddddddddddddddddddddddkfmmmmmmmmmmmsofksofjpoijgoijgoiWQHFPWUEH
+            FDA;FKS;DLOFKJNAOPFJHISLOFHAFGASUIFGYISU8YFGUSDYFGSUIFGYUIYQHFPWUEH
           </Text>
         </View>
       </View>
+      <DetailsButton navigation={navigation} />
     </View>
   );
 };

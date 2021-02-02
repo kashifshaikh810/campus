@@ -7,7 +7,7 @@ const StudentsHeader = ({navigation}) => {
   return (
     <View style={style.container}>
       <View style={style.txtContainer}>
-        <Text style={style.mainTxt}>Welcome To Students Page</Text>
+        <Text style={style.mainTxt}>Welcome To Company Page</Text>
       </View>
       <MenuIcon navigation={navigation} />
     </View>

@@ -7,7 +7,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('95'),
+    height: hp('100'),
   },
   img: {
     width: 85,
@@ -22,10 +22,9 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: 'green',
     width: wp('90'),
-    height: hp('83'),
+    height: hp('82'),
     alignSelf: 'center',
     margin: wp('3'),
-    marginBottom: wp('20'),
     borderRadius: wp('7'),
   },
   touchAbleContent: {
