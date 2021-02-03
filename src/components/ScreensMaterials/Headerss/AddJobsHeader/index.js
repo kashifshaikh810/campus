@@ -1,17 +1,20 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
+import {widthPercentageToDP as wp} from '../../../responsive/responsive';
+import MenuIcon from '../../MenuIcon/index';
 
-const SignUpHeader = () => {
+const AddJobsHeader = ({navigation}) => {
   return (
     <View style={style.container}>
       <View style={style.txtContainer}>
-        <Text style={style.mainTxt}>Welcome To Sign Up Page</Text>
+        <Text style={style.mainTxt}>Welcome To Add Jobs Page</Text>
       </View>
+      <MenuIcon navigation={navigation} />
     </View>
   );
 };
 
-export default SignUpHeader;
+export default AddJobsHeader;
 
 const style = StyleSheet.create({
   container: {
@@ -22,7 +25,7 @@ const style = StyleSheet.create({
   txtContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: wp('3'),
   },
   mainTxt: {
     color: 'white',

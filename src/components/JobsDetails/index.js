@@ -74,7 +74,7 @@ const JobsDetails = ({navigation}) => {
           <Text style={style.numSix}>5.</Text>
         </View>
         <View>
-          <Text style={style.resigSt}>Resignation :-</Text>
+          <Text style={style.resigSt}>Designation :-</Text>
         </View>
         <View>
           <Text numberOfLines={4} style={style.resigTitle}>

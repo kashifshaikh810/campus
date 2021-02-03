@@ -7,7 +7,9 @@ const DetailsButton = () => {
   return (
     <TouchableOpacity onPress={() => setBtnTxt()}>
       <View style={style.btnContainer}>
-        <Text style={style.btnText}>{BtnTxt ? 'apply' : 'Applyed!'}</Text>
+        <Text style={style.btnText}>
+          {BtnTxt ? 'Apply' : 'Applyed Success!'}
+        </Text>
       </View>
     </TouchableOpacity>
   );

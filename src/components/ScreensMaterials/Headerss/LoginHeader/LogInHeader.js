@@ -16,7 +16,7 @@ export default LogInHeader;
 const style = StyleSheet.create({
   container: {
     width: '100%',
-    height: '7%',
+    // height: '7%',
     backgroundColor: 'green',
   },
   txtContainer: {

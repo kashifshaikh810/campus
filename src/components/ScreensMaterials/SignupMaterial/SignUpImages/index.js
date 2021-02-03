@@ -12,7 +12,7 @@ const SignUpImgOne = () => {
 };
 
 const SignUpImgTwo = () => {
-  const [img] = useState(require('../../../../../assets/kashif.jpeg'));
+  const [img] = useState(require('../../../../../assets/signup.jpeg'));
   return (
     <View style={style.imgContainer}>
       <Image source={img} style={style.img} />
