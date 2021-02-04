@@ -3,22 +3,23 @@ import {Text, StyleSheet, View} from 'react-native';
 import {widthPercentageToDP as wp} from '../../../responsive/responsive';
 import MenuIcon from '../../MenuIcon/index';
 
-const StudentsHeader = ({navigation}) => {
+const CompanyProfileHeader = ({navigation}) => {
   return (
     <View style={style.container}>
       <View style={style.txtContainer}>
-        <Text style={style.mainTxt}>Welcome To Company Page</Text>
+        <Text style={style.mainTxt}>Welcome To Company Profile Page</Text>
       </View>
       <MenuIcon navigation={navigation} />
     </View>
   );
 };
 
-export default StudentsHeader;
+export default CompanyProfileHeader;
 
 const style = StyleSheet.create({
   container: {
     width: '100%',
+    zIndex: 1,
     // height: '7%',
     backgroundColor: 'green',
   },
