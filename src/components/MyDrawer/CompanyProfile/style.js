@@ -10,6 +10,9 @@ export default StyleSheet.create({
     height: hp('100'),
     backgroundColor: '#b3b3b3',
   },
+  containerTwo: {
+    marginTop: hp('5'),
+  },
   coverImgContainer: {
     flex: 1,
     alignContent: 'center',
@@ -66,7 +69,7 @@ export default StyleSheet.create({
     maxWidth: wp('50'),
   },
   descriptionText: {
-    marginTop: wp('4'),
+    marginTop: wp('3'),
     maxHeight: hp('15'),
     maxWidth: wp('50'),
     lineHeight: wp('6'),
@@ -107,5 +110,31 @@ export default StyleSheet.create({
     paddingLeft: 12,
     width: wp('50'),
     height: hp('5'),
+  },
+  cardBtn: {
+    borderWidth: 1,
+    borderColor: '#b3b3b3',
+    width: wp('85'),
+    marginTop: hp('10'),
+    alignSelf: 'center',
+    borderRadius: 40,
+  },
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  allBtn: {
+    width: wp('10'),
+    height: hp('5'),
+    alignItems: 'center',
+    paddingTop: wp('1.8'),
+  },
+  allBtnTxt: {
+    textAlign: 'center',
+    color: 'black',
+  },
+  btnLine: {
+    borderWidth: 0.7,
+    borderColor: '#b3b3b3',
   },
 });

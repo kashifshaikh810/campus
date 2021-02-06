@@ -9,6 +9,10 @@ export default StyleSheet.create({
     flex: 1,
     height: hp('95'),
   },
+  containerTwo: {
+    padding: 10,
+    flex: 1,
+  },
   containerThree: {
     borderRadius: 40,
     height: '100%',

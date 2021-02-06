@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TextInput, Text} from 'react-native';
+import {View} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import LogInHeader from '../ScreensMaterials/Headerss/LoginHeader/LogInHeader';
@@ -10,12 +10,15 @@ import {
 import LoginLoader from '../ScreensMaterials/LoginMaterial/LoginLoader/index';
 import LoginButton from '../ScreensMaterials/LoginMaterial/LoginButton/index';
 import LoginNavigation from '../ScreensMaterials/LoginMaterial/LoginNavigation/index';
+import {
+  EmailInput,
+  PasswordInput,
+} from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  // const [errMsg, setErrMsg] = useState();
 
   const Submit = () => {
     setIsLoading(true);
@@ -45,27 +48,8 @@ const SignIn = ({navigation}) => {
             <LoginImgTwo />
 
             <View>
-              <View style={style.txtContainer}>
-                <TextInput
-                  style={style.text}
-                  value={email}
-                  placeholder="Email"
-                  onChangeText={(text) => setEmail(text)}
-                  placeholderTextColor="green"
-                  keyboardType="email-address"
-                />
-              </View>
-
-              <View style={style.txtContainer}>
-                <TextInput
-                  style={style.text}
-                  placeholder="Password"
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                  placeholderTextColor="green"
-                  secureTextEntry={true}
-                />
-              </View>
+              <EmailInput email={email} setEmail={setEmail} />
+              <PasswordInput password={password} setPassword={setPassword} />
             </View>
 
             <LoginButton Submit={Submit} isLoading={isLoading} />
