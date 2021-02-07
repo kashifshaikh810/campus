@@ -14,25 +14,27 @@ import {
   EmailInput,
   PasswordInput,
 } from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
+import {firebase} from '@react-native-firebase/auth';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const Submit = () => {
+  const Submit = async () => {
     setIsLoading(true);
     try {
-      console.log('Data SubmiteD!');
-      navigation.navigate('DrawerNav');
+      await firebase.auth().signInWithEmailAndPassword(email, password);
       setTimeout(function () {
         setIsLoading(false);
       }, 2000);
       setEmail('');
       setPassword('');
-    } catch (err) {
-      // setErrMsg(err);
-      console.log(err);
+      console.log(email, 'email');
+      console.log(password, 'password');
+      navigation.navigate('DrawerNav');
+    } catch ({message}) {
+      console.log(message, 'error');
       setIsLoading(false);
     }
   };

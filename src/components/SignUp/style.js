@@ -52,7 +52,7 @@ export default StyleSheet.create({
   },
   loader: {
     position: 'absolute',
-    top: hp('65.7'),
+    top: hp('68.5'),
     bottom: 0,
     right: 0,
     left: 0,
@@ -89,5 +89,9 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: 'green',
     fontWeight: 'bold',
+  },
+  errMsg: {
+    fontSize: wp('5'),
+    color: 'red',
   },
 });

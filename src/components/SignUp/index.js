@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import SignUpHeader from '../ScreensMaterials/Headerss/SignupHeader/SignUpHeader';
@@ -17,6 +17,7 @@ import {
   SignUpEmailInput,
   SignUpPasswordInput,
 } from '../ScreensMaterials/SignupMaterial/SignUpInputes/index';
+import {firebase} from '@react-native-firebase/auth';
 
 const SignUp = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -24,21 +25,23 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState();
 
-  const Submit = () => {
+  const Submit = async () => {
     setIsLoading(true);
     try {
-      console.log('SignUp SubmiteD!');
-      navigation.navigate('LogIn');
-      setTimeout(function () {
-        setIsLoading(false);
-      }, 2000);
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      setIsLoading(false);
       setFirstName('');
       setLastName('');
       setEmail('');
       setPassword('');
-    } catch (err) {
-      console.log(err);
+      console.log(email, 'email');
+      console.log(password, 'password');
+      navigation.navigate('LogIn');
+    } catch ({message}) {
+      console.log(message, 'error');
+      setErrMsg(message);
       setIsLoading(false);
     }
   };
@@ -65,6 +68,8 @@ const SignUp = ({navigation}) => {
             />
 
             <DropDown />
+
+            <Text style={style.errMsg}>{errMsg}</Text>
 
             <SignUpButton
               navigation={navigation}
