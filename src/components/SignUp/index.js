@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
@@ -8,7 +8,6 @@ import {
   SignUpImgOne,
   SignUpImgTwo,
 } from '../ScreensMaterials/SignupMaterial/SignUpImages';
-import SignUpLoader from '../ScreensMaterials/SignupMaterial/SignUpLoader';
 import SignUpNavigation from '../ScreensMaterials/SignupMaterial/SignUpNavigation/index';
 import DropDown from '../ScreensMaterials/SignupMaterial/SignUpDropDown/index';
 import {
@@ -25,7 +24,7 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState();
+  const [errMsg, setErrMsg] = useState('');
 
   const Submit = async () => {
     setIsLoading(true);
@@ -39,12 +38,20 @@ const SignUp = ({navigation}) => {
       console.log(email, 'email');
       console.log(password, 'password');
       navigation.navigate('LogIn');
-    } catch ({message}) {
-      console.log(message, 'error');
-      setErrMsg(message);
+    } catch (err) {
+      console.log(err, 'error');
+      setErrMsg(err?.message);
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPassword('');
+    setErrMsg('');
+  }, []);
 
   return (
     <KeyboardAwareScrollView>
@@ -76,8 +83,6 @@ const SignUp = ({navigation}) => {
               isLoading={isLoading}
               Submit={Submit}
             />
-
-            <SignUpLoader isLoading={isLoading} />
 
             <SignUpNavigation navigation={navigation} />
           </View>

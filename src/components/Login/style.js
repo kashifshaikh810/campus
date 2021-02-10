@@ -69,11 +69,12 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   loader: {
-    position: 'absolute',
-    top: hp('59.7'),
-    bottom: 0,
-    right: 0,
-    left: 0,
+    // textAlign: 'center',
+    // position: 'absolute',
+    // top: hp('59.7'),
+    // bottom: 0,
+    // right: 0,
+    // left: 0,
   },
   btnText: {
     textAlign: 'center',

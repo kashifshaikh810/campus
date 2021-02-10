@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import LogInHeader from '../ScreensMaterials/Headerss/LoginHeader/LogInHeader';
@@ -7,7 +7,6 @@ import {
   LoginImgOne,
   LoginImgTwo,
 } from '../ScreensMaterials/LoginMaterial/LoginImages/index';
-import LoginLoader from '../ScreensMaterials/LoginMaterial/LoginLoader/index';
 import LoginButton from '../ScreensMaterials/LoginMaterial/LoginButton/index';
 import LoginNavigation from '../ScreensMaterials/LoginMaterial/LoginNavigation/index';
 import {
@@ -20,24 +19,32 @@ const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
 
   const Submit = async () => {
     setIsLoading(true);
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      setEmail('');
+      setPassword('');
       setTimeout(function () {
         setIsLoading(false);
       }, 2000);
-      setEmail('');
-      setPassword('');
       console.log(email, 'email');
       console.log(password, 'password');
       navigation.navigate('DrawerNav');
-    } catch ({message}) {
-      console.log(message, 'error');
+    } catch (err) {
+      console.log(JSON.stringify(err?.message), 'err');
+      setErrMsg(err?.message);
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+    setErrMsg('');
+  }, []);
 
   return (
     <KeyboardAwareScrollView>
@@ -54,9 +61,21 @@ const SignIn = ({navigation}) => {
               <PasswordInput password={password} setPassword={setPassword} />
             </View>
 
-            <LoginButton Submit={Submit} isLoading={isLoading} />
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: 'bold',
+                color: 'red',
+                marginLeft: 10,
+              }}>
+              {errMsg}
+            </Text>
 
-            <LoginLoader isLoading={isLoading} />
+            <LoginButton
+              Submit={Submit}
+              isLoading={isLoading}
+              disabled={!email && !password}
+            />
 
             <LoginNavigation navigation={navigation} />
           </View>

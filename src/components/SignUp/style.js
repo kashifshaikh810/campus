@@ -51,11 +51,7 @@ export default StyleSheet.create({
     paddingLeft: wp('4'),
   },
   loader: {
-    position: 'absolute',
-    top: hp('68.5'),
-    bottom: 0,
-    right: 0,
-    left: 0,
+    textAlign: 'center',
   },
   img: {
     width: 100,
