@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 import style from '../../../SignUp/style';
 
-const FirstNameInput = ({firstName, setFirstName}) => {
+const FirstNameInput = ({firstName, setFirstName, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -12,12 +12,13 @@ const FirstNameInput = ({firstName, setFirstName}) => {
         onChangeText={(text) => setFirstName(text)}
         placeholderTextColor="green"
         keyboardType="default"
+        onChange={handleChange}
       />
     </View>
   );
 };
 
-const LastNameInput = ({lastName, setLastName}) => {
+const LastNameInput = ({lastName, setLastName, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -27,12 +28,13 @@ const LastNameInput = ({lastName, setLastName}) => {
         onChangeText={(text) => setLastName(text)}
         placeholderTextColor="green"
         keyboardType="default"
+        onChange={handleChange}
       />
     </View>
   );
 };
 
-const SignUpEmailInput = ({email, setEmail}) => {
+const SignUpEmailInput = ({email, setEmail, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -42,12 +44,13 @@ const SignUpEmailInput = ({email, setEmail}) => {
         onChangeText={(text) => setEmail(text)}
         placeholderTextColor="green"
         keyboardType="email-address"
+        onChange={handleChange}
       />
     </View>
   );
 };
 
-const SignUpPasswordInput = ({password, setPassword}) => {
+const SignUpPasswordInput = ({password, setPassword, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -57,6 +60,7 @@ const SignUpPasswordInput = ({password, setPassword}) => {
         onChangeText={(text) => setPassword(text)}
         placeholderTextColor="green"
         secureTextEntry={true}
+        onChange={handleChange}
       />
     </View>
   );

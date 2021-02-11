@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import style from '../../../SignUp/style';
 
-const SignUpButton = ({isLoading, Submit}) => {
+const SignUpButton = ({isLoading, Submit, disabled}) => {
   const [BtnTxt] = useState('Sign Up');
 
   return (
-    <TouchableOpacity onPress={Submit}>
+    <TouchableOpacity onPress={Submit} disabled={disabled}>
       <View style={style.btnContainer}>
         {isLoading ? (
           <View style={style.loader}>

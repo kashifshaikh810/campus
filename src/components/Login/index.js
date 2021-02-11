@@ -34,7 +34,7 @@ const SignIn = ({navigation}) => {
       console.log(password, 'password');
       navigation.navigate('DrawerNav');
     } catch (err) {
-      console.log(JSON.stringify(err?.message), 'err');
+      console.log(err?.message, 'err');
       setErrMsg(err?.message);
       setIsLoading(false);
     }
@@ -46,6 +46,13 @@ const SignIn = ({navigation}) => {
     setErrMsg('');
   }, []);
 
+  const handleChange = () => {
+    setErrMsg('');
+  };
+
+  if (firebase?.auth().currentUser) {
+    navigation.navigate('DrawerNav');
+  }
   return (
     <KeyboardAwareScrollView>
       <View style={style.mainContainer}>
@@ -57,8 +64,16 @@ const SignIn = ({navigation}) => {
             <LoginImgTwo />
 
             <View>
-              <EmailInput email={email} setEmail={setEmail} />
-              <PasswordInput password={password} setPassword={setPassword} />
+              <EmailInput
+                email={email}
+                setEmail={setEmail}
+                handleChange={handleChange}
+              />
+              <PasswordInput
+                password={password}
+                setPassword={setPassword}
+                handleChange={handleChange}
+              />
             </View>
 
             <Text

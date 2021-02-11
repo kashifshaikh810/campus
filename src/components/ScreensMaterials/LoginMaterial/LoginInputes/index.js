@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TextInput} from 'react-native';
 import style from '../../../Login/style';
 
-const EmailInput = ({email, setEmail}) => {
+const EmailInput = ({email, setEmail, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -12,12 +12,13 @@ const EmailInput = ({email, setEmail}) => {
         onChangeText={(text) => setEmail(text)}
         placeholderTextColor="green"
         keyboardType="email-address"
+        onChange={handleChange}
       />
     </View>
   );
 };
 
-const PasswordInput = ({password, setPassword}) => {
+const PasswordInput = ({password, setPassword, handleChange}) => {
   return (
     <View style={style.txtContainer}>
       <TextInput
@@ -27,6 +28,7 @@ const PasswordInput = ({password, setPassword}) => {
         onChangeText={(text) => setPassword(text)}
         placeholderTextColor="green"
         secureTextEntry={true}
+        onChange={handleChange}
       />
     </View>
   );

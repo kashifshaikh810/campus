@@ -6,11 +6,17 @@ import JobImg from '../../ScreensMaterials/JobsMaterial/JobsImage/index';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {widthPercentageToDP as wp} from '../../responsive/responsive';
+import {firebase} from '@react-native-firebase/auth';
 
 const JobsScreen = ({navigation}) => {
   const jobDetail = () => {
     navigation.navigate('JobsDetails');
   };
+
+  if (!firebase?.auth().currentUser?.uid) {
+    navigation.navigate('LogIn');
+  }
+  console.log(firebase?.auth().currentUser?.uid, 'currentUserrrrrrrrrr');
   return (
     <KeyboardAwareScrollView>
       <View style={style.container}>

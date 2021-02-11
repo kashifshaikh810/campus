@@ -53,6 +53,10 @@ const SignUp = ({navigation}) => {
     setErrMsg('');
   }, []);
 
+  const handleChange = () => {
+    setErrMsg('');
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View style={style.container}>
@@ -63,15 +67,28 @@ const SignUp = ({navigation}) => {
 
             <SignUpImgTwo />
 
-            <FirstNameInput firstName={firstName} setFirstName={setFirstName} />
+            <FirstNameInput
+              firstName={firstName}
+              setFirstName={setFirstName}
+              handleChange={handleChange}
+            />
 
-            <LastNameInput lastName={lastName} setLastName={setLastName} />
+            <LastNameInput
+              lastName={lastName}
+              setLastName={setLastName}
+              handleChange={handleChange}
+            />
 
-            <SignUpEmailInput email={email} setEmail={setEmail} />
+            <SignUpEmailInput
+              email={email}
+              setEmail={setEmail}
+              handleChange={handleChange}
+            />
 
             <SignUpPasswordInput
               password={password}
               setPassword={setPassword}
+              handleChange={handleChange}
             />
 
             <DropDown />
@@ -82,6 +99,7 @@ const SignUp = ({navigation}) => {
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
+              disabled={!firstName && !lastName && !email && !password}
             />
 
             <SignUpNavigation navigation={navigation} />
