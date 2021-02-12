@@ -28,7 +28,16 @@ export default StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     color: 'black',
-    paddingLeft: 12,
+    paddingLeft: wp('10'),
+  },
+  icon: {
+    position: 'absolute',
+    left: 45,
+    bottom: 11,
+  },
+  btnIcon: {
+    position: 'absolute',
+    left: 20,
   },
   loader: {
     position: 'absolute',

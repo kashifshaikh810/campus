@@ -1,10 +1,14 @@
 import React from 'react';
 import {View, TextInput} from 'react-native';
 import style from '../../../SignUp/style';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const FirstNameInput = ({firstName, setFirstName, handleChange}) => {
   return (
     <View style={style.txtContainer}>
+      <AntDesign name="contacts" size={17} color="green" style={style.icon} />
       <TextInput
         style={style.text}
         value={firstName}
@@ -21,6 +25,7 @@ const FirstNameInput = ({firstName, setFirstName, handleChange}) => {
 const LastNameInput = ({lastName, setLastName, handleChange}) => {
   return (
     <View style={style.txtContainer}>
+      <AntDesign name="contacts" size={17} color="green" style={style.icon} />
       <TextInput
         style={style.text}
         value={lastName}
@@ -37,6 +42,7 @@ const LastNameInput = ({lastName, setLastName, handleChange}) => {
 const SignUpEmailInput = ({email, setEmail, handleChange}) => {
   return (
     <View style={style.txtContainer}>
+      <Fontisto name="email" size={17} color="green" style={style.icon} />
       <TextInput
         style={style.text}
         value={email}
@@ -53,6 +59,12 @@ const SignUpEmailInput = ({email, setEmail, handleChange}) => {
 const SignUpPasswordInput = ({password, setPassword, handleChange}) => {
   return (
     <View style={style.txtContainer}>
+      <MaterialCommunityIcons
+        name="account-key"
+        size={17}
+        color="green"
+        style={style.icon}
+      />
       <TextInput
         style={style.text}
         placeholder="Password"

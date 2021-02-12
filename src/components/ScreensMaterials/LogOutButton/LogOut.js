@@ -5,15 +5,11 @@ import auth from '@react-native-firebase/auth';
 const LogOut = ({navigation}) => {
   const handleSignOut = () => {
     console.log('logout1');
-    auth().signOut();
+    // auth().signOut();
     navigation.navigate('LogIn');
     // console.log('logout');
   };
-  return (
-    <TouchableOpacity onPress={handleSignOut}>
-      <Text style={{textAlign: 'center'}}>ahsoao</Text>
-    </TouchableOpacity>
-  );
+  return <TouchableOpacity onPress={handleSignOut} />;
 };
 
 export default LogOut;

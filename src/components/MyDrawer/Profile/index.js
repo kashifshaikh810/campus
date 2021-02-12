@@ -11,6 +11,8 @@ import {
 import DatePicker from 'react-native-date-picker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ProfileLoader from '../../ScreensMaterials/ProfileMaterial/ProfileLoader/index';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ProfileScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -42,6 +44,12 @@ const ProfileScreen = ({navigation}) => {
 
         <View>
           <View style={style.txtContainer}>
+            <AntDesign
+              name="contacts"
+              size={17}
+              color="green"
+              style={style.icon}
+            />
             <TextInput
               style={style.text}
               value={name}
@@ -64,6 +72,12 @@ const ProfileScreen = ({navigation}) => {
           </TouchableOpacity>
 
           <View style={style.txtContainer}>
+            <MaterialCommunityIcons
+              name="cast-education"
+              size={17}
+              color="green"
+              style={style.icon}
+            />
             <TextInput
               style={style.text}
               placeholder="Your Education"

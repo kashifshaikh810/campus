@@ -48,7 +48,16 @@ export default StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     color: 'white',
-    paddingLeft: wp('4'),
+    paddingLeft: wp('10'),
+  },
+  icon: {
+    position: 'absolute',
+    left: 45,
+    bottom: 11,
+  },
+  signUpIcon: {
+    position: 'absolute',
+    left: 15,
   },
   loader: {
     textAlign: 'center',

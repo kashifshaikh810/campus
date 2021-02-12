@@ -4,12 +4,14 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from '../../../responsive/responsive';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const DropDown = () => {
   const [selectedValue, setSelectedValue] = useState();
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+        <AntDesign name="wifi" size={17} color="green" style={styles.icon} />
         <Picker
           selectedValue={selectedValue}
           onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
@@ -26,11 +28,16 @@ const styles = StyleSheet.create({
     height: hp('5.4'),
     width: wp('75'),
     borderWidth: 1,
-    paddingLeft: wp('2'),
+    paddingLeft: wp('8'),
     borderColor: 'green',
     borderRadius: 30,
     justifyContent: 'center',
     alignSelf: 'center',
+  },
+  icon: {
+    position: 'absolute',
+    left: 11,
+    bottom: 11,
   },
 });
 

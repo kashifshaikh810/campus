@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
-import {heightPercentageToDP as hp} from '../responsive/responsive';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from '../responsive/responsive';
 
 export default StyleSheet.create({
   mainContainer: {
@@ -42,7 +45,12 @@ export default StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     color: 'white',
-    paddingLeft: 12,
+    paddingLeft: wp('10'),
+  },
+  icon: {
+    position: 'absolute',
+    left: 45,
+    bottom: 11,
   },
   img: {
     width: 100,
@@ -90,5 +98,9 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: 'green',
     fontWeight: 'bold',
+  },
+  logInIcon: {
+    position: 'absolute',
+    left: 15,
   },
 });
