@@ -45,6 +45,7 @@ export default StyleSheet.create({
     width: 96,
   },
   text: {
+    color: 'black',
     padding: 4,
     fontSize: 17,
     maxWidth: wp('67'),

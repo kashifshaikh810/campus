@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import style from '../../../MyDrawer/AddJobs/style';
 
-const AddJobsButton = () => {
+const AddJobsButton = ({handleSubmit, disabled}) => {
   const [BtnText] = useState('Submit');
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={handleSubmit} disabled={disabled}>
       <View style={style.btnContainer}>
         <Text style={style.btnText}>{BtnText}</Text>
       </View>

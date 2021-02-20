@@ -1,11 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
 import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader/index';
 // import DetailsImage from '../ScreensMaterials/JobsDetailsMaterial/DetailsImage/index';
 import DetailsButton from '../ScreensMaterials/JobsDetailsMaterial/DetailsButton/index';
+import {useSelector} from 'react-redux';
 
-const JobsDetails = ({navigation}) => {
+const JobsDetails = ({route, navigation}) => {
+  const applyJobs = useSelector((state) => state.job.applyJobs);
+  const {
+    jobTitle,
+    salaryPackage,
+    requirement,
+    experience,
+    designation,
+    description,
+  } = applyJobs[route?.params?.index];
+
   return (
     <View style={style.container}>
       <DetailsHeader navigation={navigation} />
@@ -18,8 +29,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.text}>
-            This is Jobs Titlefsdafsafdsafsadfsadfsafdsadadasddsdsdsdsd
-            fakjfadjfadkojfadkojfdapojfdapojfdaojfdapojfadoijfdpoijfadoijfdsaoijfdoifjdsojfdojf
+            {jobTitle}
           </Text>
         </View>
       </View>
@@ -33,8 +43,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.tiTle}>
-            This is Jobs Titlefskfjnaosjgosajgosaijgpoasijgoasijg
-            lajfa;djnfosdjfosdjfosjdfosjdfosjdfoijsdfojsdfojosdjfosjfosjdpoifjsdoijfsdpojfo
+            {salaryPackage}
           </Text>
         </View>
       </View>
@@ -48,8 +57,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.requireTitle}>
-            This is Jobs Title
-            fojds;lofjsdojfsoijfspoaijfo[isajfiOIJFOIJfpoiJFOIJF[pijdfiojdafijf]]gsljogosajgoajgkglokg;oakgsk;lgk
+            {requirement}
           </Text>
         </View>
       </View>
@@ -63,8 +71,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.expeTitle}>
-            This is Jobs Title
-            ;dlfkjfl;ojfpsdojfposadijfsapoijfpaosifhsoi9pyfg08w7ytfgiusdfhbiFGHIOUFHGOFJGPOSJGFPJAPOIJFSDFJSDFOSDJGLKJGALOKJGF
+            {experience}
           </Text>
         </View>
       </View>
@@ -78,8 +85,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.resigTitle}>
-            This is Jobs Title
-            G;SLFJNGSILKGHSIDHUGHUISAFHGUIAGHUIAGYUAVB;LAVN;HGISJNVISADOUFYSGFIUYSAGFUAYGFUISAYGFUASHFBGUASGFUASFGIKFHSAIGHISUHGIOAUHGIOAUHGLSKGHAIGHAOIGHFAIO
+            {designation}
           </Text>
         </View>
       </View>
@@ -93,8 +99,7 @@ const JobsDetails = ({navigation}) => {
         </View>
         <View>
           <Text numberOfLines={5} style={style.descTitle}>
-            This is Jobs Title
-            FDA;FKS;DLOFKJNAOPFJHISLOFHAFGASUIFGYISU8YFGUSDYFGSUIFGYUIYQHFPWUEH
+            {description}
           </Text>
         </View>
       </View>

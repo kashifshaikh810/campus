@@ -6,13 +6,36 @@ import AddJobsImag from '../../ScreensMaterials/AddJobsMaterial/AddJobsImag/inde
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import AddJobsButton from '../../ScreensMaterials/AddJobsMaterial/AddJobsButton/index';
 import AddJobsDropDown from '../../ScreensMaterials/AddJobsMaterial/AddJobsDropDown/index';
+import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
+import {useDispatch} from 'react-redux';
 
 const AddJobs = ({navigation}) => {
   const [jobTitle, setJobTitle] = useState('');
   const [salaryPackage, setSalaryPackage] = useState('');
   const [requirement, setRequirement] = useState('');
-  const [experience, setExperience] = useState('');
+  const [designation, setDesignation] = useState('');
   const [description, setDescription] = useState('');
+  const [experience, setExperience] = useState();
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    dispatch(
+      applyJob({
+        jobTitle,
+        salaryPackage,
+        requirement,
+        designation,
+        description,
+        experience,
+      }),
+    );
+    setJobTitle('');
+    setSalaryPackage('');
+    setRequirement('');
+    setDesignation('');
+    setDescription('');
+  };
+
   return (
     <KeyboardAwareScrollView>
       <View style={style.container}>
@@ -51,18 +74,21 @@ const AddJobs = ({navigation}) => {
           />
         </View>
 
+        <AddJobsDropDown
+          experience={experience}
+          setExperience={setExperience}
+        />
+
         <View style={style.txtContainer}>
           <TextInput
             style={style.text}
-            placeholder="Experience"
-            value={experience}
-            onChangeText={(text) => setExperience(text)}
+            placeholder="Designation"
+            value={designation}
+            onChangeText={(text) => setDesignation(text)}
             placeholderTextColor="green"
             keyboardType="default"
           />
         </View>
-
-        <AddJobsDropDown />
 
         <View style={style.txtContainer}>
           <TextInput
@@ -75,7 +101,16 @@ const AddJobs = ({navigation}) => {
           />
         </View>
 
-        <AddJobsButton />
+        <AddJobsButton
+          handleSubmit={handleSubmit}
+          disabled={
+            !jobTitle &&
+            !salaryPackage &&
+            !requirement &&
+            !designation &&
+            !description
+          }
+        />
       </View>
     </KeyboardAwareScrollView>
   );

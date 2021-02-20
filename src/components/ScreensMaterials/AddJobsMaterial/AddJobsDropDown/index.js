@@ -5,29 +5,44 @@ import {
   widthPercentageToDP as wp,
 } from '../../../responsive/responsive';
 
-const AddJobsDropDown = () => {
-  const [selectedValue, setSelectedValue] = useState();
+const AddJobsDropDown = ({experience, setExperience}) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Picker
-          selectedValue={selectedValue}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
-          <Picker.Item label="Junior Developer" value="html" color="green" />
-          <Picker.Item label="Senior Developer" value="js" color="green" />
-          <Picker.Item label="Lead Developer" value="css" color="green" />
+          selectedValue={experience}
+          onValueChange={(itemValue, itemIndex) => setExperience(itemValue)}>
+          <Picker.Item
+            label="Junior Developer"
+            value="Junior Developer"
+            color="green"
+          />
+          <Picker.Item
+            label="Senior Developer"
+            value="Senior Developer"
+            color="green"
+          />
+          <Picker.Item
+            label="Lead Developer"
+            value="Lead Developer"
+            color="green"
+          />
           <Picker.Item
             label="Full Stack Developer"
-            value="java"
+            value="Full Stack Developer"
             color="green"
           />
           <Picker.Item
             label="Front End Developer"
-            value="graphql"
+            value="Front End Developer"
             color="green"
           />
-          <Picker.Item label="Back End Developer" value="react" color="green" />
-          <Picker.Item label="beginner" value="es6" color="green" />
+          <Picker.Item
+            label="Back End Developer"
+            value="Back End Developer"
+            color="green"
+          />
+          <Picker.Item label="beginner" value="beginner" color="green" />
         </Picker>
       </View>
     </View>
