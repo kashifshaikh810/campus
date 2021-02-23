@@ -1,7 +1,12 @@
 import React from 'react';
+import {View, Button} from 'react-native';
 import JobsScreen from '../Jobs/index';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import LogOut from '../../ScreensMaterials/LogOutButton/LogOut';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 import ProfileScreen from '../Profile/index';
 import AddJobs from '../AddJobs/index';
 import CompanyProfileScreen from '../../MyDrawer/CompanyProfile/index';
@@ -12,9 +17,23 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const Drawer = createDrawerNavigator();
 
+// options={{
+//   drawerIcon: () => <AntDesign name="logout" size={20} color="black" />,
+// }}
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label="LogOut" onPress={() => alert('workingg nOWW !!!')} />
+    </DrawerContentScrollView>
+  );
+}
+
 const DrawerNav = () => {
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       initialRouteName="Jobs"
       drawerContentOptions={{
         activeBackgroundColor: 'rgba(212, 118, 207, 0.2)',
@@ -65,13 +84,6 @@ const DrawerNav = () => {
               color="black"
             />
           ),
-        }}
-      />
-      <Drawer.Screen
-        name="Log Out"
-        component={LogOut}
-        options={{
-          drawerIcon: () => <AntDesign name="logout" size={20} color="black" />,
         }}
       />
     </Drawer.Navigator>

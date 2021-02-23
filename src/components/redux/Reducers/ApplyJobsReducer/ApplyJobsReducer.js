@@ -85,13 +85,21 @@ const initialState = {
       designation: 'fnghfnhfbfgbfgbfg',
       description: 'pdosaol,ccaaf',
     },
+    {
+      jobTitle: 'pplpaldpasd',
+      salaryPackage: 'dsadsadlp;glhgh',
+      requirement: 'fsdpfp;alop',
+      experience: 'fdskfsdlokfsd',
+      designation: 'fnghfnhfbfgbfgbfg',
+      description: 'pdosaol,ccaaf',
+    },
   ],
 };
 
 const applyJobReducer = (state = initialState, action) => {
   switch (action.type) {
     case APPLY_JOB:
-      console.log('add jobs', action.job);
+      console.log('check ', action.job);
     default:
       return state;
   }

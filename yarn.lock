@@ -1153,6 +1153,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha512-rk4sWFsmtOw8oyx8SD3KSvawwaK7gRBSEIy2TAwURyGt+3TizssXP1r8nx3zY+R7v2vYYHXZ+k2/GULAT/bcaQ==
 
+"@react-native-community/picker@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
+  integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
+
 "@react-native-firebase/app@^10.6.4":
   version "10.6.4"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-10.6.4.tgz#ab4a8d4833422326c79e915fcdcb8b6fea920e50"
@@ -1165,6 +1170,11 @@
   version "10.6.4"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-10.6.4.tgz#0356b93d01194d21d005723a056bcd8cf758ba59"
   integrity sha512-LYgG9JIGRwtOBrC2CMa5kI/vkhR6xZ1js9BCfG6ZQz23/VJhhDNz7DqxXX9OK4Jv1PHHkNtw0/b1dzqh7jswiQ==
+
+"@react-native-firebase/database@^10.8.0":
+  version "10.8.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-10.8.0.tgz#73ce3b335a5001976a79d9eb6a7f9a10de7277c3"
+  integrity sha512-q7NN5QG4ELBZZd+ojtxZ27HU+NAuWhp8kEURC//AjJlQ2/3uWT+gyVgTfdIutYrPpH45DBs3Xs6m0ew0c0VgPg==
 
 "@react-navigation/core@^5.15.1":
   version "5.15.1"

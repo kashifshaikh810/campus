@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, TextInput} from 'react-native';
 import style from './style';
 import AddJobsHeader from '../../ScreensMaterials/Headerss/AddJobsHeader/index';
@@ -8,6 +8,7 @@ import AddJobsButton from '../../ScreensMaterials/AddJobsMaterial/AddJobsButton/
 import AddJobsDropDown from '../../ScreensMaterials/AddJobsMaterial/AddJobsDropDown/index';
 import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
 import {useDispatch} from 'react-redux';
+import database from '@react-native-firebase/database';
 
 const AddJobs = ({navigation}) => {
   const [jobTitle, setJobTitle] = useState('');
@@ -35,6 +36,25 @@ const AddJobs = ({navigation}) => {
     setDesignation('');
     setDescription('');
   };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     database()
+  //       .ref('Users/')
+  //       .set({
+  //         id: 1,
+  //         name: 'HTML CSS',
+  //       })
+  //       .then((data) => {
+  //         //success callback
+  //         console.log('data ', data);
+  //       })
+  //       .catch((error) => {
+  //         //error callback
+  //         console.log('error ', error);
+  //       });
+  //   }, 5000);
+  // }, []);
 
   return (
     <KeyboardAwareScrollView>
