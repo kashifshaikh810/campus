@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import style from './style';
@@ -8,6 +8,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {widthPercentageToDP as wp} from '../../responsive/responsive';
 import {firebase} from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 const JobsScreen = ({navigation}) => {
   const applyJobs = useSelector((state) => state.job.applyJobs);
@@ -19,6 +20,14 @@ const JobsScreen = ({navigation}) => {
       index: index,
     });
   };
+
+  useEffect(() => {
+    database()
+      .ref('/addJobs')
+      .on('value', (snapshot) => {
+        console.log('User data: ', snapshot);
+      });
+  }, []);
 
   if (!firebase?.auth().currentUser?.uid) {
     navigation.navigate('LogIn');

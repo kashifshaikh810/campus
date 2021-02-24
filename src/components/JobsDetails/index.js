@@ -5,6 +5,7 @@ import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader
 // import DetailsImage from '../ScreensMaterials/JobsDetailsMaterial/DetailsImage/index';
 import DetailsButton from '../ScreensMaterials/JobsDetailsMaterial/DetailsButton/index';
 import {useSelector} from 'react-redux';
+// import RNFirebase from '@react-native-firebase/app';
 
 const JobsDetails = ({route, navigation}) => {
   const applyJobs = useSelector((state) => state.job.applyJobs);
@@ -16,6 +17,21 @@ const JobsDetails = ({route, navigation}) => {
     designation,
     description,
   } = applyJobs[route?.params?.index];
+
+  // useEffect(() => {
+  //   // console.log( , 'new world');
+  //   RNFirebase.database()
+  //     .ref()
+  //     .child('users/')
+  //     .on('value', (res) => {
+  //       console.log(res.val(), 'res');
+  //     });
+  //   // .then((res) => {
+  //   // })
+  //   // .catch((err) => {
+  //   //   console.log(err);
+  //   // });
+  // }, []);
 
   return (
     <View style={style.container}>

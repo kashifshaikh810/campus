@@ -20,6 +20,14 @@ const AddJobs = ({navigation}) => {
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
+    database().ref('/addJobs').push({
+      jobTitle,
+      salaryPackage,
+      requirement,
+      experience,
+      designation,
+      description,
+    });
     dispatch(
       applyJob({
         jobTitle,
@@ -35,26 +43,9 @@ const AddJobs = ({navigation}) => {
     setRequirement('');
     setDesignation('');
     setDescription('');
+    setExperience('');
+    alert('Thanks For Posting... !');
   };
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     database()
-  //       .ref('Users/')
-  //       .set({
-  //         id: 1,
-  //         name: 'HTML CSS',
-  //       })
-  //       .then((data) => {
-  //         //success callback
-  //         console.log('data ', data);
-  //       })
-  //       .catch((error) => {
-  //         //error callback
-  //         console.log('error ', error);
-  //       });
-  //   }, 5000);
-  // }, []);
 
   return (
     <KeyboardAwareScrollView>

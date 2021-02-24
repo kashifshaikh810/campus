@@ -12,6 +12,7 @@ const AddJobsDropDown = ({experience, setExperience}) => {
         <Picker
           selectedValue={experience}
           onValueChange={(itemValue, itemIndex) => setExperience(itemValue)}>
+          <Picker.Item label="beginner" value="beginner" color="green" />
           <Picker.Item
             label="Junior Developer"
             value="Junior Developer"
@@ -42,7 +43,6 @@ const AddJobsDropDown = ({experience, setExperience}) => {
             value="Back End Developer"
             color="green"
           />
-          <Picker.Item label="beginner" value="beginner" color="green" />
         </Picker>
       </View>
     </View>
