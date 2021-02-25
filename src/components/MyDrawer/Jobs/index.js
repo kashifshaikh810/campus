@@ -9,10 +9,11 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import {widthPercentageToDP as wp} from '../../responsive/responsive';
 import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
 
 const JobsScreen = ({navigation}) => {
   const applyJobs = useSelector((state) => state.job.applyJobs);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const jobDetail = (index) => {
     navigation.navigate('JobsDetails', {
@@ -25,7 +26,7 @@ const JobsScreen = ({navigation}) => {
     database()
       .ref('/addJobs')
       .on('value', (snapshot) => {
-        console.log('User data: ', snapshot);
+        dispatch(applyJob(Object.values(snapshot.val())));
       });
   }, []);
 

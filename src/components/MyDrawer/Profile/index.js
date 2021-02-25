@@ -10,7 +10,6 @@ import {
 } from '../../ScreensMaterials/ProfileMaterial/ProfileButton/index';
 import DatePicker from 'react-native-date-picker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import ProfileLoader from '../../ScreensMaterials/ProfileMaterial/ProfileLoader/index';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -91,9 +90,11 @@ const ProfileScreen = ({navigation}) => {
 
         <ProfileCv />
 
-        <ProfileButton Submit={SubmitBtn} isLoading={isLoading} />
-
-        <ProfileLoader isLoading={isLoading} />
+        <ProfileButton
+          Submit={SubmitBtn}
+          isLoading={isLoading}
+          disabled={!name && !education}
+        />
       </View>
     </KeyboardAwareScrollView>
   );

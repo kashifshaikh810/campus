@@ -6,8 +6,6 @@ import AddJobsImag from '../../ScreensMaterials/AddJobsMaterial/AddJobsImag/inde
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import AddJobsButton from '../../ScreensMaterials/AddJobsMaterial/AddJobsButton/index';
 import AddJobsDropDown from '../../ScreensMaterials/AddJobsMaterial/AddJobsDropDown/index';
-import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
-import {useDispatch} from 'react-redux';
 import database from '@react-native-firebase/database';
 
 const AddJobs = ({navigation}) => {
@@ -16,35 +14,29 @@ const AddJobs = ({navigation}) => {
   const [requirement, setRequirement] = useState('');
   const [designation, setDesignation] = useState('');
   const [description, setDescription] = useState('');
-  const [experience, setExperience] = useState();
-  const dispatch = useDispatch();
+  const [experience, setExperience] = useState('beginner');
 
   const handleSubmit = () => {
-    database().ref('/addJobs').push({
-      jobTitle,
-      salaryPackage,
-      requirement,
-      experience,
-      designation,
-      description,
-    });
-    dispatch(
-      applyJob({
+    try {
+      database().ref('/addJobs/').push({
         jobTitle,
         salaryPackage,
         requirement,
+        experience,
         designation,
         description,
-        experience,
-      }),
-    );
-    setJobTitle('');
-    setSalaryPackage('');
-    setRequirement('');
-    setDesignation('');
-    setDescription('');
-    setExperience('');
-    alert('Thanks For Posting... !');
+      });
+      setJobTitle('');
+      setSalaryPackage('');
+      setRequirement('');
+      setDesignation('');
+      setDescription('');
+      setExperience('');
+      navigation.navigate('Jobs');
+      alert('Posting Success... !');
+    } catch (err) {
+      console.log('error ', err?.message);
+    }
   };
 
   return (

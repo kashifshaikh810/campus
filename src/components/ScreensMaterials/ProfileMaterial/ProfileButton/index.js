@@ -1,21 +1,29 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import style from '../../../MyDrawer/Profile/style';
 import DocumentPicker from 'react-native-document-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ProfileButton = ({isLoading, Submit}) => {
+const ProfileButton = ({isLoading, Submit, disabled}) => {
   const [BtnText] = useState('Submit');
   return (
-    <TouchableOpacity onPress={Submit}>
+    <TouchableOpacity onPress={Submit} disabled={disabled}>
       <View style={style.btnContainer}>
-        <FontAwesome
-          name="sign-in"
-          size={17}
-          color="white"
-          style={style.btnIcon}
-        />
-        <Text style={style.btnText}>{!isLoading && BtnText}</Text>
+        {isLoading ? (
+          <View>
+            <ActivityIndicator size={17} color="#00ff00" />
+          </View>
+        ) : (
+          <View>
+            <FontAwesome
+              name="sign-in"
+              size={17}
+              color="white"
+              style={style.btnIcon}
+            />
+            <Text style={style.btnText}>{BtnText}</Text>
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

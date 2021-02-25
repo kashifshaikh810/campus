@@ -9,7 +9,7 @@ const LoginButton = ({isLoading, Submit, disabled}) => {
     <TouchableOpacity onPress={Submit} disabled={disabled}>
       <View style={style.btnContainer}>
         {isLoading ? (
-          <View style={style.loader}>
+          <View>
             <ActivityIndicator size={17} color="#00ff00" />
           </View>
         ) : (

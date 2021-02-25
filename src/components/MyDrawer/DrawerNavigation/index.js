@@ -14,8 +14,15 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
+
+const handleSignOut = () => {
+  auth()
+    .signOut()
+    .then(() => console.log('User signed out!'));
+};
 
 // options={{
 //   drawerIcon: () => <AntDesign name="logout" size={20} color="black" />,
@@ -25,7 +32,7 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem label="LogOut" onPress={() => alert('workingg nOWW !!!')} />
+      <DrawerItem label="LogOut" onPress={handleSignOut} />
     </DrawerContentScrollView>
   );
 }
