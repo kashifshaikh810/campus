@@ -6,8 +6,7 @@ import {
 } from '../../../responsive/responsive';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const DropDown = () => {
-  const [selectedValue, setSelectedValue] = useState();
+const DropDown = ({selectedValue, setSelectedValue}) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -15,8 +14,8 @@ const DropDown = () => {
         <Picker
           selectedValue={selectedValue}
           onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}>
-          <Picker.Item label="Company" value="java" color="green" />
-          <Picker.Item label="Student" value="js" color="green" />
+          <Picker.Item label="Company" value="Company" color="green" />
+          <Picker.Item label="Student" value="Student" color="green" />
         </Picker>
       </View>
     </View>

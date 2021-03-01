@@ -10,21 +10,17 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ProfileImage = () => {
+  const [Pics, setPics] = useState('');
   const [myImage] = useState(require('../../../../../assets/pro.jpg'));
   const upload = async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      console.log(
-        res.uri,
-        res.type, // mime type
-        res.name,
-        res.size,
-      );
+      setPics(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit any dialogs or menus and move on
+        console.log(err, 'errr');
       } else {
         throw err;
       }
@@ -33,7 +29,7 @@ const ProfileImage = () => {
   return (
     <TouchableOpacity style={style.imgContainer} onPress={upload}>
       <View>
-        <Image source={myImage} style={style.img} />
+        <Image source={Pics} style={style.img} />
       </View>
       <View style={styles.uploadIconContainer}>
         <UploadIcon

@@ -65,6 +65,15 @@ export default StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  selectedImg: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selected: {
+    marginTop: wp('2'),
+    width: hp('15'),
+    height: hp('15'),
+  },
   datePicker: {
     height: hp('5'),
     width: hp('40'),

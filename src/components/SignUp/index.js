@@ -17,12 +17,14 @@ import {
   SignUpPasswordInput,
 } from '../ScreensMaterials/SignupMaterial/SignUpInputes/index';
 import {firebase} from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 const SignUp = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedValue, setSelectedValue] = useState('Company');
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
@@ -35,8 +37,13 @@ const SignUp = ({navigation}) => {
       setLastName('');
       setEmail('');
       setPassword('');
-      console.log(email, 'email');
-      console.log(password, 'password');
+      database().ref('/NewUsers/').push({
+        firstName,
+        lastName,
+        email,
+        password,
+        selectedValue,
+      });
       navigation.navigate('LogIn');
     } catch (err) {
       console.log(err, 'error');
@@ -91,7 +98,10 @@ const SignUp = ({navigation}) => {
               handleChange={handleChange}
             />
 
-            <DropDown />
+            <DropDown
+              selectedValue={selectedValue}
+              setSelectedValue={setSelectedValue}
+            />
 
             <Text style={style.errMsg}>{errMsg}</Text>
 
@@ -99,7 +109,9 @@ const SignUp = ({navigation}) => {
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
-              disabled={!firstName && !lastName && !email && !password}
+              disabled={
+                !firstName && !lastName && !email && !password && !selectedValue
+              }
             />
 
             <SignUpNavigation navigation={navigation} />

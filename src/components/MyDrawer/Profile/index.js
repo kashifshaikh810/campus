@@ -14,9 +14,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ProfileScreen = ({navigation}) => {
+  const [DateOb] = useState('Your Date Of Birth :');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date());
-  const [DateOb] = useState('Your Date Of Birth :');
   const [education, setEducation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
