@@ -15,6 +15,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import {myRoll} from '../../redux/Actions/Rolls/RollsAction';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,21 +41,24 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerNav = ({navigation}) => {
-  const [CompanyVal, setCompanyVal] = useState();
-  const [StudentVal, setStudentVal] = useState('');
+  const dispatch = useDispatch();
+  const MyRoll = useSelector((state) => state.roll.Student);
 
-  useEffect(() => {
-    database()
-      .ref('/NewUsers/')
-      .orderByChild('selectedValue')
-      .equalTo('Company')
-      .on('value', (snapshot) => {
-        let data = snapshot.val();
-        let newData = Object.values(data);
-        let [fff] = newData;
-        setCompanyVal(fff.selectedValue);
-      });
-  }, []);
+  // useEffect(() => {
+  //   database()
+  //     .ref('/NewUsers/')
+  //     .orderByChild('selectedValue')
+  //     .equalTo('Company')
+  //     .on('value', (snapshot) => {
+  //       let data = snapshot.val();
+  //       let newData = Object.values(data);
+  //       let [fff] = newData;
+  //       dispatch(myRoll(fff.selectedValue));
+  //       console.log('MY Rollingg ', MyRoll);
+  //       // console.log('This is', fff.selectedValue);
+  //       // setCompanyVal(fff.selectedValue);
+  //     });
+  // }, []);
 
   useEffect(() => {
     database()
@@ -64,8 +69,10 @@ const DrawerNav = ({navigation}) => {
         let data = snapshot.val();
         let newData = Object.values(data);
         let [fff] = newData;
-        console.log('vaaaal ', fff.selectedValue);
-        setStudentVal(fff.selectedValue);
+        dispatch(myRoll(fff.selectedValue));
+        console.log('MY Rollingg ', MyRoll);
+        // console.log('This is', fff.selectedValue);
+        // setStudentVal(fff.selectedValue);
       });
   }, []);
 
@@ -74,12 +81,11 @@ const DrawerNav = ({navigation}) => {
       drawerContent={(props) => (
         <CustomDrawerContent navigation={navigation} {...props} />
       )}
-      // initialRouteName="Jobs"
       drawerContentOptions={{
         activeBackgroundColor: 'rgba(212, 118, 207, 0.2)',
         activeTintColor: '#531158',
       }}>
-      {StudentVal ? (
+      {MyRoll === 'Student' ? (
         <Drawer.Screen
           name="Your Profile"
           component={ProfileScreen}
@@ -93,28 +99,7 @@ const DrawerNav = ({navigation}) => {
             ),
           }}
         />
-      ) : null}
-      <Drawer.Screen
-        name="Jobs"
-        component={JobsScreen}
-        options={{
-          drawerIcon: () => (
-            <Foundation name="social-joomla" size={20} color="black" />
-          ),
-        }}
-      />
-      {CompanyVal ? (
-        <Drawer.Screen
-          name="Add Jobs"
-          component={AddJobs}
-          options={{
-            drawerIcon: () => (
-              <FontAwesome5 name="journal-whills" size={20} color="black" />
-            ),
-          }}
-        />
-      ) : null}
-      {CompanyVal ? (
+      ) : (
         <Drawer.Screen
           name="Company Profile"
           component={CompanyProfileScreen}
@@ -128,7 +113,25 @@ const DrawerNav = ({navigation}) => {
             ),
           }}
         />
-      ) : null}
+      )}
+      <Drawer.Screen
+        name="Jobs"
+        component={JobsScreen}
+        options={{
+          drawerIcon: () => (
+            <Foundation name="social-joomla" size={20} color="black" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Add Jobs"
+        component={AddJobs}
+        options={{
+          drawerIcon: () => (
+            <FontAwesome5 name="journal-whills" size={20} color="black" />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };

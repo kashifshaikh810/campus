@@ -69,10 +69,9 @@ export default StyleSheet.create({
     maxWidth: wp('50'),
   },
   descriptionText: {
-    marginTop: wp('3'),
+    marginTop: wp('2'),
     maxHeight: hp('15'),
     maxWidth: wp('50'),
-    lineHeight: wp('6'),
     fontSize: wp('4'),
   },
   line: {

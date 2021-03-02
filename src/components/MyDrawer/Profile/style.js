@@ -71,7 +71,7 @@ export default StyleSheet.create({
   },
   selected: {
     marginTop: wp('2'),
-    width: hp('15'),
+    width: hp('25'),
     height: hp('15'),
   },
   datePicker: {

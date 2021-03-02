@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, Text} from 'react-native';
+import {View, TextInput, Text} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
@@ -12,21 +12,31 @@ import DatePicker from 'react-native-date-picker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {yourProfile} from '../../redux/Actions/YourProfile/YourProfileAction';
+import database from '@react-native-firebase/database';
+import {useDispatch} from 'react-redux';
 
 const ProfileScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [DateOb] = useState('Your Date Of Birth :');
+  const [PickPics, setPickPics] = useState('');
   const [name, setName] = useState('');
   const [date, setDate] = useState(new Date());
   const [education, setEducation] = useState('');
+  const [Pics, setPics] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const SubmitBtn = () => {
     setIsLoading(true);
     try {
-      console.log('Data!');
-      setTimeout(function () {
-        setIsLoading(false);
-      }, 2000);
+      database().ref('/ProfileData/').push({
+        PickPics,
+        name,
+        date,
+        education,
+        Pics,
+      });
+      setIsLoading(false);
       setName('');
       setEducation('');
     } catch (err) {
@@ -35,11 +45,12 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
+  // console.log('datee ', date);
   return (
     <KeyboardAwareScrollView>
       <View style={style.container}>
         <ProfileHeader navigation={navigation} />
-        <ProfileImage />
+        <ProfileImage PickPics={PickPics} setPickPics={setPickPics} />
 
         <View>
           <View style={style.txtContainer}>
@@ -64,7 +75,7 @@ const ProfileScreen = ({navigation}) => {
           <TouchableOpacity style={style.dateContainer}>
             <DatePicker
               date={date}
-              onDateChange={setDate}
+              onDateChange={(e) => setDate(e)}
               mode="date"
               style={style.datePicker}
             />
@@ -88,7 +99,7 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
 
-        <ProfileCv />
+        <ProfileCv Pics={Pics} setPics={setPics} />
 
         <ProfileButton
           Submit={SubmitBtn}

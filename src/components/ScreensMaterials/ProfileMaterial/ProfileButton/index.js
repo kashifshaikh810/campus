@@ -35,14 +35,16 @@ const ProfileButton = ({isLoading, Submit, disabled}) => {
   );
 };
 
-const ProfileCv = () => {
-  const [Pics, setPics] = useState('');
+const ProfileCv = ({Pics, setPics}) => {
+  const [show, setShow] = useState(true);
+  const [myImage] = useState(require('../../../../../assets/cv-main.jpg'));
   const cvUpload = async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
       setPics(res);
+      setShow(false);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log(err, 'errr');
@@ -57,7 +59,7 @@ const ProfileCv = () => {
         <Text style={style.cvMain}>Attech Your Cv...</Text>
       </TouchableOpacity>
       <View style={style.selectedImg}>
-        <Image source={Pics} style={style.selected} />
+        <Image source={show ? myImage : Pics} style={style.selected} />
       </View>
     </View>
   );

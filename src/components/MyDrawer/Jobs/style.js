@@ -18,6 +18,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: wp('4'),
   },
+  loader: {
+    justifyContent: 'center',
+    height: hp('60'),
+  },
+  bottomTxtContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   mainCard: {
     borderWidth: 1,
     borderColor: 'green',
@@ -26,6 +35,17 @@ export default StyleSheet.create({
     alignSelf: 'center',
     margin: wp('3'),
     borderRadius: wp('7'),
+  },
+  dot: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    marginRight: wp('3'),
+    backgroundColor: 'green',
+  },
+  bottomTxt: {
+    fontWeight: 'bold',
+    color: 'green',
   },
   touchAbleContent: {
     width: wp('80'),
@@ -44,5 +64,7 @@ export default StyleSheet.create({
     color: '#f1f1f1',
     letterSpacing: 0.6,
     lineHeight: hp('2.4'),
+    borderBottomWidth: 1,
+    borderColor: '#00ff00',
   },
 });
