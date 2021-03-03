@@ -14,10 +14,16 @@ import {
   PasswordInput,
 } from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
 import {firebase} from '@react-native-firebase/auth';
+import DropDown from '../ScreensMaterials/LoginMaterial/LogInDropDown/index';
+import database from '@react-native-firebase/database';
+import {userLogin} from '../redux/Actions/LogIn/LogInAction';
+import {useDispatch} from 'react-redux';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedValue, setSelectedValue] = useState('Company');
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
 
@@ -25,13 +31,15 @@ const SignIn = ({navigation}) => {
     setIsLoading(true);
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      database().ref('/UserLogin/').push({
+        email,
+        password,
+        selectedValue,
+      });
+      dispatch(userLogin({email, password, selectedValue}));
+      setIsLoading(false);
       setEmail('');
       setPassword('');
-      setTimeout(function () {
-        setIsLoading(false);
-      }, 2000);
-      console.log(email, 'email');
-      console.log(password, 'password');
       navigation.navigate('DrawerNav');
     } catch (err) {
       console.log(err?.message, 'err');
@@ -76,12 +84,19 @@ const SignIn = ({navigation}) => {
               />
             </View>
 
+            <View>
+              <DropDown
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+              />
+            </View>
+
             <Text
               style={{
                 fontSize: 17,
                 fontWeight: 'bold',
                 color: 'red',
-                marginLeft: 10,
+                textAlign: 'center',
               }}>
               {errMsg}
             </Text>

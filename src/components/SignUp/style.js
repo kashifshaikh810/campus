@@ -98,5 +98,6 @@ export default StyleSheet.create({
   errMsg: {
     fontSize: wp('5'),
     color: 'red',
+    textAlign: 'center',
   },
 });

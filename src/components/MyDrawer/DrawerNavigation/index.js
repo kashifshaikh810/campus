@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {View, Text, SafeAreaView, Image} from 'react-native';
 import JobsScreen from '../Jobs/index';
 import {
   createDrawerNavigator,
@@ -14,9 +15,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
-import {myRoll} from '../../redux/Actions/Rolls/RollsAction';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,52 +39,56 @@ function CustomDrawerContent(props) {
   );
 }
 
-const DrawerNav = ({navigation}) => {
-  const dispatch = useDispatch();
-  const MyRoll = useSelector((state) => state.roll.Student);
+function CustomContent(props) {
+  return (
+    <View>
+      <View style={{justifyContent: 'flex-end'}}>
+        <Image
+          source={require('../../../../assets/download.jpeg')}
+          style={{width: '100%'}}
+        />
+        {/* <Image
+          source={require('../../../../assets/jobss.jpg')}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 25,
+            zIndex: 1,
+            position: 'absolute',
+            alignSelf: 'center',
+          }}
+        /> */}
+      </View>
+      <View style={{marginTop: 20, marginHorizontal: 10}}>
+        <DrawerItemList {...props} />
+      </View>
+      {/* <View>
+        <DrawerItem {...props} />
+      </View> */}
+    </View>
+  );
+}
 
-  // useEffect(() => {
-  //   database()
-  //     .ref('/NewUsers/')
-  //     .orderByChild('selectedValue')
-  //     .equalTo('Company')
-  //     .on('value', (snapshot) => {
-  //       let data = snapshot.val();
-  //       let newData = Object.values(data);
-  //       let [fff] = newData;
-  //       dispatch(myRoll(fff.selectedValue));
-  //       console.log('MY Rollingg ', MyRoll);
-  //       // console.log('This is', fff.selectedValue);
-  //       // setCompanyVal(fff.selectedValue);
-  //     });
-  // }, []);
+const DrawerNav = ({navigation}) => {
+  const [userRoll, setUserRoll] = useState();
+  const myLogin = useSelector((state) => state.myLog.LoginData);
 
   useEffect(() => {
-    database()
-      .ref('/NewUsers/')
-      .orderByChild('selectedValue')
-      .equalTo('Student')
-      .on('value', (snapshot) => {
-        let data = snapshot.val();
-        let newData = Object.values(data);
-        let [fff] = newData;
-        dispatch(myRoll(fff.selectedValue));
-        console.log('MY Rollingg ', MyRoll);
-        // console.log('This is', fff.selectedValue);
-        // setStudentVal(fff.selectedValue);
-      });
-  }, []);
+    const roll = myLogin;
+    setUserRoll(roll.selectedValue);
+  });
 
   return (
     <Drawer.Navigator
       drawerContent={(props) => (
         <CustomDrawerContent navigation={navigation} {...props} />
       )}
+      drawerContent={(props) => <CustomContent {...props} />}
       drawerContentOptions={{
         activeBackgroundColor: 'rgba(212, 118, 207, 0.2)',
         activeTintColor: '#531158',
       }}>
-      {MyRoll === 'Student' ? (
+      {userRoll === 'Student' ? (
         <Drawer.Screen
           name="Your Profile"
           component={ProfileScreen}
@@ -123,15 +126,17 @@ const DrawerNav = ({navigation}) => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="Add Jobs"
-        component={AddJobs}
-        options={{
-          drawerIcon: () => (
-            <FontAwesome5 name="journal-whills" size={20} color="black" />
-          ),
-        }}
-      />
+      {userRoll !== 'Student' ? (
+        <Drawer.Screen
+          name="Add Jobs"
+          component={AddJobs}
+          options={{
+            drawerIcon: () => (
+              <FontAwesome5 name="journal-whills" size={20} color="black" />
+            ),
+          }}
+        />
+      ) : null}
     </Drawer.Navigator>
   );
 };

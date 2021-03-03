@@ -28,12 +28,17 @@ const JobsScreen = ({navigation}) => {
 
   useEffect(() => {
     setIsLoading(true);
-    database()
-      .ref('/addJobs')
-      .on('value', (snapshot) => {
-        dispatch(applyJob(Object.values(snapshot.val())));
-        setIsLoading(false);
-      });
+    try {
+      database()
+        .ref('/addJobs')
+        .on('value', (snapshot) => {
+          dispatch(applyJob(Object.values(snapshot.val())));
+          setIsLoading(false);
+        });
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
   }, []);
 
   if (!firebase?.auth().currentUser?.uid) {

@@ -37,7 +37,7 @@ export default StyleSheet.create({
   txtContainer: {
     paddingHorizontal: 35,
     alignContent: 'flex-start',
-    marginTop: 22,
+    marginTop: wp('8'),
   },
   text: {
     borderWidth: 1,
