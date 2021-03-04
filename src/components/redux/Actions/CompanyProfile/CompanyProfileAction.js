@@ -1,6 +1,6 @@
 import {COMPANY_PROFILE} from './CompanyProfileType';
 
-export const yourProfile = (com) => {
+export const companyProfile = (com) => {
   return (dispatch) => {
     dispatch({type: COMPANY_PROFILE, com});
   };

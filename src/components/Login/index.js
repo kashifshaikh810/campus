@@ -104,7 +104,7 @@ const SignIn = ({navigation}) => {
             <LoginButton
               Submit={Submit}
               isLoading={isLoading}
-              disabled={!email && !password}
+              disabled={!password}
             />
 
             <LoginNavigation navigation={navigation} />

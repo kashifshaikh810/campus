@@ -109,9 +109,7 @@ const SignUp = ({navigation}) => {
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
-              disabled={
-                !firstName && !lastName && !email && !password && !selectedValue
-              }
+              disabled={!firstName}
             />
 
             <SignUpNavigation navigation={navigation} />

@@ -16,7 +16,7 @@ const DetailsButton = () => {
   return (
     <>
       {roll === 'Student' ? (
-        <TouchableOpacity onPress={() => setBtnTxt()}>
+        <TouchableOpacity onPress={() => setBtnTxt()} disabled={!BtnTxt}>
           <View style={style.btnContainer}>
             <Text style={style.btnText}>
               {BtnTxt ? 'Apply' : 'Applyed Success!'}

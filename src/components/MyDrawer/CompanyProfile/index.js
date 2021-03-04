@@ -16,15 +16,17 @@ import {
   CompanyNameText,
   CompanyDescriptionText,
 } from '../../ScreensMaterials/CompanyProfileMaterial/CompanyProfileCardTeXt/index';
+import database from '@react-native-firebase/database';
+import {useSelector, useDispatch} from 'react-redux';
+import {companyProfile} from '../../redux/Actions/CompanyProfile/CompanyProfileAction';
 
 const CompanyProfileScreen = ({navigation}) => {
   const [myTxt, setMyTxt] = useState('Computing Yard');
-  const [myDcTxt, setMyDcTxt] = useState(
-    'daksdlajdaojdiasojdasiojdasidjsaidjasjdsajdasjdasodaajda',
-  );
+  const [myDcTxt, setMyDcTxt] = useState('Need a senior full stack developer');
   const [edit, setEdit] = useState(true);
-  const [abcd, setAbcd] = useState(myTxt);
-  const [etc, setEtc] = useState(myDcTxt);
+  const [abcd, setAbcd] = useState();
+  const [etc, setEtc] = useState();
+  const dispatch = useDispatch();
 
   const editBtn = () => {
     setEdit();
@@ -35,10 +37,32 @@ const CompanyProfileScreen = ({navigation}) => {
   };
 
   const saveBtn = () => {
+    database().ref('/CompanyData/').push({
+      abcd,
+      etc,
+    });
+    dispatch(companyProfile({abcd, etc}));
     setEdit(true);
     setMyTxt(abcd);
     setMyDcTxt(etc);
   };
+
+  // useEffect(() => {
+  //   // dispatch(companyProfile({abcd, etc}));
+  //   database()
+  //     .ref('/CompanyData')
+  //     .on('value', (snapshot) => {
+  //       let data = [];
+  //       snapshot.forEach((childSnapshot) => {
+  //         let childKey = childSnapshot.key;
+  //         let childData = childSnapshot.val();
+
+  //         data.push(childData);
+  //         console.log(childKey, 'ChildData');
+  //       });
+  //       // dispatch(companyProfile(snapshot.val()));
+  //     });
+  // });
 
   return (
     <KeyboardAwareScrollView>

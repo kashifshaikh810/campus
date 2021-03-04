@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, TextInput} from 'react-native';
 import style from '../../../MyDrawer/CompanyProfile/style';
+import {useSelector, useDispatch} from 'react-redux';
 
 const CompanyNameText = ({edit, myTxt, setAbcd, abcd}) => {
+  const currentText = useSelector((state) => state.com.CompanyData);
+
+  console.log('ccccc sasassasascc ', currentText);
+
   return (
     <View style={style.company}>
       <Text style={style.companyChild}>Company Name :-</Text>
