@@ -7,10 +7,8 @@ import store from './src/components/redux/Store/store';
 const App = () => {
   return (
     <Provider store={store}>
-      <>
-        <StatusBar backgroundColor="green" />
-        <AppView />
-      </>
+      <StatusBar backgroundColor="green" />
+      <AppView />
     </Provider>
   );
 };

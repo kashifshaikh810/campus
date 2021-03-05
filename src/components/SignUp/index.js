@@ -36,7 +36,8 @@ const SignUp = ({navigation}) => {
       setLastName('');
       setEmail('');
       setPassword('');
-      database().ref('/NewUsers/').push({
+      const uid = firebase.auth().currentUser?.uid;
+      database().ref(`/NewUsers/${uid}`).set({
         firstName,
         lastName,
         email,
@@ -109,7 +110,7 @@ const SignUp = ({navigation}) => {
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
-              disabled={!firstName}
+              disabled={!password}
             />
 
             <SignUpNavigation navigation={navigation} />

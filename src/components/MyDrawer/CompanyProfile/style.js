@@ -59,6 +59,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   companyChild: {
+    textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 17,
   },
@@ -73,6 +74,7 @@ export default StyleSheet.create({
     maxHeight: hp('15'),
     maxWidth: wp('50'),
     fontSize: wp('4'),
+    textAlign: 'center',
   },
   line: {
     borderWidth: 1,

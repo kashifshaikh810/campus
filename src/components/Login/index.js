@@ -15,32 +15,49 @@ import {
 } from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
 import {firebase} from '@react-native-firebase/auth';
 import DropDown from '../ScreensMaterials/LoginMaterial/LogInDropDown/index';
-import database from '@react-native-firebase/database';
+// import database from '@react-native-firebase/database';
 import {userLogin} from '../redux/Actions/LogIn/LogInAction';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import database from '@react-native-firebase/database';
 
 const SignIn = ({navigation}) => {
+  const val = useSelector((state) => state.myLog.LoginData);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedValue, setSelectedValue] = useState('Company');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [userRoll, setUserRoll] = useState();
 
-  const Submit = async () => {
+  useEffect(() => {
+    const roll = val;
+    setUserRoll(roll.selectedValue);
+  });
+
+  const Submit = () => {
     setIsLoading(true);
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      database().ref('/UserLogin/').push({
-        email,
-        password,
-        selectedValue,
-      });
-      dispatch(userLogin({email, password, selectedValue}));
-      setIsLoading(false);
-      setEmail('');
-      setPassword('');
-      navigation.navigate('DrawerNav');
+      database()
+        .ref('/NewUsers/')
+        .orderByChild('email')
+        .equalTo(email)
+        .on('value', (snap) => {
+          let data = snap.val();
+          // let newData = Object.values(data);
+          let keys = Object.keys(data);
+          let [key] = keys;
+          if (userRoll === key) {
+            firebase.auth().signInWithEmailAndPassword(email, password);
+            dispatch(userLogin({email, password, selectedValue}));
+            setIsLoading(false);
+            setEmail('');
+            setPassword('');
+            navigation.navigate('DrawerNav');
+          } else {
+            alert('asasasa');
+          }
+        });
     } catch (err) {
       console.log(err?.message, 'err');
       setErrMsg(err?.message);
@@ -52,6 +69,13 @@ const SignIn = ({navigation}) => {
     setEmail('');
     setPassword('');
     setErrMsg('');
+    database()
+      .ref('/NewUsers/')
+      .orderByChild('uid')
+      .equalTo('uid')
+      .on('value', (snap) => {
+        console.log('snaaap ', snap);
+      });
   }, []);
 
   const handleChange = () => {

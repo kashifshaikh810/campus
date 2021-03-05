@@ -34,7 +34,7 @@ const CompanyDescriptionText = ({edit, myDcTxt, setEtc, etc}) => {
     <View style={style.description}>
       <Text style={style.companyChild}>Company Description :-</Text>
 
-      <Text numberOfLines={2} style={style.descriptionText}>
+      <Text numberOfLines={4} style={style.descriptionText}>
         {edit ? (
           myDcTxt
         ) : (

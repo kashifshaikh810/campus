@@ -24,8 +24,8 @@ const CompanyProfileScreen = ({navigation}) => {
   const [myTxt, setMyTxt] = useState('Computing Yard');
   const [myDcTxt, setMyDcTxt] = useState('Need a senior full stack developer');
   const [edit, setEdit] = useState(true);
-  const [abcd, setAbcd] = useState();
-  const [etc, setEtc] = useState();
+  const [abcd, setAbcd] = useState(myTxt);
+  const [etc, setEtc] = useState(myDcTxt);
   const dispatch = useDispatch();
 
   const editBtn = () => {
