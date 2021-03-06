@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View} from 'react-native';
+import {View, BackHandler} from 'react-native';
 import style from './style';
 import CompanyProfileHeader from '../../ScreensMaterials/Headerss/CompanyProfileHeader/CompanyHeader';
 import {
@@ -47,22 +47,29 @@ const CompanyProfileScreen = ({navigation}) => {
     setMyDcTxt(etc);
   };
 
-  // useEffect(() => {
-  //   // dispatch(companyProfile({abcd, etc}));
-  //   database()
-  //     .ref('/CompanyData')
-  //     .on('value', (snapshot) => {
-  //       let data = [];
-  //       snapshot.forEach((childSnapshot) => {
-  //         let childKey = childSnapshot.key;
-  //         let childData = childSnapshot.val();
+  const disableBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
 
-  //         data.push(childData);
-  //         console.log(childKey, 'ChildData');
-  //       });
-  //       // dispatch(companyProfile(snapshot.val()));
-  //     });
-  // });
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+
+    //   // dispatch(companyProfile({abcd, etc}));
+    //   database()
+    //     .ref('/CompanyData')
+    //     .on('value', (snapshot) => {
+    //       let data = [];
+    //       snapshot.forEach((childSnapshot) => {
+    //         let childKey = childSnapshot.key;
+    //         let childData = childSnapshot.val();
+
+    //         data.push(childData);
+    //         console.log(childKey, 'ChildData');
+    //       });
+    //       // dispatch(companyProfile(snapshot.val()));
+    //     });
+  });
 
   return (
     <KeyboardAwareScrollView>

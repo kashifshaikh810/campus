@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, BackHandler} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import style from './style';
 import JobsHeader from '../../ScreensMaterials/Headerss/JobsHeader/JobsHeader';
@@ -26,6 +26,11 @@ const JobsScreen = ({navigation}) => {
     });
   };
 
+  const disableBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -39,6 +44,7 @@ const JobsScreen = ({navigation}) => {
       console.log(err);
       setIsLoading(false);
     }
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
 
   if (!firebase?.auth().currentUser?.uid) {

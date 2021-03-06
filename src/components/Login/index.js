@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, BackHandler} from 'react-native';
 import style from './style';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import LogInHeader from '../ScreensMaterials/Headerss/LoginHeader/LogInHeader';
@@ -29,37 +29,39 @@ const SignIn = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const [userRoll, setUserRoll] = useState();
+  const [myVal, setMyVal] = useState();
 
   useEffect(() => {
     const roll = val;
     setUserRoll(roll.selectedValue);
   });
 
-  const Submit = () => {
+  const Submit = async () => {
     setIsLoading(true);
     try {
       database()
         .ref('/NewUsers/')
-        .orderByChild('email')
-        .equalTo(email)
+        .orderByChild('selectedValue')
+        .equalTo('Company')
         .on('value', (snap) => {
           let data = snap.val();
-          // let newData = Object.values(data);
-          let keys = Object.keys(data);
-          let [key] = keys;
-          if (userRoll === key) {
-            firebase.auth().signInWithEmailAndPassword(email, password);
-            dispatch(userLogin({email, password, selectedValue}));
-            setIsLoading(false);
-            setEmail('');
-            setPassword('');
-            navigation.navigate('DrawerNav');
-          } else {
-            alert('asasasa');
-          }
+          let newData = Object.values(data);
+          let selectedValues = newData;
+          let [selectedValue] = selectedValues;
+          setMyVal(selectedValue.selectedValue);
         });
+      if (myVal === userRoll) {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        dispatch(userLogin({email, password, selectedValue}));
+        setEmail('');
+        setPassword('');
+      } else {
+        alert('errr');
+      }
+      setIsLoading(false);
     } catch (err) {
-      console.log(err?.message, 'err');
+      console.log(err, 'err');
+
       setErrMsg(err?.message);
       setIsLoading(false);
     }
@@ -69,13 +71,6 @@ const SignIn = ({navigation}) => {
     setEmail('');
     setPassword('');
     setErrMsg('');
-    database()
-      .ref('/NewUsers/')
-      .orderByChild('uid')
-      .equalTo('uid')
-      .on('value', (snap) => {
-        console.log('snaaap ', snap);
-      });
   }, []);
 
   const handleChange = () => {

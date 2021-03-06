@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, TextInput, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, TextInput, Text, BackHandler} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
@@ -25,6 +25,15 @@ const ProfileScreen = ({navigation}) => {
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const disableBackButton = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+  });
 
   const SubmitBtn = () => {
     setIsLoading(true);
