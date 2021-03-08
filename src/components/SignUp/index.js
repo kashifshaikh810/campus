@@ -110,7 +110,7 @@ const SignUp = ({navigation}) => {
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
-              disabled={!password}
+              disabled={!password || !email || !firstName || !lastName}
             />
 
             <SignUpNavigation navigation={navigation} />

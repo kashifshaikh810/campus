@@ -43,7 +43,9 @@ const DrawerNav = ({navigation}) => {
             ),
           }}
         />
-      ) : (
+      ) : null}
+
+      {userRoll === 'Company' ? (
         <Drawer.Screen
           name="Company Profile"
           component={CompanyProfileScreen}
@@ -57,17 +59,21 @@ const DrawerNav = ({navigation}) => {
             ),
           }}
         />
-      )}
-      <Drawer.Screen
-        name="Jobs"
-        component={JobsScreen}
-        options={{
-          drawerIcon: () => (
-            <Foundation name="social-joomla" size={20} color="#4f4f4f" />
-          ),
-        }}
-      />
-      {userRoll !== 'Student' ? (
+      ) : null}
+
+      {userRoll === 'Student' || 'Company' ? (
+        <Drawer.Screen
+          name="Jobs"
+          component={JobsScreen}
+          options={{
+            drawerIcon: () => (
+              <Foundation name="social-joomla" size={20} color="#4f4f4f" />
+            ),
+          }}
+        />
+      ) : null}
+
+      {userRoll === 'Company' ? (
         <Drawer.Screen
           name="Add Jobs"
           component={AddJobs}

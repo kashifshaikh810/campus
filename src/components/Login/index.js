@@ -15,10 +15,9 @@ import {
 } from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
 import {firebase} from '@react-native-firebase/auth';
 import DropDown from '../ScreensMaterials/LoginMaterial/LogInDropDown/index';
-// import database from '@react-native-firebase/database';
+import database from '@react-native-firebase/database';
 import {userLogin} from '../redux/Actions/LogIn/LogInAction';
 import {useDispatch, useSelector} from 'react-redux';
-import database from '@react-native-firebase/database';
 
 const SignIn = ({navigation}) => {
   const val = useSelector((state) => state.myLog.LoginData);
@@ -32,46 +31,42 @@ const SignIn = ({navigation}) => {
   const [myVal, setMyVal] = useState();
 
   useEffect(() => {
+    setEmail('');
+    setPassword('');
+    setErrMsg('');
     const roll = val;
     setUserRoll(roll.selectedValue);
-  });
+  }, []);
 
   const Submit = async () => {
     setIsLoading(true);
     try {
-      database()
-        .ref('/NewUsers/')
-        .orderByChild('selectedValue')
-        .equalTo('Company')
-        .on('value', (snap) => {
-          let data = snap.val();
-          let newData = Object.values(data);
-          let selectedValues = newData;
-          let [selectedValue] = selectedValues;
-          setMyVal(selectedValue.selectedValue);
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((detail) => {
+          const uid = detail.user.uid;
+          database()
+            .ref(`/NewUsers/${uid}`)
+            .on('value', (snap) => {
+              let data = snap.val();
+              setMyVal(data.selectedValue);
+              // console.log('new data ', data.selectedValue);
+              dispatch(userLogin({email, password, selectedValue}));
+              if (userRoll === myVal) {
+                setEmail('');
+                setPassword('');
+                navigation.navigate('DrawerNav');
+              }
+            });
         });
-      if (myVal === userRoll) {
-        await firebase.auth().signInWithEmailAndPassword(email, password);
-        dispatch(userLogin({email, password, selectedValue}));
-        setEmail('');
-        setPassword('');
-      } else {
-        alert('errr');
-      }
       setIsLoading(false);
     } catch (err) {
-      console.log(err, 'err');
-
+      console.log(err.message, 'err');
       setErrMsg(err?.message);
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    setEmail('');
-    setPassword('');
-    setErrMsg('');
-  }, []);
 
   const handleChange = () => {
     setErrMsg('');
@@ -123,7 +118,7 @@ const SignIn = ({navigation}) => {
             <LoginButton
               Submit={Submit}
               isLoading={isLoading}
-              disabled={!password}
+              disabled={!password || !email}
             />
 
             <LoginNavigation navigation={navigation} />
