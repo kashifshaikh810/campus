@@ -7,6 +7,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
 import AddJobsButton from '../../ScreensMaterials/AddJobsMaterial/AddJobsButton/index';
 import AddJobsDropDown from '../../ScreensMaterials/AddJobsMaterial/AddJobsDropDown/index';
 import database from '@react-native-firebase/database';
+import {firebase} from '@react-native-firebase/auth';
 
 const AddJobs = ({navigation}) => {
   const [jobTitle, setJobTitle] = useState('');
@@ -18,7 +19,8 @@ const AddJobs = ({navigation}) => {
 
   const handleSubmit = () => {
     try {
-      database().ref('/addJobs/').push({
+      const uid = firebase.auth().currentUser?.uid;
+      database().ref(`/addJobs/${uid}`).push({
         jobTitle,
         salaryPackage,
         requirement,
@@ -62,7 +64,7 @@ const AddJobs = ({navigation}) => {
             placeholder="Salary Package"
             onChangeText={(text) => setSalaryPackage(text)}
             placeholderTextColor="green"
-            keyboardType="default"
+            keyboardType="number-pad"
           />
         </View>
 
@@ -93,9 +95,9 @@ const AddJobs = ({navigation}) => {
           />
         </View>
 
-        <View style={style.txtContainer}>
+        <View style={style.dcContainer}>
           <TextInput
-            style={style.text}
+            style={style.dcText}
             placeholder="Description"
             value={description}
             onChangeText={(text) => setDescription(text)}

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
 import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader/index';
@@ -9,6 +9,8 @@ import {useSelector} from 'react-redux';
 
 const JobsDetails = ({route, navigation}) => {
   const applyJobs = useSelector((state) => state.job.applyJobs);
+
+  let newAppliedJobs = applyJobs ? Object.values(applyJobs) : [];
   const {
     jobTitle,
     salaryPackage,
@@ -16,22 +18,7 @@ const JobsDetails = ({route, navigation}) => {
     experience,
     designation,
     description,
-  } = applyJobs[route?.params?.index];
-
-  // useEffect(() => {
-  //   // console.log( , 'new world');
-  //   RNFirebase.database()
-  //     .ref()
-  //     .child('users/')
-  //     .on('value', (res) => {
-  //       console.log(res.val(), 'res');
-  //     });
-  //   // .then((res) => {
-  //   // })
-  //   // .catch((err) => {
-  //   //   console.log(err);
-  //   // });
-  // }, []);
+  } = newAppliedJobs[route?.params?.index];
 
   return (
     <View style={style.container}>

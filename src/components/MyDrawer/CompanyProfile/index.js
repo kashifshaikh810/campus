@@ -19,13 +19,15 @@ import {
 import database from '@react-native-firebase/database';
 import {useSelector, useDispatch} from 'react-redux';
 import {companyProfile} from '../../redux/Actions/CompanyProfile/CompanyProfileAction';
+import {firebase} from '@react-native-firebase/auth';
 
 const CompanyProfileScreen = ({navigation}) => {
-  const [myTxt, setMyTxt] = useState('Computing Yard');
-  const [myDcTxt, setMyDcTxt] = useState('Need a senior full stack developer');
+  const currentText = useSelector((state) => state.com.CompanyData);
+  const [myTxt, setMyTxt] = useState();
+  const [myDcTxt, setMyDcTxt] = useState();
   const [edit, setEdit] = useState(true);
-  const [abcd, setAbcd] = useState(myTxt);
-  const [etc, setEtc] = useState(myDcTxt);
+  const [abcd, setAbcd] = useState(currentText.abcd);
+  const [etc, setEtc] = useState(currentText.etc);
   const dispatch = useDispatch();
 
   const editBtn = () => {
@@ -37,7 +39,8 @@ const CompanyProfileScreen = ({navigation}) => {
   };
 
   const saveBtn = () => {
-    database().ref('/CompanyData/').push({
+    const uid = firebase.auth().currentUser?.uid;
+    database().ref(`/CompanyData/${uid}`).push({
       abcd,
       etc,
     });
@@ -53,23 +56,19 @@ const CompanyProfileScreen = ({navigation}) => {
   };
 
   useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    database()
+      .ref(`/CompanyData/${uid}`)
+      .on('value', (snapshot) => {
+        const newAppliedJobs = snapshot.val()
+          ? Object.values(snapshot.val())
+          : [];
+        const [data] = newAppliedJobs;
+        console.log(data);
+        dispatch(companyProfile(data));
+      });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
-
-    //   // dispatch(companyProfile({abcd, etc}));
-    //   database()
-    //     .ref('/CompanyData')
-    //     .on('value', (snapshot) => {
-    //       let data = [];
-    //       snapshot.forEach((childSnapshot) => {
-    //         let childKey = childSnapshot.key;
-    //         let childData = childSnapshot.val();
-
-    //         data.push(childData);
-    //         console.log(childKey, 'ChildData');
-    //       });
-    //       // dispatch(companyProfile(snapshot.val()));
-    //     });
-  });
+  }, []);
 
   return (
     <KeyboardAwareScrollView>

@@ -7,7 +7,6 @@ const initialState = {
 const CompanyProfileReducer = (state = initialState, action) => {
   switch (action.type) {
     case COMPANY_PROFILE:
-      console.log('Checkeddd ', action.com);
       return {
         CompanyData: action.com,
       };

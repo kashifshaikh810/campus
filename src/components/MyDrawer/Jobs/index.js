@@ -16,15 +16,9 @@ import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
 
 const JobsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [myJobs, setMyJobs] = useState([]);
   const applyJobs = useSelector((state) => state.job.applyJobs);
   const dispatch = useDispatch();
-
-  const jobDetail = (index) => {
-    navigation.navigate('JobsDetails', {
-      applyJobs: applyJobs,
-      index: index,
-    });
-  };
 
   const disableBackButton = () => {
     BackHandler.exitApp();
@@ -33,19 +27,30 @@ const JobsScreen = ({navigation}) => {
 
   useEffect(() => {
     setIsLoading(true);
+    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
     try {
+      const uid = firebase.auth().currentUser?.uid;
       database()
-        .ref('/addJobs')
+        .ref(`/addJobs/${uid}`)
         .on('value', (snapshot) => {
-          dispatch(applyJob(Object.values(snapshot.val())));
+          const mySnaap = snapshot.val();
+          dispatch(applyJob(mySnaap));
           setIsLoading(false);
         });
+      const newAppliedJobs = applyJobs ? Object.values(applyJobs) : [];
+      setMyJobs(newAppliedJobs);
     } catch (err) {
       console.log(err);
       setIsLoading(false);
     }
-    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
+
+  const jobDetail = (index) => {
+    navigation.navigate('JobsDetails', {
+      myJobs: myJobs,
+      index: index,
+    });
+  };
 
   if (!firebase?.auth().currentUser?.uid) {
     navigation.navigate('LogIn');
@@ -62,7 +67,7 @@ const JobsScreen = ({navigation}) => {
                 <ActivityIndicator size={40} color="green" />
               </View>
             ) : (
-              applyJobs.map((applyJob, index) => {
+              myJobs.map((applyJob, index) => {
                 return (
                   <TouchableOpacity
                     style={style.touchAbleContent}

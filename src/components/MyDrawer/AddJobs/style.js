@@ -26,10 +26,21 @@ export default StyleSheet.create({
   text: {
     borderWidth: 1,
     borderColor: 'green',
-    // borderRadius: 25,
     padding: 10,
     color: 'green',
     paddingLeft: wp('3'),
+  },
+  dcText: {
+    borderWidth: 1,
+    borderColor: 'green',
+    color: 'green',
+    paddingLeft: wp('3'),
+    paddingBottom: wp('12'),
+  },
+  dcContainer: {
+    width: wp('89'),
+    marginTop: wp('5'),
+    marginLeft: wp('6'),
   },
   btnContainer: {
     justifyContent: 'center',
