@@ -27,29 +27,34 @@ const SignUp = ({navigation}) => {
   const [selectedValue, setSelectedValue] = useState('Company');
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [showErr, setShowErr] = useState('');
 
   const Submit = async () => {
-    setIsLoading(true);
-    try {
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setPassword('');
-      const uid = firebase.auth().currentUser?.uid;
-      database().ref(`/NewUsers/${uid}`).set({
-        firstName,
-        lastName,
-        email,
-        password,
-        selectedValue,
-      });
-      setIsLoading(false);
-      navigation.navigate('LogIn');
-    } catch (err) {
-      console.log(err, 'error');
-      setErrMsg(err?.message);
-      setIsLoading(false);
+    if (firstName && lastName && email && password) {
+      setIsLoading(true);
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPassword('');
+        const uid = firebase.auth().currentUser?.uid;
+        database().ref(`/NewUsers/${uid}`).set({
+          firstName,
+          lastName,
+          email,
+          password,
+          selectedValue,
+        });
+        setIsLoading(false);
+        navigation.navigate('LogIn');
+      } catch (err) {
+        console.log(err, 'error');
+        setErrMsg(err?.message);
+        setIsLoading(false);
+      }
+    } else {
+      setShowErr('All Fields Are Required');
     }
   };
 
@@ -59,10 +64,12 @@ const SignUp = ({navigation}) => {
     setEmail('');
     setPassword('');
     setErrMsg('');
+    setShowErr('');
   }, []);
 
   const handleChange = () => {
     setErrMsg('');
+    setShowErr('');
   };
 
   return (
@@ -105,12 +112,13 @@ const SignUp = ({navigation}) => {
             />
 
             <Text style={style.errMsg}>{errMsg}</Text>
+            <Text style={style.errMsg}>{showErr}</Text>
 
             <SignUpButton
               navigation={navigation}
               isLoading={isLoading}
               Submit={Submit}
-              disabled={!password || !email || !firstName || !lastName}
+              disabled={!firstName}
             />
 
             <SignUpNavigation navigation={navigation} />

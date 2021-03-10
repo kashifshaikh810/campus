@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, BackHandler} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
 import style from './style';
 import JobsHeader from '../../ScreensMaterials/Headerss/JobsHeader/JobsHeader';
 import JobImg from '../../ScreensMaterials/JobsMaterial/JobsImage/index';
@@ -12,13 +11,10 @@ import {
 } from '../../responsive/responsive';
 import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import {applyJob} from '../../redux/Actions/ApplyJobs/ApplyJobsAction';
 
 const JobsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [myJobs, setMyJobs] = useState([]);
-  const applyJobs = useSelector((state) => state.job.applyJobs);
-  const dispatch = useDispatch();
 
   const disableBackButton = () => {
     BackHandler.exitApp();
@@ -27,18 +23,16 @@ const JobsScreen = ({navigation}) => {
 
   useEffect(() => {
     setIsLoading(true);
-    BackHandler.addEventListener('hardwareBackPress', disableBackButton);
     try {
       const uid = firebase.auth().currentUser?.uid;
       database()
         .ref(`/addJobs/${uid}`)
         .on('value', (snapshot) => {
-          const mySnaap = snapshot.val();
-          dispatch(applyJob(mySnaap));
+          const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
+          setMyJobs(mySnaap);
           setIsLoading(false);
         });
-      const newAppliedJobs = applyJobs ? Object.values(applyJobs) : [];
-      setMyJobs(newAppliedJobs);
+      BackHandler.addEventListener('hardwareBackPress', disableBackButton);
     } catch (err) {
       console.log(err);
       setIsLoading(false);

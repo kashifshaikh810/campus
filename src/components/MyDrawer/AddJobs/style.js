@@ -7,7 +7,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('90'),
+    height: hp('100'),
   },
   img: {
     width: hp('13'),

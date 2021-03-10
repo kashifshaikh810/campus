@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, BackHandler} from 'react-native';
+import {View, ActivityIndicator, BackHandler} from 'react-native';
 import style from './style';
 import CompanyProfileHeader from '../../ScreensMaterials/Headerss/CompanyProfileHeader/CompanyHeader';
 import {
@@ -23,11 +23,12 @@ import {firebase} from '@react-native-firebase/auth';
 
 const CompanyProfileScreen = ({navigation}) => {
   const currentText = useSelector((state) => state.com.CompanyData);
+  const [isLoading, setIsLoading] = useState(false);
   const [myTxt, setMyTxt] = useState();
   const [myDcTxt, setMyDcTxt] = useState();
   const [edit, setEdit] = useState(true);
-  const [abcd, setAbcd] = useState(currentText.abcd);
-  const [etc, setEtc] = useState(currentText.etc);
+  const [abcd, setAbcd] = useState();
+  const [etc, setEtc] = useState();
   const dispatch = useDispatch();
 
   const editBtn = () => {
@@ -56,6 +57,9 @@ const CompanyProfileScreen = ({navigation}) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+    setAbcd(currentText ? currentText.abcd : '');
+    setEtc(currentText ? currentText.etc : '');
     const uid = firebase.auth().currentUser?.uid;
     database()
       .ref(`/CompanyData/${uid}`)
@@ -64,8 +68,8 @@ const CompanyProfileScreen = ({navigation}) => {
           ? Object.values(snapshot.val())
           : [];
         const [data] = newAppliedJobs;
-        console.log(data);
         dispatch(companyProfile(data));
+        setIsLoading(false);
       });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
@@ -74,42 +78,51 @@ const CompanyProfileScreen = ({navigation}) => {
     <KeyboardAwareScrollView>
       <View style={style.container}>
         <CompanyProfileHeader navigation={navigation} />
-        <CompanyCoverImg />
-        <View style={style.containerTwo}>
-          <CompanyImg />
-          <View style={style.card}>
-            <View>
-              <CompanyNameText
-                edit={edit}
-                myTxt={myTxt}
-                abcd={abcd}
-                setAbcd={setAbcd}
-              />
+        {isLoading ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size={40} color="green" />
+          </View>
+        ) : (
+          <>
+            <CompanyCoverImg />
+            <View style={style.containerTwo}>
+              <CompanyImg />
+              <View style={style.card}>
+                <View>
+                  <CompanyNameText
+                    edit={edit}
+                    myTxt={myTxt}
+                    abcd={abcd}
+                    setAbcd={setAbcd}
+                  />
 
-              <View style={style.line} />
+                  <View style={style.line} />
 
-              <CompanyDescriptionText
-                edit={edit}
-                myDcTxt={myDcTxt}
-                etc={etc}
-                setEtc={setEtc}
-              />
+                  <CompanyDescriptionText
+                    edit={edit}
+                    myDcTxt={myDcTxt}
+                    etc={etc}
+                    setEtc={setEtc}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-        <View style={style.cardBtn}>
-          <View style={style.btnContainer}>
-            <EditButton editBtn={editBtn} />
+            <View style={style.cardBtn}>
+              <View style={style.btnContainer}>
+                <EditButton editBtn={editBtn} />
 
-            <View style={style.btnLine} />
+                <View style={style.btnLine} />
 
-            <SaveButton saveBtn={saveBtn} />
+                <SaveButton saveBtn={saveBtn} />
 
-            <View style={style.btnLine} />
+                <View style={style.btnLine} />
 
-            <CancelButton cancelBtn={cancelBtn} />
-          </View>
-        </View>
+                <CancelButton cancelBtn={cancelBtn} />
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </KeyboardAwareScrollView>
   );

@@ -51,7 +51,6 @@ const SignIn = ({navigation}) => {
             .on('value', (snap) => {
               let data = snap.val();
               setMyVal(data.selectedValue);
-              // console.log('new data ', data.selectedValue);
               dispatch(userLogin({email, password, selectedValue}));
               if (userRoll === myVal) {
                 setEmail('');

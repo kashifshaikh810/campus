@@ -10,7 +10,11 @@ const CompanyNameText = ({edit, myTxt, setAbcd, abcd}) => {
       <Text style={style.companyChild}>Company Name :-</Text>
       <Text numberOfLines={1} style={style.companyText}>
         {edit ? (
-          currentText.abcd
+          currentText ? (
+            currentText.abcd
+          ) : (
+            ''
+          )
         ) : (
           <View style={style.txtContainer}>
             <TextInput
@@ -34,7 +38,11 @@ const CompanyDescriptionText = ({edit, myDcTxt, setEtc, etc}) => {
 
       <Text numberOfLines={4} style={style.descriptionText}>
         {edit ? (
-          currentText.etc
+          currentText ? (
+            currentText.etc
+          ) : (
+            ''
+          )
         ) : (
           <View style={style.txtContainer}>
             <TextInput

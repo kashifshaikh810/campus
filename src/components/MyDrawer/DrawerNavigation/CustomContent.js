@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {DrawerItem, DrawerItemList} from '@react-navigation/drawer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+import {firebase} from '@react-native-firebase/auth';
 
 import style from './style';
 const {
@@ -20,7 +22,15 @@ const {
 } = style;
 
 function CustomContent(props) {
-  //   const handleSignOut = props.handleSignOut;
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    database()
+      .ref(`/StudentProfileData/${uid}`)
+      .on('value', (snapshot) => {
+        const newData = snapshot.val() ? Object.values(snapshot.val()) : [];
+        console.log('User data: ', snapshot);
+      });
+  }, []);
   const handleSignOut = (props) => {
     auth()
       .signOut()

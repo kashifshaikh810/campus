@@ -16,29 +16,44 @@ const AddJobs = ({navigation}) => {
   const [designation, setDesignation] = useState('');
   const [description, setDescription] = useState('');
   const [experience, setExperience] = useState('beginner');
+  const [showErr, setShowErr] = useState('');
 
   const handleSubmit = () => {
     try {
-      const uid = firebase.auth().currentUser?.uid;
-      database().ref(`/addJobs/${uid}`).push({
-        jobTitle,
-        salaryPackage,
-        requirement,
-        experience,
-        designation,
-        description,
-      });
-      setJobTitle('');
-      setSalaryPackage('');
-      setRequirement('');
-      setDesignation('');
-      setDescription('');
-      setExperience('');
-      navigation.navigate('Jobs');
-      alert('Posting Success... !');
+      if (
+        jobTitle &&
+        salaryPackage &&
+        requirement &&
+        designation &&
+        description
+      ) {
+        const uid = firebase.auth().currentUser?.uid;
+        database().ref(`/addJobs/${uid}`).push({
+          jobTitle,
+          salaryPackage,
+          requirement,
+          experience,
+          designation,
+          description,
+        });
+        setJobTitle('');
+        setSalaryPackage('');
+        setRequirement('');
+        setDesignation('');
+        setDescription('');
+        setExperience('');
+        navigation.navigate('Jobs');
+        alert('Posting Success... !');
+      } else {
+        setShowErr('All Fields Are Required');
+      }
     } catch (err) {
       console.log('error ', err?.message);
     }
+  };
+
+  const handleChange = () => {
+    setShowErr('');
   };
 
   return (
@@ -54,6 +69,7 @@ const AddJobs = ({navigation}) => {
             onChangeText={(text) => setJobTitle(text)}
             placeholderTextColor="green"
             keyboardType="default"
+            onChange={handleChange}
           />
         </View>
 
@@ -65,6 +81,7 @@ const AddJobs = ({navigation}) => {
             onChangeText={(text) => setSalaryPackage(text)}
             placeholderTextColor="green"
             keyboardType="number-pad"
+            onChange={handleChange}
           />
         </View>
 
@@ -76,6 +93,7 @@ const AddJobs = ({navigation}) => {
             onChangeText={(text) => setRequirement(text)}
             placeholderTextColor="green"
             keyboardType="default"
+            onChange={handleChange}
           />
         </View>
 
@@ -92,6 +110,7 @@ const AddJobs = ({navigation}) => {
             onChangeText={(text) => setDesignation(text)}
             placeholderTextColor="green"
             keyboardType="default"
+            onChange={handleChange}
           />
         </View>
 
@@ -103,19 +122,15 @@ const AddJobs = ({navigation}) => {
             onChangeText={(text) => setDescription(text)}
             placeholderTextColor="green"
             keyboardType="default"
+            onChange={handleChange}
           />
         </View>
-
-        <AddJobsButton
-          handleSubmit={handleSubmit}
-          disabled={
-            !jobTitle &&
-            !salaryPackage &&
-            !requirement &&
-            !designation &&
-            !description
-          }
-        />
+        <View>
+          <Text style={{textAlign: 'center', color: 'red', marginTop: 5}}>
+            {showErr}
+          </Text>
+        </View>
+        <AddJobsButton handleSubmit={handleSubmit} disabled={!jobTitle} />
       </View>
     </KeyboardAwareScrollView>
   );

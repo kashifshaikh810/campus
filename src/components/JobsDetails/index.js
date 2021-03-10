@@ -1,16 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
 import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader/index';
-// import DetailsImage from '../ScreensMaterials/JobsDetailsMaterial/DetailsImage/index';
 import DetailsButton from '../ScreensMaterials/JobsDetailsMaterial/DetailsButton/index';
-import {useSelector} from 'react-redux';
-// import RNFirebase from '@react-native-firebase/app';
 
 const JobsDetails = ({route, navigation}) => {
-  const applyJobs = useSelector((state) => state.job.applyJobs);
-
-  let newAppliedJobs = applyJobs ? Object.values(applyJobs) : [];
   const {
     jobTitle,
     salaryPackage,
@@ -18,7 +12,7 @@ const JobsDetails = ({route, navigation}) => {
     experience,
     designation,
     description,
-  } = newAppliedJobs[route?.params?.index];
+  } = route?.params?.myJobs[route?.params?.index];
 
   return (
     <View style={style.container}>

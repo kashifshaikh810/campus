@@ -14,6 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {yourProfile} from '../../redux/Actions/YourProfile/YourProfileAction';
 import database from '@react-native-firebase/database';
+import {firebase} from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 
 const ProfileScreen = ({navigation}) => {
@@ -37,8 +38,9 @@ const ProfileScreen = ({navigation}) => {
 
   const SubmitBtn = () => {
     setIsLoading(true);
+    const uid = firebase.auth().currentUser?.uid;
     try {
-      database().ref('/ProfileData/').push({
+      database().ref(`/StudentProfileData/${uid}`).push({
         PickPics,
         name,
         date,
