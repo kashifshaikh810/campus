@@ -11,7 +11,7 @@ import DocumentPicker from 'react-native-document-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const ProfileButton = ({isLoading, Submit, disabled}) => {
-  const [BtnText] = useState('Submit');
+  const [BtnText] = useState('Save');
   return (
     <TouchableOpacity onPress={Submit} disabled={disabled}>
       <View style={style.btnContainer}>

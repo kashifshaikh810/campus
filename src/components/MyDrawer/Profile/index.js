@@ -12,13 +12,13 @@ import DatePicker from 'react-native-date-picker';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {yourProfile} from '../../redux/Actions/YourProfile/YourProfileAction';
+// import {yourProfile} from '../../redux/Actions/YourProfile/YourProfileAction';
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
-import {useDispatch} from 'react-redux';
+// import {useDispatch} from 'react-redux';
 
 const ProfileScreen = ({navigation}) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [DateOb] = useState('Your Date Of Birth :');
   const [PickPics, setPickPics] = useState('');
   const [name, setName] = useState('');
@@ -33,8 +33,21 @@ const ProfileScreen = ({navigation}) => {
   };
 
   useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    database()
+      .ref(`/StudentProfileData/${uid}`)
+      .on('value', (snapshot) => {
+        const newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
+        const [snap] = newSnap;
+        // const myPic = snap ? snap.PickPics : '';
+        const myName = snap ? snap.name : '';
+        const myEducation = snap ? snap.education : '';
+        setName(myName);
+        setEducation(myEducation);
+        console.log('User data: ', snap.name);
+      });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
-  });
+  }, []);
 
   const SubmitBtn = () => {
     setIsLoading(true);
@@ -43,13 +56,11 @@ const ProfileScreen = ({navigation}) => {
       database().ref(`/StudentProfileData/${uid}`).push({
         PickPics,
         name,
-        date,
         education,
         Pics,
       });
       setIsLoading(false);
-      setName('');
-      setEducation('');
+      alert('Your Data is Now Saved');
     } catch (err) {
       console.log(err);
       setIsLoading(false);
@@ -86,7 +97,7 @@ const ProfileScreen = ({navigation}) => {
           <TouchableOpacity style={style.dateContainer}>
             <DatePicker
               date={date}
-              onDateChange={(e) => setDate(e)}
+              onDateChange={(text) => setDate(text)}
               mode="date"
               style={style.datePicker}
             />
@@ -115,7 +126,7 @@ const ProfileScreen = ({navigation}) => {
         <ProfileButton
           Submit={SubmitBtn}
           isLoading={isLoading}
-          disabled={!name && !education}
+          disabled={!name || !education}
         />
       </View>
     </KeyboardAwareScrollView>

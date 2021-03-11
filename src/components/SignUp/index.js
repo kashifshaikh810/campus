@@ -34,10 +34,6 @@ const SignUp = ({navigation}) => {
       setIsLoading(true);
       try {
         await firebase.auth().createUserWithEmailAndPassword(email, password);
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPassword('');
         const uid = firebase.auth().currentUser?.uid;
         database().ref(`/NewUsers/${uid}`).set({
           firstName,
@@ -46,6 +42,10 @@ const SignUp = ({navigation}) => {
           password,
           selectedValue,
         });
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPassword('');
         setIsLoading(false);
         navigation.navigate('LogIn');
       } catch (err) {
