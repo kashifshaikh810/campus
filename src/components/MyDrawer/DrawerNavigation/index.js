@@ -7,19 +7,33 @@ import CompanyProfileScreen from '../../MyDrawer/CompanyProfile/index';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
+import database from '@react-native-firebase/database';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {userLogin} from '../../redux/Actions/LogIn/LogInAction';
+import {firebase} from '@react-native-firebase/auth';
 import CustomContent from './CustomContent';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNav = ({navigation}) => {
   const [userRoll, setUserRoll] = useState();
-  const myLogin = useSelector((state) => state.myLog.LoginData);
+  // const dispatch = useDispatch();
+  // const myLogin = useSelector((state) => state.myLog.LoginData);
 
   useEffect(() => {
-    const roll = myLogin;
-    setUserRoll(roll.selectedValue);
-  });
+    // const roll = myLogin;
+    // setUserRoll(roll.selectedValue);
+    const uid = firebase.auth().currentUser?.uid;
+    console.log(uid);
+    database()
+      .ref(`NewUsers/${uid}`)
+      .on('value', (snapshot) => {
+        const user = snapshot.val();
+        const newUser = user.selectedValue;
+        console.log('User data: ', user.selectedValue);
+        setUserRoll(newUser);
+      });
+  }, []);
 
   return (
     <Drawer.Navigator

@@ -11,15 +11,39 @@ import {
 } from '../../responsive/responsive';
 import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import DeleteButton from '../../ScreensMaterials/JobsDetailsMaterial/DetailsButton/DeleteButton';
 
 const JobsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [myJobs, setMyJobs] = useState([]);
+  const [userRoll, setUserRoll] = useState();
 
   const disableBackButton = () => {
     BackHandler.exitApp();
     return true;
   };
+
+  useEffect(() => {
+    // const roll = myLogin;
+    // setUserRoll(roll.selectedValue);
+    const uid = firebase.auth().currentUser?.uid;
+    console.log(uid);
+    database()
+      .ref(`NewUsers/${uid}`)
+      .on('value', (snapshot) => {
+        const user = snapshot.val();
+        const newUser = user.selectedValue;
+        console.log('User data: ', user.selectedValue);
+        setUserRoll(newUser);
+      });
+    if (userRoll === 'Student') {
+      database()
+        .ref('/addJobs/')
+        .on('value', (snapshot) => {
+          const mySnaap = Object.values(snapshot.val());
+        });
+    }
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -63,28 +87,31 @@ const JobsScreen = ({navigation}) => {
             ) : (
               myJobs.map((applyJob, index) => {
                 return (
-                  <TouchableOpacity
-                    style={style.touchAbleContent}
-                    onPress={() => jobDetail(index)}>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Job Title : {applyJob.jobTitle}
-                    </Text>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Salary Package : {applyJob.salaryPackage}
-                    </Text>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Requirement : {applyJob.requirement}
-                    </Text>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Experience : {applyJob.experience}
-                    </Text>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Designation : {applyJob.designation}
-                    </Text>
-                    <Text numberOfLines={1} style={style.teXt}>
-                      Description : {applyJob.description}
-                    </Text>
-                  </TouchableOpacity>
+                  <>
+                    <TouchableOpacity
+                      style={style.touchAbleContent}
+                      onPress={() => jobDetail(index)}>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Job Title : {applyJob.jobTitle}
+                      </Text>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Salary Package : {applyJob.salaryPackage}
+                      </Text>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Requirement : {applyJob.requirement}
+                      </Text>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Experience : {applyJob.experience}
+                      </Text>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Designation : {applyJob.designation}
+                      </Text>
+                      <Text numberOfLines={1} style={style.teXt}>
+                        Description : {applyJob.description}
+                      </Text>
+                    </TouchableOpacity>
+                    <DeleteButton />
+                  </>
                 );
               })
             )}
