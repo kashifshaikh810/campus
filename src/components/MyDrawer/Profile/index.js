@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, Text, BackHandler} from 'react-native';
+import {View, TextInput, Text, BackHandler, Platform} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
@@ -16,6 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import RNFetchBlob from 'rn-fetch-blob';
 // import {useDispatch} from 'react-redux';
 
 const ProfileScreen = ({navigation}) => {
@@ -27,8 +28,7 @@ const ProfileScreen = ({navigation}) => {
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [allImages, setAllImages] = React.useState([]);
-  const storageRef = storage().ref('images/');
+  const storageRef = storage().ref(`images/${PickPics.name}`);
 
   const disableBackButton = () => {
     BackHandler.exitApp();
@@ -54,9 +54,15 @@ const ProfileScreen = ({navigation}) => {
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
 
-  const SubmitBtn = () => {
-    console.log(PickPics, 'PickPics');
-    const task = storageRef.putFile(PickPics.fileCopyUri);
+  const SubmitBtn = async () => {
+    const myPic = PickPics.uri;
+    const result = await RNFetchBlob.fs.readFile(myPic, 'base64');
+    // console.log('sasa', result);
+    // if(Platform.OS=== 'ios' || Platform.OS==='android'){
+    // }
+    const task = storageRef.putString(result, 'base64', {
+      contentType: PickPics.type,
+    });
     task.on('state_changed', (taskSnapshot) => {
       console.log(
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,

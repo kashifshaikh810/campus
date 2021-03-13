@@ -54,6 +54,7 @@ const JobsScreen = ({navigation}) => {
         .on('value', (snapshot) => {
           const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
           setMyJobs(mySnaap);
+          console.log(Object.keys(mySnaap));
           setIsLoading(false);
         });
       BackHandler.addEventListener('hardwareBackPress', disableBackButton);

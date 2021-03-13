@@ -14,10 +14,10 @@ const ProfileImage = ({PickPics, setPickPics}) => {
   const [myImage] = useState(require('../../../../../assets/pro.jpg'));
   const upload = async () => {
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
+      const file = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
       });
-      setPickPics(res);
+      setPickPics(file);
       setShow(false);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
