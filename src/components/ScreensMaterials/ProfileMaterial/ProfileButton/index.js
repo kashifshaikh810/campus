@@ -56,7 +56,7 @@ const ProfileCv = ({Pics, setPics}) => {
   return (
     <View>
       <TouchableOpacity style={style.cvUploaded} onPress={cvUpload}>
-        <Text style={style.cvMain}>Attech Your Cv...</Text>
+        <Text style={style.cvMain}>Attach Your Cv...</Text>
       </TouchableOpacity>
       <View style={style.selectedImg}>
         <Image source={show ? myImage : Pics} style={style.selected} />

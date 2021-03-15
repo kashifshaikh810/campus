@@ -36,17 +36,30 @@ const JobsScreen = ({navigation}) => {
         console.log('User data: ', user.selectedValue);
         setUserRoll(newUser);
       });
-    if (userRoll === 'Student') {
-      database()
-        .ref('/addJobs/')
-        .on('value', (snapshot) => {
-          const mySnaap = Object.values(snapshot.val());
-        });
-    }
   }, []);
 
   useEffect(() => {
     setIsLoading(true);
+    // if (userRoll === 'Student') {
+    database()
+      .ref('/addJobs/')
+      .on('value', (snapshot) => {
+        const mySnaap = snapshot.val();
+        const newSnaap = Object.values(mySnaap);
+        const my = Object.values(newSnaap);
+        // console.log('data', my);
+        // setMyJobs(my);
+        my.map((tex, i) => {
+          const aa = Object.values(tex);
+          console.log('dataa', aa);
+          setMyJobs(aa);
+          return tex;
+        });
+      });
+    // } else {
+    //   [];
+    // }
+
     try {
       const uid = firebase.auth().currentUser?.uid;
       database()
