@@ -27,9 +27,13 @@ const ProfileScreen = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
+  const [showPic, setShowPic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [imgUrl, setImgUrl] = useState();
-  const storageRef = storage().ref(`/images/${PickPics ? PickPics.name : ''}`);
+  const [cvPic, setCvPic] = useState('');
+  const storageRef = storage().ref(
+    `/Dpimages/${PickPics ? PickPics.name : ''}`,
+  );
+  const storageCv = storage().ref(`/Cvimages/${Pics ? Pics.name : ''}`);
 
   const disableBackButton = () => {
     BackHandler.exitApp();
@@ -43,12 +47,13 @@ const ProfileScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         const newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
         const [snap] = newSnap;
-        const myPic = snap ? snap.imgUrl : '';
+        const myCurrPic = snap ? snap.downloadURL : '';
         const myName = snap ? snap.name : '';
         const myEducation = snap ? snap.education : '';
         setName(myName);
         setEducation(myEducation);
-        setPickPics(myPic);
+        setShowPic(myCurrPic);
+        console.log('sa ', myCurrPic);
         console.log('User data: ', snap.name);
       });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
@@ -56,8 +61,29 @@ const ProfileScreen = ({navigation}) => {
 
   const SubmitBtn = async () => {
     setIsLoading(true);
-    const myPic = PickPics.uri;
-    const result = await RNFetchBlob.fs.readFile(myPic, 'base64');
+    const myCvPic = Pics.uri;
+    const cvResult = await RNFetchBlob.fs.readFile(myCvPic, 'base64');
+    const cvTask = storageCv.putString(cvResult, 'base64', {
+      contentType: Pics.type,
+    });
+    cvTask.on('state_changed', (taskSnapshot) => {
+      console.log(
+        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+      );
+    });
+    cvTask.then((imageSnapshot) => {
+      console.log('Image Upload Successfully');
+      storage()
+        .ref(imageSnapshot.metadata.fullPath)
+        .getDownloadURL()
+        .then((myDownloadURL) => {
+          console.log('image ', myDownloadURL);
+          setCvPic(myDownloadURL);
+        });
+    });
+
+    const myPicOrg = PickPics.uri;
+    const result = await RNFetchBlob.fs.readFile(myPicOrg, 'base64');
     const task = storageRef.putString(result, 'base64', {
       contentType: PickPics.type,
     });
@@ -73,21 +99,21 @@ const ProfileScreen = ({navigation}) => {
         .getDownloadURL()
         .then((downloadURL) => {
           console.log('image ', downloadURL);
-          setImgUrl(downloadURL);
+          const uid = firebase.auth().currentUser?.uid;
+          try {
+            database().ref(`/StudentProfileData/${uid}`).push({
+              downloadURL,
+              name,
+              education,
+              cvPic,
+            });
+            setIsLoading(false);
+            alert('Your Data is Now Saved');
+          } catch (err) {
+            console.log(err);
+            setIsLoading(false);
+          }
         });
-      const uid = firebase.auth().currentUser?.uid;
-      try {
-        database().ref(`/StudentProfileData/${uid}`).push({
-          imgUrl,
-          name,
-          education,
-        });
-        setIsLoading(false);
-        alert('Your Data is Now Saved');
-      } catch (err) {
-        console.log(err);
-        setIsLoading(false);
-      }
     });
   };
 
@@ -95,7 +121,11 @@ const ProfileScreen = ({navigation}) => {
     <KeyboardAwareScrollView>
       <View style={style.container}>
         <ProfileHeader navigation={navigation} />
-        <ProfileImage PickPics={PickPics} setPickPics={setPickPics} />
+        <ProfileImage
+          PickPics={PickPics}
+          showPic={showPic}
+          setPickPics={setPickPics}
+        />
 
         <View>
           <View style={style.txtContainer}>

@@ -9,7 +9,7 @@ import {
 } from '../../../responsive/responsive';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const ProfileImage = ({PickPics, setPickPics}) => {
+const ProfileImage = ({PickPics, setPickPics, showPic}) => {
   const [show, setShow] = useState(true);
   const [myImage] = useState(require('../../../../../assets/pro.jpg'));
   const upload = async () => {
@@ -30,7 +30,7 @@ const ProfileImage = ({PickPics, setPickPics}) => {
   return (
     <TouchableOpacity style={style.imgContainer} onPress={upload}>
       <View>
-        <Image source={show ? myImage : PickPics} style={style.img} />
+        <Image source={showPic ? {uri: showPic} : myImage} style={style.img} />
       </View>
       <View style={styles.uploadIconContainer}>
         <UploadIcon
