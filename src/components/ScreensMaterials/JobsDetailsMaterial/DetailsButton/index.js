@@ -1,16 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import style from '../../../JobsDetails/style';
-import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
+import database from '@react-native-firebase/database';
+import {firebase} from '@react-native-firebase/auth';
 
 const DetailsButton = () => {
   const [BtnTxt, setBtnTxt] = useState(true);
   const [roll, setRoll] = useState();
-  const myLogin = useSelector((state) => state.myLog.LoginData);
+  // const myLogin = useSelector((state) => state.myLog.LoginData);
 
   useEffect(() => {
-    const rull = myLogin;
-    setRoll(rull.selectedValue);
+    const uid = firebase.auth().currentUser?.uid;
+    console.log(uid);
+    database()
+      .ref(`NewUsers/${uid}`)
+      .on('value', (snapshot) => {
+        const user = snapshot.val();
+        const newUser = user.selectedValue;
+        setRoll(newUser);
+      });
+    if (BtnTxt) {
+      setBtnTxt();
+    } else {
+      <></>;
+    }
   });
 
   return (
@@ -23,7 +37,9 @@ const DetailsButton = () => {
             </Text>
           </View>
         </TouchableOpacity>
-      ) : null}
+      ) : (
+        <></>
+      )}
     </>
   );
 };

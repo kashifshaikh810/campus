@@ -35,7 +35,7 @@ const ProfileButton = ({isLoading, Submit, disabled}) => {
   );
 };
 
-const ProfileCv = ({Pics, setPics}) => {
+const ProfileCv = ({Pics, setPics, cvPic}) => {
   const [show, setShow] = useState(true);
   const [myImage] = useState(require('../../../../../assets/cv-main.jpg'));
   const cvUpload = async () => {
@@ -59,7 +59,7 @@ const ProfileCv = ({Pics, setPics}) => {
         <Text style={style.cvMain}>Attach Your Cv...</Text>
       </TouchableOpacity>
       <View style={style.selectedImg}>
-        <Image source={show ? myImage : Pics} style={style.selected} />
+        <Image source={cvPic ? {uri: cvPic} : myImage} style={style.selected} />
       </View>
     </View>
   );

@@ -27,9 +27,10 @@ const ProfileScreen = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
+  const [cvPic, setCvPic] = useState('');
   const [showPic, setShowPic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [cvPic, setCvPic] = useState('');
+  // const [cvPic, setCvPic] = useState('');
   const storageRef = storage().ref(
     `/Dpimages/${PickPics ? PickPics.name : ''}`,
   );
@@ -48,13 +49,16 @@ const ProfileScreen = ({navigation}) => {
         const newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
         const [snap] = newSnap;
         const myCurrPic = snap ? snap.downloadURL : '';
+        const myCurrCvPic = snap ? snap.myDownloadURL : '';
         const myName = snap ? snap.name : '';
         const myEducation = snap ? snap.education : '';
         setName(myName);
         setEducation(myEducation);
         setShowPic(myCurrPic);
-        console.log('sa ', myCurrPic);
-        console.log('User data: ', snap.name);
+        setCvPic(myCurrCvPic);
+        // console.log('ddad', myCurrCvPic);
+        // console.log('sa ', myCurrPic);
+        // console.log('User data: ', snap.name);
       });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
@@ -70,16 +74,6 @@ const ProfileScreen = ({navigation}) => {
       console.log(
         `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
       );
-    });
-    cvTask.then((imageSnapshot) => {
-      console.log('Image Upload Successfully');
-      storage()
-        .ref(imageSnapshot.metadata.fullPath)
-        .getDownloadURL()
-        .then((myDownloadURL) => {
-          console.log('image ', myDownloadURL);
-          setCvPic(myDownloadURL);
-        });
     });
 
     const myPicOrg = PickPics.uri;
@@ -101,11 +95,20 @@ const ProfileScreen = ({navigation}) => {
           console.log('image ', downloadURL);
           const uid = firebase.auth().currentUser?.uid;
           try {
-            database().ref(`/StudentProfileData/${uid}`).push({
-              downloadURL,
-              name,
-              education,
-              cvPic,
+            cvTask.then((imageSnapshot) => {
+              console.log('Image Upload Successfully');
+              storage()
+                .ref(imageSnapshot.metadata.fullPath)
+                .getDownloadURL()
+                .then((myDownloadURL) => {
+                  console.log('image ', myDownloadURL);
+                  database().ref(`/StudentProfileData/${uid}`).push({
+                    downloadURL,
+                    name,
+                    education,
+                    myDownloadURL,
+                  });
+                });
             });
             setIsLoading(false);
             alert('Your Data is Now Saved');
@@ -174,7 +177,7 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
 
-        <ProfileCv Pics={Pics} setPics={setPics} />
+        <ProfileCv Pics={Pics} setPics={setPics} cvPic={cvPic} />
 
         <ProfileButton
           Submit={SubmitBtn}

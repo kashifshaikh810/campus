@@ -33,7 +33,7 @@ const JobsScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         const user = snapshot.val();
         const newUser = user.selectedValue;
-        console.log('User data: ', user.selectedValue);
+        console.log('Curr User Roll: ', newUser);
         setUserRoll(newUser);
       });
   }, []);
@@ -46,35 +46,36 @@ const JobsScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         const mySnaap = snapshot.val();
         const newSnaap = Object.values(mySnaap);
-        const my = Object.values(newSnaap);
-        // console.log('data', my);
-        // setMyJobs(my);
-        my.map((tex, i) => {
+        newSnaap.map((tex, i) => {
           const aa = Object.values(tex);
-          console.log('dataa', aa);
-          setMyJobs(aa);
+          const newData = Object.values(aa);
+          console.log('dadaddad ', newData);
+          setIsLoading(false);
+          setMyJobs(newData);
           return tex;
         });
       });
-    // } else {
-    //   [];
     // }
 
-    try {
-      const uid = firebase.auth().currentUser?.uid;
-      database()
-        .ref(`/addJobs/${uid}`)
-        .on('value', (snapshot) => {
-          const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
-          setMyJobs(mySnaap);
-          console.log(Object.keys(mySnaap));
-          setIsLoading(false);
-        });
-      BackHandler.addEventListener('hardwareBackPress', disableBackButton);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
+    // try {
+    //   if (userRoll === 'Company') {
+    //     const uid = firebase.auth().currentUser?.uid;
+    //     database()
+    //       .ref(`/addJobs/${uid}`)
+    //       .on('value', (snapshot) => {
+    //         const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
+    //         setMyJobs(mySnaap);
+    //         console.log(Object.keys(mySnaap));
+    //         setIsLoading(false);
+    //       });
+    //     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+    //   } else {
+    //     null;
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    //   setIsLoading(false);
+    // }
   }, []);
 
   const jobDetail = (index) => {
@@ -124,7 +125,7 @@ const JobsScreen = ({navigation}) => {
                         Description : {applyJob.description}
                       </Text>
                     </TouchableOpacity>
-                    <DeleteButton />
+                    {userRoll === 'Company' ? <DeleteButton /> : <></>}
                   </>
                 );
               })
