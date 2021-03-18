@@ -49,7 +49,7 @@ const JobsScreen = ({navigation}) => {
         newSnaap.map((tex, i) => {
           const aa = Object.values(tex);
           const newData = Object.values(aa);
-          console.log('dadaddad ', newData);
+          console.log('my Data ', newData);
           setIsLoading(false);
           setMyJobs(newData);
           return tex;

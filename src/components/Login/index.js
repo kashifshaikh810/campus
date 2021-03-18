@@ -14,51 +14,30 @@ import {
   PasswordInput,
 } from '../ScreensMaterials/LoginMaterial/LoginInputes/index';
 import {firebase} from '@react-native-firebase/auth';
-import DropDown from '../ScreensMaterials/LoginMaterial/LogInDropDown/index';
-import database from '@react-native-firebase/database';
 import {userLogin} from '../redux/Actions/LogIn/LogInAction';
 import {useDispatch, useSelector} from 'react-redux';
 
 const SignIn = ({navigation}) => {
-  const val = useSelector((state) => state.myLog.LoginData);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedValue, setSelectedValue] = useState('Company');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
-  const [userRoll, setUserRoll] = useState();
-  const [myVal, setMyVal] = useState();
 
   useEffect(() => {
     setEmail('');
     setPassword('');
     setErrMsg('');
-    const roll = val;
-    setUserRoll(roll.selectedValue);
   }, []);
 
   const Submit = async () => {
     setIsLoading(true);
     try {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((detail) => {
-          const uid = detail.user.uid;
-          database()
-            .ref(`/NewUsers/${uid}`)
-            .on('value', (snap) => {
-              let data = snap.val();
-              setMyVal(data.selectedValue);
-              dispatch(userLogin({email, password, selectedValue}));
-              if (userRoll === myVal) {
-                setEmail('');
-                setPassword('');
-                navigation.navigate('DrawerNav');
-              }
-            });
-        });
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      dispatch(userLogin({email, password}));
+      setEmail('');
+      setPassword('');
+      navigation.navigate('DrawerNav');
       setIsLoading(false);
     } catch (err) {
       console.log(err.message, 'err');
@@ -94,13 +73,6 @@ const SignIn = ({navigation}) => {
                 password={password}
                 setPassword={setPassword}
                 handleChange={handleChange}
-              />
-            </View>
-
-            <View>
-              <DropDown
-                selectedValue={selectedValue}
-                setSelectedValue={setSelectedValue}
               />
             </View>
 
