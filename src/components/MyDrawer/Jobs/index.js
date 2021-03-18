@@ -46,14 +46,16 @@ const JobsScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         const mySnaap = snapshot.val();
         const newSnaap = Object.values(mySnaap);
-        newSnaap.map((tex, i) => {
+        let allJobs = [];
+        newSnaap.forEach((tex, i) => {
           const aa = Object.values(tex);
           const newData = Object.values(aa);
-          console.log('my Data ', newData);
-          setIsLoading(false);
-          setMyJobs(newData);
-          return tex;
+          newData?.forEach((job) => {
+            allJobs.push(job);
+          });
         });
+        setIsLoading(false);
+        setMyJobs(allJobs);
       });
     // }
 
@@ -88,6 +90,7 @@ const JobsScreen = ({navigation}) => {
   if (!firebase?.auth().currentUser?.uid) {
     navigation.navigate('LogIn');
   }
+
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <View style={style.container}>
