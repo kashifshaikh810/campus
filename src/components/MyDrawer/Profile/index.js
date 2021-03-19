@@ -24,6 +24,7 @@ const ProfileScreen = ({navigation}) => {
   const [DateOb] = useState('Your Date Of Birth :');
   const [PickPics, setPickPics] = useState('');
   const [name, setName] = useState('');
+  // const date = 'date';
   const [date, setDate] = useState(new Date());
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
@@ -56,7 +57,7 @@ const ProfileScreen = ({navigation}) => {
         setEducation(myEducation);
         setShowPic(myCurrPic);
         setCvPic(myCurrCvPic);
-        // console.log('ddad', myCurrCvPic);
+        console.log('ddad', snap);
         // console.log('sa ', myCurrPic);
         // console.log('User data: ', snap.name);
       });
@@ -97,16 +98,19 @@ const ProfileScreen = ({navigation}) => {
           try {
             cvTask.then((imageSnapshot) => {
               console.log('Image Upload Successfully');
+              let abc = date.toISOString().split('t')[0];
               storage()
                 .ref(imageSnapshot.metadata.fullPath)
                 .getDownloadURL()
                 .then((myDownloadURL) => {
                   console.log('image ', myDownloadURL);
-                  database().ref(`/StudentProfileData/${uid}`).push({
+                  console.log('date is in profile ', date);
+                  database().ref(`/Test/${uid}`).push({
                     downloadURL,
                     name,
                     education,
                     myDownloadURL,
+                    date: abc,
                   });
                 });
             });
