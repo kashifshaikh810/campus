@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import style from './style';
 import DetailsHeader from '../ScreensMaterials/JobsDetailsMaterial/DetailsHeader/index';
 import DetailsButton from '../ScreensMaterials/JobsDetailsMaterial/DetailsButton/index';
+import {firebase} from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 const JobsDetails = ({route, navigation}) => {
+  const [userRoll, setUserRoll] = useState();
+
+  // const {
+  //   jobTitle,
+  //   salaryPackage,
+  //   requirement,
+  //   experience,
+  //   designation,
+  //   description,
+  // } = route?.params?.myJobs[route?.params?.index];
+
   const {
     jobTitle,
     salaryPackage,
@@ -12,7 +25,20 @@ const JobsDetails = ({route, navigation}) => {
     experience,
     designation,
     description,
-  } = route?.params?.myJobs[route?.params?.index];
+  } = route?.params?.myJobsStudents[route?.params?.index];
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    console.log(uid);
+    database()
+      .ref(`NewUsers/${uid}`)
+      .on('value', (snapshot) => {
+        const user = snapshot.val();
+        const newUser = user.selectedValue;
+        console.log('Curr User Roll: ', newUser);
+        setUserRoll(newUser);
+      });
+  });
 
   return (
     <View style={style.container}>

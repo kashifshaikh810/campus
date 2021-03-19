@@ -16,6 +16,7 @@ import DeleteButton from '../../ScreensMaterials/JobsDetailsMaterial/DetailsButt
 const JobsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [myJobs, setMyJobs] = useState([]);
+  const [myJobsStudents, setMyJobsStudents] = useState([]);
   const [userRoll, setUserRoll] = useState();
 
   const disableBackButton = () => {
@@ -24,8 +25,6 @@ const JobsScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    // const roll = myLogin;
-    // setUserRoll(roll.selectedValue);
     const uid = firebase.auth().currentUser?.uid;
     console.log(uid);
     database()
@@ -40,7 +39,6 @@ const JobsScreen = ({navigation}) => {
 
   useEffect(() => {
     setIsLoading(true);
-    // if (userRoll === 'Student') {
     database()
       .ref('/addJobs/')
       .on('value', (snapshot) => {
@@ -54,35 +52,40 @@ const JobsScreen = ({navigation}) => {
             allJobs.push(job);
           });
         });
+        setMyJobsStudents(allJobs);
         setIsLoading(false);
-        setMyJobs(allJobs);
       });
-    // }
+  }, []);
 
-    // try {
-    //   if (userRoll === 'Company') {
-    //     const uid = firebase.auth().currentUser?.uid;
-    //     database()
-    //       .ref(`/addJobs/${uid}`)
-    //       .on('value', (snapshot) => {
-    //         const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
-    //         setMyJobs(mySnaap);
-    //         console.log(Object.keys(mySnaap));
-    //         setIsLoading(false);
-    //       });
-    //     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
-    //   } else {
-    //     null;
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    //   setIsLoading(false);
-    // }
+  useEffect(() => {
+    setIsLoading(true);
+    try {
+      const uid = firebase.auth().currentUser?.uid;
+      database()
+        .ref(`/addJobs/${uid}`)
+        .on('value', (snapshot) => {
+          const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
+          setMyJobs(mySnaap);
+          console.log(Object.keys(mySnaap));
+          setIsLoading(false);
+        });
+      BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
   }, []);
 
   const jobDetail = (index) => {
     navigation.navigate('JobsDetails', {
       myJobs: myJobs,
+      index: index,
+    });
+  };
+
+  const jobsDetails = (index) => {
+    navigation.navigate('JobsDetails', {
+      myJobsStudents: myJobsStudents,
       index: index,
     });
   };
@@ -98,40 +101,83 @@ const JobsScreen = ({navigation}) => {
         <View style={style.mainCard}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <JobImg />
-            {isLoading ? (
-              <View style={style.loader}>
-                <ActivityIndicator size={40} color="green" />
-              </View>
+            {userRoll === 'Company' ? (
+              isLoading ? (
+                <View style={style.loader}>
+                  <ActivityIndicator size={40} color="green" />
+                </View>
+              ) : (
+                myJobs.map((applyJob, index) => {
+                  return (
+                    <>
+                      <TouchableOpacity
+                        style={style.touchAbleContent}
+                        onPress={() => jobDetail(index)}>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Job Title : {applyJob.jobTitle}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Salary Package : {applyJob.salaryPackage}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Requirement : {applyJob.requirement}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Experience : {applyJob.experience}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Designation : {applyJob.designation}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Description : {applyJob.description}
+                        </Text>
+                      </TouchableOpacity>
+                      {userRoll === 'Company' ? <DeleteButton /> : <></>}
+                    </>
+                  );
+                })
+              )
             ) : (
-              myJobs.map((applyJob, index) => {
-                return (
-                  <>
-                    <TouchableOpacity
-                      style={style.touchAbleContent}
-                      onPress={() => jobDetail(index)}>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Job Title : {applyJob.jobTitle}
-                      </Text>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Salary Package : {applyJob.salaryPackage}
-                      </Text>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Requirement : {applyJob.requirement}
-                      </Text>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Experience : {applyJob.experience}
-                      </Text>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Designation : {applyJob.designation}
-                      </Text>
-                      <Text numberOfLines={1} style={style.teXt}>
-                        Description : {applyJob.description}
-                      </Text>
-                    </TouchableOpacity>
-                    {userRoll === 'Company' ? <DeleteButton /> : <></>}
-                  </>
-                );
-              })
+              []
+            )}
+
+            {userRoll === 'Student' ? (
+              isLoading ? (
+                <View style={style.loader}>
+                  <ActivityIndicator size={40} color="green" />
+                </View>
+              ) : (
+                myJobsStudents.map((applyJob, index) => {
+                  return (
+                    <>
+                      <TouchableOpacity
+                        style={style.touchAbleContent}
+                        onPress={() => jobsDetails(index)}>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Job Title : {applyJob.jobTitle}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Salary Package : {applyJob.salaryPackage}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Requirement : {applyJob.requirement}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Experience : {applyJob.experience}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Designation : {applyJob.designation}
+                        </Text>
+                        <Text numberOfLines={1} style={style.teXt}>
+                          Description : {applyJob.description}
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  );
+                })
+              )
+            ) : (
+              []
             )}
 
             <View style={{paddingBottom: wp('4')}} />
