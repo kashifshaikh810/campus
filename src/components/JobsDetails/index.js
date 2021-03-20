@@ -7,36 +7,51 @@ import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 
 const JobsDetails = ({route, navigation}) => {
-  const [userRoll, setUserRoll] = useState();
-
-  // const {
-  //   jobTitle,
-  //   salaryPackage,
-  //   requirement,
-  //   experience,
-  //   designation,
-  //   description,
-  // } = route?.params?.myJobs[route?.params?.index];
-
-  const {
-    jobTitle,
-    salaryPackage,
-    requirement,
-    experience,
-    designation,
-    description,
-  } = route?.params?.myJobsStudents[route?.params?.index];
+  const [myJobTitle, setMyJobTitle] = useState();
+  const [mySalaryPkg, setMySalaryPkg] = useState();
+  const [myRequirement, setMyRequirement] = useState();
+  const [myExperience, setMyExperience] = useState();
+  const [myDesignation, setMyDesignation] = useState();
+  const [myDescription, setMyDescription] = useState();
 
   useEffect(() => {
     const uid = firebase.auth().currentUser?.uid;
-    console.log(uid);
     database()
       .ref(`NewUsers/${uid}`)
       .on('value', (snapshot) => {
         const user = snapshot.val();
         const newUser = user.selectedValue;
-        console.log('Curr User Roll: ', newUser);
-        setUserRoll(newUser);
+        if (newUser === 'Student') {
+          const {
+            jobTitle,
+            salaryPackage,
+            requirement,
+            experience,
+            designation,
+            description,
+          } = route?.params?.myJobsStudents[route?.params?.index];
+          setMyJobTitle(jobTitle);
+          setMySalaryPkg(salaryPackage);
+          setMyRequirement(requirement);
+          setMyExperience(experience);
+          setMyDesignation(designation);
+          setMyDescription(description);
+        } else {
+          const {
+            jobTitle,
+            salaryPackage,
+            requirement,
+            experience,
+            designation,
+            description,
+          } = route?.params?.myJobs[route?.params?.index];
+          setMyJobTitle(jobTitle);
+          setMySalaryPkg(salaryPackage);
+          setMyRequirement(requirement);
+          setMyExperience(experience);
+          setMyDesignation(designation);
+          setMyDescription(description);
+        }
       });
   });
 
@@ -52,7 +67,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.text}>
-            {jobTitle}
+            {myJobTitle}
           </Text>
         </View>
       </View>
@@ -66,7 +81,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.tiTle}>
-            {salaryPackage}
+            {mySalaryPkg}
           </Text>
         </View>
       </View>
@@ -80,7 +95,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.requireTitle}>
-            {requirement}
+            {myRequirement}
           </Text>
         </View>
       </View>
@@ -94,7 +109,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.expeTitle}>
-            {experience}
+            {myExperience}
           </Text>
         </View>
       </View>
@@ -108,7 +123,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={4} style={style.resigTitle}>
-            {designation}
+            {myDesignation}
           </Text>
         </View>
       </View>
@@ -122,7 +137,7 @@ const JobsDetails = ({route, navigation}) => {
         </View>
         <View>
           <Text numberOfLines={5} style={style.descTitle}>
-            {description}
+            {myDescription}
           </Text>
         </View>
       </View>

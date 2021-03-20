@@ -24,12 +24,12 @@ const ProfileScreen = ({navigation}) => {
   const [DateOb] = useState('Your Date Of Birth :');
   const [PickPics, setPickPics] = useState('');
   const [name, setName] = useState('');
-  // const date = 'date';
   const [date, setDate] = useState(new Date());
   const [education, setEducation] = useState('');
   const [Pics, setPics] = useState('');
   const [cvPic, setCvPic] = useState('');
   const [showPic, setShowPic] = useState('');
+  const [myCurrDateOfBirth, setMyCurrDateOfBirth] = useState();
   const [isLoading, setIsLoading] = useState(false);
   // const [cvPic, setCvPic] = useState('');
   const storageRef = storage().ref(
@@ -52,12 +52,13 @@ const ProfileScreen = ({navigation}) => {
         const myCurrPic = snap ? snap.downloadURL : '';
         const myCurrCvPic = snap ? snap.myDownloadURL : '';
         const myName = snap ? snap.name : '';
+        const myDatOfBirth = snap ? snap.date : '';
         const myEducation = snap ? snap.education : '';
         setName(myName);
         setEducation(myEducation);
         setShowPic(myCurrPic);
         setCvPic(myCurrCvPic);
-        console.log('ddad', snap);
+        console.log('ddad', myDatOfBirth);
         // console.log('sa ', myCurrPic);
         // console.log('User data: ', snap.name);
       });
@@ -105,7 +106,7 @@ const ProfileScreen = ({navigation}) => {
                 .then((myDownloadURL) => {
                   console.log('image ', myDownloadURL);
                   console.log('date is in profile ', date);
-                  database().ref(`/Test/${uid}`).push({
+                  database().ref(`/StudentProfileData/${uid}`).push({
                     downloadURL,
                     name,
                     education,

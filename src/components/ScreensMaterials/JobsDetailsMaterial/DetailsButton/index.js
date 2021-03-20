@@ -20,11 +20,6 @@ const DetailsButton = () => {
         const newUser = user.selectedValue;
         setRoll(newUser);
       });
-    if (BtnTxt) {
-      setBtnTxt();
-    } else {
-      <></>;
-    }
   });
 
   return (

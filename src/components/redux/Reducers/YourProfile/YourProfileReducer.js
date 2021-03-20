@@ -5,12 +5,12 @@ const initialState = {
 };
 
 const yourProfileReducer = (state = initialState, action) => {
+  console.log('Checkeddd ', action.pro);
   switch (action.type) {
     case YOUR_PROFILE:
-      // return {
-      //   ProfileData: action.pro,
-      // };
-      console.log('Checkeddd ', action.pro);
+      return {
+        ProfileData: action.pro,
+      };
     default:
       return state;
   }
