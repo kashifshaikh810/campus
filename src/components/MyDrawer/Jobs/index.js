@@ -15,6 +15,7 @@ import DeleteButton from '../../ScreensMaterials/JobsDetailsMaterial/DetailsButt
 
 const JobsScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isStudentLoading, setIsStudentLoading] = useState(false);
   const [myJobs, setMyJobs] = useState([]);
   const [myJobsStudents, setMyJobsStudents] = useState([]);
   const [userRoll, setUserRoll] = useState();
@@ -38,23 +39,29 @@ const JobsScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    database()
-      .ref('/addJobs/')
-      .on('value', (snapshot) => {
-        const mySnaap = snapshot.val();
-        const newSnaap = Object.values(mySnaap);
-        let allJobs = [];
-        newSnaap.forEach((tex, i) => {
-          const aa = Object.values(tex);
-          const newData = Object.values(aa);
-          newData?.forEach((job) => {
-            allJobs.push(job);
+    setIsStudentLoading(true);
+    try{
+      database()
+        .ref('/addJobs/')
+        .on('value', (snapshot) => {
+          const mySnaap = snapshot.val();
+          const newSnaap = Object.values(mySnaap);
+          // console.log("this is keyys ", Object.keys(mySnaap))
+          let allJobs = [];
+          newSnaap.forEach((tex, i) => {
+            const aa = Object.values(tex);
+            const newData = Object.values(aa);
+            newData?.forEach((job) => {
+              allJobs.push(job);
+               setIsStudentLoading(false);
+            });
           });
-        });
-        setMyJobsStudents(allJobs);
-        setIsLoading(false);
+          setMyJobsStudents(allJobs);
       });
+    }catch(err){
+      console.log(err);
+      setIsStudentLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -64,9 +71,10 @@ const JobsScreen = ({navigation}) => {
       database()
         .ref(`/addJobs/${uid}`)
         .on('value', (snapshot) => {
-          const mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
+          let mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
+          let pushKeys = snapshot.val() ? Object.keys(snapshot.val()) : [];
+          mySnaap = mySnaap.map((val, i) => ({...val, pushKey: pushKeys[i]}))
           setMyJobs(mySnaap);
-          console.log(Object.keys(mySnaap));
           setIsLoading(false);
         });
       BackHandler.addEventListener('hardwareBackPress', disableBackButton);
@@ -132,7 +140,7 @@ const JobsScreen = ({navigation}) => {
                           Description : {applyJob.description}
                         </Text>
                       </TouchableOpacity>
-                      {userRoll === 'Company' ? <DeleteButton /> : <></>}
+                      {userRoll === 'Company' ? <DeleteButton applyJob={applyJob} /> : <></>}
                     </>
                   );
                 })
@@ -142,7 +150,7 @@ const JobsScreen = ({navigation}) => {
             )}
 
             {userRoll === 'Student' ? (
-              isLoading ? (
+              isStudentLoading ? (
                 <View style={style.loader}>
                   <ActivityIndicator size={40} color="green" />
                 </View>

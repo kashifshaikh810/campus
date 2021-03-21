@@ -1,18 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import style from '../../../JobsDetails/style';
-// import {useSelector} from 'react-redux';
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
 
 const DetailsButton = () => {
   const [BtnTxt, setBtnTxt] = useState(true);
   const [roll, setRoll] = useState();
-  // const myLogin = useSelector((state) => state.myLog.LoginData);
 
   useEffect(() => {
     const uid = firebase.auth().currentUser?.uid;
-    console.log(uid);
     database()
       .ref(`NewUsers/${uid}`)
       .on('value', (snapshot) => {
@@ -22,10 +19,16 @@ const DetailsButton = () => {
       });
   });
 
+  const applyBtn = () => {
+    const uid = firebase.auth().currentUser?.uid;
+    database().ref('/applicants/').set({uid});
+    setBtnTxt()
+  }
+
   return (
     <>
       {roll === 'Student' ? (
-        <TouchableOpacity onPress={() => setBtnTxt()} disabled={!BtnTxt}>
+        <TouchableOpacity onPress={applyBtn} disabled={!BtnTxt}>
           <View style={style.btnContainer}>
             <Text style={style.btnText}>
               {BtnTxt ? 'Apply' : 'Applyed Success!'}

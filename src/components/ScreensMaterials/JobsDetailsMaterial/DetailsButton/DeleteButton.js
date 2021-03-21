@@ -3,9 +3,10 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import style from '../../../JobsDetails/style';
 import {useSelector} from 'react-redux';
 import database from '@react-native-firebase/database';
+import {firebase} from '@react-native-firebase/auth';
 
-const DeleteButton = () => {
-  const [BtnTxt, setBtnTxt] = useState(true);
+const DeleteButton = (props) => {
+  const [BtnTxt] = useState('Delete');
   const [roll, setRoll] = useState();
   const myLogin = useSelector((state) => state.myLog.LoginData);
 
@@ -14,18 +15,16 @@ const DeleteButton = () => {
     setRoll(rull.selectedValue);
   });
 
-  const handleSubmit = () => {
-    console.log('work');
-    setBtnTxt(false);
-    const newPostKey = database().ref().child('addJobs').push().key;
-    // const updates = ['/addJobs/' + newPostKey];
-    database().ref().update(`/addJobs/${newPostKey}`);
+  const deleteJob = () => {
+    const {applyJob} = props;
+    const uid = firebase.auth().currentUser?.uid;
+    database().ref(`/addJobs/${uid}/${applyJob.pushKey}`).remove()
   };
 
   return (
-    <TouchableOpacity onPress={handleSubmit} disabled={!BtnTxt}>
+    <TouchableOpacity onPress={deleteJob}>
       <View style={style.btnContainer}>
-        <Text style={style.btnText}>{BtnTxt ? 'Delete' : 'Deleted....!'}</Text>
+        <Text style={style.btnText}>{BtnTxt}</Text>
       </View>
     </TouchableOpacity>
   );
