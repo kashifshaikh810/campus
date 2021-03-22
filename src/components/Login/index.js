@@ -37,8 +37,8 @@ const SignIn = ({navigation}) => {
       dispatch(userLogin({email, password}));
       setEmail('');
       setPassword('');
-      navigation.navigate('DrawerNav');
       setIsLoading(false);
+      navigation.navigate('DrawerNav');
     } catch (err) {
       console.log(err.message, 'err');
       setErrMsg(err?.message);

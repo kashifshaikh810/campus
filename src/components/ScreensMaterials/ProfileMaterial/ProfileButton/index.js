@@ -59,7 +59,10 @@ const ProfileCv = ({Pics, setPics, cvPic}) => {
         <Text style={style.cvMain}>Attach Your Cv...</Text>
       </TouchableOpacity>
       <View style={style.selectedImg}>
-        <Image source={cvPic ? {uri: cvPic} : myImage} style={style.selected} />
+        <Image
+          source={cvPic ? (show ? {uri: cvPic} : Pics) : myImage}
+          style={style.selected}
+        />
       </View>
     </View>
   );

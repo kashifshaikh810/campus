@@ -15,15 +15,16 @@ const DetailsButton = () => {
       .on('value', (snapshot) => {
         const user = snapshot.val();
         const newUser = user.selectedValue;
+        console.log('data ', user);
         setRoll(newUser);
       });
   });
 
   const applyBtn = () => {
     const uid = firebase.auth().currentUser?.uid;
-    database().ref('/applicants/').set({uid});
-    setBtnTxt()
-  }
+    database().ref(`/applicants/${uid}`).set({});
+    setBtnTxt();
+  };
 
   return (
     <>

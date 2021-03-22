@@ -64,10 +64,10 @@ const CompanyProfileScreen = ({navigation}) => {
     database()
       .ref(`/CompanyData/${uid}`)
       .on('value', (snapshot) => {
-        const newAppliedJobs = snapshot.val()
+        let newAppliedJobs = snapshot.val()
           ? Object.values(snapshot.val())
           : [];
-        const [data] = newAppliedJobs;
+        let [data] = newAppliedJobs;
         dispatch(companyProfile(data));
         setIsLoading(false);
       });

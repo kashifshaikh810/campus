@@ -33,15 +33,20 @@ const SignUp = ({navigation}) => {
     if (firstName && lastName && email && password) {
       setIsLoading(true);
       try {
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
-        const uid = firebase.auth().currentUser?.uid;
-        database().ref(`/NewUsers/${uid}`).set({
-          firstName,
-          lastName,
-          email,
-          password,
-          selectedValue,
-        });
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((data) => {
+            console.log('data ', data.user.uid);
+          });
+        // const uid = firebase.auth().currentUser?.uid;
+        // database().ref(`/NewUsers/${uid}`).set({
+        //   firstName,
+        //   lastName,
+        //   email,
+        //   password,
+        //   selectedValue,
+        // });
         setFirstName('');
         setLastName('');
         setEmail('');

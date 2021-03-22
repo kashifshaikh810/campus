@@ -43,22 +43,25 @@ const ProfileScreen = ({navigation}) => {
   };
 
   useEffect(() => {
+    console.log('dateeee', date);
     const uid = firebase.auth().currentUser?.uid;
     database()
       .ref(`/StudentProfileData/${uid}`)
       .on('value', (snapshot) => {
-        const newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
-        const [snap] = newSnap;
-        const myCurrPic = snap ? snap.downloadURL : '';
-        const myCurrCvPic = snap ? snap.myDownloadURL : '';
-        const myName = snap ? snap.name : '';
-        const myDatOfBirth = snap ? snap.date : '';
-        const myEducation = snap ? snap.education : '';
+        let newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
+        let [snap] = newSnap;
+        let myCurrPic = snap ? snap.downloadURL : '';
+        let myCurrCvPic = snap ? snap.myDownloadURL : '';
+        let myName = snap ? snap.name : '';
+        let myDatOfBirth = snap ? snap.date : '';
+        let myEducation = snap ? snap.education : '';
+        // let data = myDatOfBirth.toISOString().split('t')[0];
         setName(myName);
         setEducation(myEducation);
         setShowPic(myCurrPic);
         setCvPic(myCurrCvPic);
-        console.log('ddad', myDatOfBirth);
+        // setDate(myDatOfBirth);
+        console.log('dataaa', myDatOfBirth);
         // console.log('sa ', myCurrPic);
         // console.log('User data: ', snap.name);
       });
@@ -99,7 +102,8 @@ const ProfileScreen = ({navigation}) => {
           try {
             cvTask.then((imageSnapshot) => {
               console.log('Image Upload Successfully');
-              let abc = date.toISOString().split('t')[0];
+              console.log('dateeee ', date);
+              let abc = date ? date?.toISOString()?.split('t')[0] : [];
               storage()
                 .ref(imageSnapshot.metadata.fullPath)
                 .getDownloadURL()

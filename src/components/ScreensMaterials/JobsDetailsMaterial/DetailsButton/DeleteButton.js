@@ -18,7 +18,8 @@ const DeleteButton = (props) => {
   const deleteJob = () => {
     const {applyJob} = props;
     const uid = firebase.auth().currentUser?.uid;
-    database().ref(`/addJobs/${uid}/${applyJob.pushKey}`).remove()
+    database().ref(`/addJobs/${uid}/${applyJob.pushKey}`).remove();
+    alert('Job deleted... !');
   };
 
   return (

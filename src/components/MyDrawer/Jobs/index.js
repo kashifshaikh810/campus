@@ -31,8 +31,8 @@ const JobsScreen = ({navigation}) => {
     database()
       .ref(`NewUsers/${uid}`)
       .on('value', (snapshot) => {
-        const user = snapshot.val();
-        const newUser = user.selectedValue;
+        let user = snapshot.val();
+        let newUser = user.selectedValue;
         console.log('Curr User Roll: ', newUser);
         setUserRoll(newUser);
       });
@@ -40,25 +40,24 @@ const JobsScreen = ({navigation}) => {
 
   useEffect(() => {
     setIsStudentLoading(true);
-    try{
+    try {
       database()
         .ref('/addJobs/')
         .on('value', (snapshot) => {
           const mySnaap = snapshot.val();
-          const newSnaap = Object.values(mySnaap);
-          // console.log("this is keyys ", Object.keys(mySnaap))
+          const newSnaap = mySnaap ? Object.values(mySnaap) : [];
           let allJobs = [];
           newSnaap.forEach((tex, i) => {
             const aa = Object.values(tex);
             const newData = Object.values(aa);
             newData?.forEach((job) => {
               allJobs.push(job);
-               setIsStudentLoading(false);
+              setIsStudentLoading(false);
             });
           });
           setMyJobsStudents(allJobs);
-      });
-    }catch(err){
+        });
+    } catch (err) {
       console.log(err);
       setIsStudentLoading(false);
     }
@@ -73,7 +72,7 @@ const JobsScreen = ({navigation}) => {
         .on('value', (snapshot) => {
           let mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
           let pushKeys = snapshot.val() ? Object.keys(snapshot.val()) : [];
-          mySnaap = mySnaap.map((val, i) => ({...val, pushKey: pushKeys[i]}))
+          mySnaap = mySnaap.map((val, i) => ({...val, pushKey: pushKeys[i]}));
           setMyJobs(mySnaap);
           setIsLoading(false);
         });
@@ -140,7 +139,11 @@ const JobsScreen = ({navigation}) => {
                           Description : {applyJob.description}
                         </Text>
                       </TouchableOpacity>
-                      {userRoll === 'Company' ? <DeleteButton applyJob={applyJob} /> : <></>}
+                      {userRoll === 'Company' ? (
+                        <DeleteButton applyJob={applyJob} />
+                      ) : (
+                        <></>
+                      )}
                     </>
                   );
                 })
@@ -180,6 +183,9 @@ const JobsScreen = ({navigation}) => {
                           Description : {applyJob.description}
                         </Text>
                       </TouchableOpacity>
+                      <View>
+                        <Text style={{textAlign: 'center'}}>Posted By </Text>
+                      </View>
                     </>
                   );
                 })
