@@ -15,7 +15,6 @@ const DetailsButton = () => {
       .on('value', (snapshot) => {
         const user = snapshot.val();
         const newUser = user.selectedValue;
-        console.log('data ', user);
         setRoll(newUser);
       });
   });

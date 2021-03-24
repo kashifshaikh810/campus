@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ActivityIndicator, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  BackHandler,
+  TouchableHighlight,
+} from 'react-native';
 import style from './style';
 import JobsHeader from '../../ScreensMaterials/Headerss/JobsHeader/JobsHeader';
 import JobImg from '../../ScreensMaterials/JobsMaterial/JobsImage/index';
@@ -162,6 +168,7 @@ const JobsScreen = ({navigation}) => {
                   return (
                     <>
                       <TouchableOpacity
+                        activeOpacity={0.8}
                         style={style.touchAbleContent}
                         onPress={() => jobsDetails(index)}>
                         <Text numberOfLines={1} style={style.teXt}>
@@ -183,8 +190,22 @@ const JobsScreen = ({navigation}) => {
                           Description : {applyJob.description}
                         </Text>
                       </TouchableOpacity>
-                      <View>
-                        <Text style={{textAlign: 'center'}}>Posted By </Text>
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            textAlign: 'center',
+                            color: 'white',
+                            width: wp('50'),
+                            borderRadius: wp('30'),
+                            backgroundColor: '#b3b3b3',
+                            marginTop: wp('1'),
+                          }}>
+                          Posted By {applyJob.myFirstName} {applyJob.myLastName}
+                        </Text>
                       </View>
                     </>
                   );

@@ -31,7 +31,15 @@ const ProfileImage = ({PickPics, setPickPics, showPic}) => {
     <TouchableOpacity style={style.imgContainer} onPress={upload}>
       <View>
         <Image
-          source={showPic ? (show ? {uri: showPic} : PickPics) : myImage}
+          source={
+            showPic
+              ? show
+                ? {uri: showPic}
+                : PickPics
+              : myImage && show
+              ? myImage
+              : PickPics
+          }
           style={style.img}
         />
       </View>

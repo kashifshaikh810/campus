@@ -7,7 +7,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('90'),
+    height: hp('95'),
   },
   img: {
     width: hp('15'),
@@ -96,5 +96,9 @@ export default StyleSheet.create({
   cvMain: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  errStyle: {
+    textAlign: 'center',
+    color: 'red',
   },
 });

@@ -63,4 +63,9 @@ export default StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  errStyle: {
+    textAlign: 'center',
+    color: 'red',
+    marginTop: 5,
+  },
 });

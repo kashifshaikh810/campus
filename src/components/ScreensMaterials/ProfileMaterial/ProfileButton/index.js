@@ -9,6 +9,7 @@ import {
 import style from '../../../MyDrawer/Profile/style';
 import DocumentPicker from 'react-native-document-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ImageModal from 'react-native-image-modal';
 
 const ProfileButton = ({isLoading, Submit, disabled}) => {
   const [BtnText] = useState('Save');
@@ -60,7 +61,15 @@ const ProfileCv = ({Pics, setPics, cvPic}) => {
       </TouchableOpacity>
       <View style={style.selectedImg}>
         <Image
-          source={cvPic ? (show ? {uri: cvPic} : Pics) : myImage}
+          source={
+            cvPic
+              ? show
+                ? {uri: cvPic}
+                : Pics
+              : myImage && show
+              ? myImage
+              : Pics
+          }
           style={style.selected}
         />
       </View>

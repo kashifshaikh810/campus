@@ -29,6 +29,7 @@ const ProfileScreen = ({navigation}) => {
   const [Pics, setPics] = useState('');
   const [cvPic, setCvPic] = useState('');
   const [showPic, setShowPic] = useState('');
+  const [showErr, setShowErr] = useState('');
   const [myCurrDateOfBirth, setMyCurrDateOfBirth] = useState();
   const [isLoading, setIsLoading] = useState(false);
   // const [cvPic, setCvPic] = useState('');
@@ -60,7 +61,7 @@ const ProfileScreen = ({navigation}) => {
         setEducation(myEducation);
         setShowPic(myCurrPic);
         setCvPic(myCurrCvPic);
-        // setDate(myDatOfBirth);
+        // setDate(new Date(myDatOfBirth));
         console.log('dataaa', myDatOfBirth);
         // console.log('sa ', myCurrPic);
         // console.log('User data: ', snap.name);
@@ -69,64 +70,72 @@ const ProfileScreen = ({navigation}) => {
   }, []);
 
   const SubmitBtn = async () => {
-    setIsLoading(true);
-    const myCvPic = Pics.uri;
-    const cvResult = await RNFetchBlob.fs.readFile(myCvPic, 'base64');
-    const cvTask = storageCv.putString(cvResult, 'base64', {
-      contentType: Pics.type,
-    });
-    cvTask.on('state_changed', (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-      );
-    });
+    if (name && date && education) {
+      setIsLoading(true);
+      const myCvPic = Pics.uri;
+      const cvResult = await RNFetchBlob.fs.readFile(myCvPic, 'base64');
+      const cvTask = storageCv.putString(cvResult, 'base64', {
+        contentType: Pics.type,
+      });
+      cvTask.on('state_changed', (taskSnapshot) => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
 
-    const myPicOrg = PickPics.uri;
-    const result = await RNFetchBlob.fs.readFile(myPicOrg, 'base64');
-    const task = storageRef.putString(result, 'base64', {
-      contentType: PickPics.type,
-    });
-    task.on('state_changed', (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-      );
-    });
-    await task.then((imageSnapshot) => {
-      console.log('Image Upload Successfully');
-      storage()
-        .ref(imageSnapshot.metadata.fullPath)
-        .getDownloadURL()
-        .then((downloadURL) => {
-          console.log('image ', downloadURL);
-          const uid = firebase.auth().currentUser?.uid;
-          try {
-            cvTask.then((imageSnapshot) => {
-              console.log('Image Upload Successfully');
-              console.log('dateeee ', date);
-              let abc = date ? date?.toISOString()?.split('t')[0] : [];
-              storage()
-                .ref(imageSnapshot.metadata.fullPath)
-                .getDownloadURL()
-                .then((myDownloadURL) => {
-                  console.log('image ', myDownloadURL);
-                  console.log('date is in profile ', date);
-                  database().ref(`/StudentProfileData/${uid}`).push({
-                    downloadURL,
-                    name,
-                    education,
-                    myDownloadURL,
-                    date: abc,
+      const myPicOrg = PickPics.uri;
+      const result = await RNFetchBlob.fs.readFile(myPicOrg, 'base64');
+      const task = storageRef.putString(result, 'base64', {
+        contentType: PickPics.type,
+      });
+      task.on('state_changed', (taskSnapshot) => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
+      await task.then((imageSnapshot) => {
+        console.log('Image Upload Successfully');
+        storage()
+          .ref(imageSnapshot.metadata.fullPath)
+          .getDownloadURL()
+          .then((downloadURL) => {
+            console.log('image ', downloadURL);
+            const uid = firebase.auth().currentUser?.uid;
+            try {
+              cvTask.then((imageSnapshot) => {
+                console.log('Image Upload Successfully');
+                console.log('dateeee ', date);
+                let abc = date ? date?.toISOString()?.split('t')[0] : [];
+                storage()
+                  .ref(imageSnapshot.metadata.fullPath)
+                  .getDownloadURL()
+                  .then((myDownloadURL) => {
+                    console.log('image ', myDownloadURL);
+                    console.log('date is in profile ', date);
+                    database().ref(`/StudentProfileData/${uid}`).push({
+                      downloadURL,
+                      name,
+                      education,
+                      myDownloadURL,
+                      date: abc,
+                    });
                   });
-                });
-            });
-            setIsLoading(false);
-            alert('Your Data is Now Saved');
-          } catch (err) {
-            console.log(err);
-            setIsLoading(false);
-          }
-        });
-    });
+              });
+              setIsLoading(false);
+              alert('Your Data is Now Saved');
+            } catch (err) {
+              console.log(err);
+              setIsLoading(false);
+            }
+          });
+      });
+    } else {
+      setShowErr('All Fields Are Required');
+    }
+  };
+
+  const handleChange = () => {
+    setShowErr('');
   };
 
   return (
@@ -154,6 +163,7 @@ const ProfileScreen = ({navigation}) => {
               onChangeText={(text) => setName(text)}
               placeholderTextColor="green"
               keyboardType="name-phone-pad"
+              onChange={handleChange}
             />
           </View>
 
@@ -182,16 +192,19 @@ const ProfileScreen = ({navigation}) => {
               onChangeText={(text) => setEducation(text)}
               placeholderTextColor="green"
               keyboardType="name-phone-pad"
+              onChange={handleChange}
             />
           </View>
         </View>
 
         <ProfileCv Pics={Pics} setPics={setPics} cvPic={cvPic} />
 
+        <Text style={style.errStyle}>{showErr}</Text>
+
         <ProfileButton
           Submit={SubmitBtn}
           isLoading={isLoading}
-          disabled={!name || !education}
+          disabled={!name}
         />
       </View>
     </KeyboardAwareScrollView>

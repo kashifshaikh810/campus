@@ -15,8 +15,23 @@ const AddJobs = ({navigation}) => {
   const [requirement, setRequirement] = useState('');
   const [designation, setDesignation] = useState('');
   const [description, setDescription] = useState('');
-  const [experience, setExperience] = useState('beginner');
+  const [experience, setExperience] = useState('Beginner');
   const [showErr, setShowErr] = useState('');
+  const [myFirstName, setMyFirstName] = useState('');
+  const [myLastName, setMyLastName] = useState('');
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser?.uid;
+    database()
+      .ref(`/NewUsers/${uid}`)
+      .on('value', (snapshot) => {
+        let mySnap = snapshot.val();
+        let firstName = mySnap.firstName;
+        let lastName = mySnap.lastName;
+        setMyFirstName(firstName);
+        setMyLastName(lastName);
+      });
+  }, []);
 
   const handleSubmit = () => {
     try {
@@ -35,6 +50,8 @@ const AddJobs = ({navigation}) => {
           experience,
           designation,
           description,
+          myFirstName,
+          myLastName,
         });
         setJobTitle('');
         setSalaryPackage('');
@@ -126,9 +143,7 @@ const AddJobs = ({navigation}) => {
           />
         </View>
         <View>
-          <Text style={{textAlign: 'center', color: 'red', marginTop: 5}}>
-            {showErr}
-          </Text>
+          <Text style={style.errStyle}>{showErr}</Text>
         </View>
         <AddJobsButton handleSubmit={handleSubmit} disabled={!jobTitle} />
       </View>
