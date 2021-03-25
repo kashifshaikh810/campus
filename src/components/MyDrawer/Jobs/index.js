@@ -39,7 +39,6 @@ const JobsScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         let user = snapshot.val();
         let newUser = user.selectedValue;
-        console.log('Curr User Roll: ', newUser);
         setUserRoll(newUser);
       });
   }, []);
@@ -58,10 +57,10 @@ const JobsScreen = ({navigation}) => {
             const newData = Object.values(aa);
             newData?.forEach((job) => {
               allJobs.push(job);
-              setIsStudentLoading(false);
             });
           });
           setMyJobsStudents(allJobs);
+          setIsStudentLoading(false);
         });
     } catch (err) {
       console.log(err);
@@ -76,8 +75,9 @@ const JobsScreen = ({navigation}) => {
       database()
         .ref(`/addJobs/${uid}`)
         .on('value', (snapshot) => {
-          let mySnaap = snapshot.val() ? Object.values(snapshot.val()) : [];
-          let pushKeys = snapshot.val() ? Object.keys(snapshot.val()) : [];
+          let snapVal = snapshot.val();
+          let mySnaap = snapVal ? Object.values(snapshot.val()) : [];
+          let pushKeys = snapVal ? Object.keys(snapshot.val()) : [];
           mySnaap = mySnaap.map((val, i) => ({...val, pushKey: pushKeys[i]}));
           setMyJobs(mySnaap);
           setIsLoading(false);
@@ -106,7 +106,6 @@ const JobsScreen = ({navigation}) => {
   if (!firebase?.auth().currentUser?.uid) {
     navigation.navigate('LogIn');
   }
-
   return (
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <View style={style.container}>
@@ -190,20 +189,8 @@ const JobsScreen = ({navigation}) => {
                           Description : {applyJob.description}
                         </Text>
                       </TouchableOpacity>
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            textAlign: 'center',
-                            color: 'white',
-                            width: wp('50'),
-                            borderRadius: wp('30'),
-                            backgroundColor: '#b3b3b3',
-                            marginTop: wp('1'),
-                          }}>
+                      <View style={style.posterName}>
+                        <Text style={style.poster}>
                           Posted By {applyJob.myFirstName} {applyJob.myLastName}
                         </Text>
                       </View>

@@ -67,4 +67,16 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#00ff00',
   },
+  posterName: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  poster: {
+    textAlign: 'center',
+    color: 'white',
+    width: wp('50'),
+    borderRadius: wp('30'),
+    backgroundColor: '#b3b3b3',
+    marginTop: wp('0.3'),
+  },
 });

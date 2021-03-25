@@ -19,13 +19,14 @@ export default DetailsHeader;
 
 const style = StyleSheet.create({
   container: {
+    height: 40,
     width: '100%',
     backgroundColor: 'green',
   },
   txtContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
   },
   mainTxt: {
     color: 'white',

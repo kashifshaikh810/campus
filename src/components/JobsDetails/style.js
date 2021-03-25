@@ -7,13 +7,13 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#b3b3b3',
     height: hp('95'),
   },
   containerTwo: {
-    flex: 1,
     flexDirection: 'row',
-    marginTop: 10,
-    marginLeft: 10,
+    marginTop: wp('2'),
+    marginLeft: wp('1'),
   },
   arrowContainer: {
     flex: 1,
@@ -30,11 +30,11 @@ export default StyleSheet.create({
     position: 'relative',
   },
   backIcon: {
+    height: 50,
     marginTop: wp('2'),
     color: '#f1f1f1',
   },
   num: {
-    flex: 1,
     flexDirection: 'row',
     fontSize: 17,
   },
@@ -42,18 +42,17 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 96,
+    width: wp('30.5'),
   },
   text: {
     color: 'black',
-    padding: 4,
+    padding: 1,
     fontSize: 17,
-    maxWidth: wp('67'),
+    maxWidth: wp('90'),
   },
   containerThree: {
-    flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
+    marginLeft: wp('1'),
   },
   numTwo: {
     fontSize: 17,
@@ -62,17 +61,32 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 100,
+  },
+  card: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardChild: {
+    borderWidth: 1,
+    borderColor: 'green',
+    backgroundColor: '#f1f1f1',
+    width: wp('95'),
+    borderRadius: 20,
+    padding: wp('2'),
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
   },
   tiTle: {
-    padding: 2,
+    padding: 1,
     fontSize: 17,
     maxWidth: wp('55'),
   },
   containerFour: {
-    flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
+    marginLeft: wp('1'),
   },
   numThree: {
     fontSize: 17,
@@ -81,17 +95,16 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 100,
+    width: wp('30.5'),
   },
   requireTitle: {
-    padding: 2,
+    padding: 1,
     fontSize: 17,
     maxWidth: wp('58'),
   },
   containerFive: {
-    flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
+    marginLeft: wp('1'),
   },
   numFour: {
     fontSize: 17,
@@ -100,17 +113,16 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 100,
+    width: wp('30.5'),
   },
   expeTitle: {
-    padding: 2,
+    padding: 1,
     fontSize: 17,
     maxWidth: wp('60'),
   },
   containerSix: {
-    flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
+    marginLeft: wp('1'),
   },
   numSix: {
     fontSize: 17,
@@ -119,17 +131,16 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 100,
+    width: wp('30.5'),
   },
   resigTitle: {
-    padding: 2,
+    padding: 1,
     fontSize: 17,
     maxWidth: wp('60'),
   },
   containerSaven: {
-    flex: 1,
     flexDirection: 'row',
-    marginLeft: 10,
+    marginLeft: wp('1'),
   },
   numSaven: {
     fontSize: 17,
@@ -138,10 +149,10 @@ export default StyleSheet.create({
     padding: 2,
     fontSize: 15,
     fontWeight: 'bold',
-    width: 96,
+    width: wp('30.5'),
   },
   descTitle: {
-    padding: 2,
+    padding: 1,
     fontSize: 17,
     maxWidth: wp('60'),
   },

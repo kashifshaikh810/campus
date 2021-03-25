@@ -6,7 +6,6 @@ import style from '../../../JobsDetails/style';
 const DetailsBackIcon = ({navigation}) => {
   const backToJob = () => {
     navigation.navigate('Jobs');
-    // console.log('back back back  back asajsasklasa');
   };
   return (
     <View style={style.arrowContainer}>

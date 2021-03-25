@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, TextInput, Text, BackHandler, Platform} from 'react-native';
+import {
+  View,
+  TextInput,
+  Text,
+  BackHandler,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
 import ProfileImage from '../../ScreensMaterials/ProfileMaterial/ProfileImage/index';
@@ -30,9 +37,8 @@ const ProfileScreen = ({navigation}) => {
   const [cvPic, setCvPic] = useState('');
   const [showPic, setShowPic] = useState('');
   const [showErr, setShowErr] = useState('');
-  const [myCurrDateOfBirth, setMyCurrDateOfBirth] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  // const [cvPic, setCvPic] = useState('');
+  const [isMyLoading, setIsMyLoading] = useState(false);
   const storageRef = storage().ref(
     `/Dpimages/${PickPics ? PickPics.name : ''}`,
   );
@@ -44,7 +50,7 @@ const ProfileScreen = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log('dateeee', date);
+    setIsMyLoading(true);
     const uid = firebase.auth().currentUser?.uid;
     database()
       .ref(`/StudentProfileData/${uid}`)
@@ -56,15 +62,12 @@ const ProfileScreen = ({navigation}) => {
         let myName = snap ? snap.name : '';
         let myDatOfBirth = snap ? snap.date : '';
         let myEducation = snap ? snap.education : '';
-        // let data = myDatOfBirth.toISOString().split('t')[0];
         setName(myName);
         setEducation(myEducation);
         setShowPic(myCurrPic);
         setCvPic(myCurrCvPic);
-        // setDate(new Date(myDatOfBirth));
-        console.log('dataaa', myDatOfBirth);
-        // console.log('sa ', myCurrPic);
-        // console.log('User data: ', snap.name);
+        myDatOfBirth ? setDate(new Date(myDatOfBirth)) : [];
+        setIsMyLoading(false);
       });
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
@@ -104,14 +107,12 @@ const ProfileScreen = ({navigation}) => {
             try {
               cvTask.then((imageSnapshot) => {
                 console.log('Image Upload Successfully');
-                console.log('dateeee ', date);
                 let abc = date ? date?.toISOString()?.split('t')[0] : [];
                 storage()
                   .ref(imageSnapshot.metadata.fullPath)
                   .getDownloadURL()
                   .then((myDownloadURL) => {
                     console.log('image ', myDownloadURL);
-                    console.log('date is in profile ', date);
                     database().ref(`/StudentProfileData/${uid}`).push({
                       downloadURL,
                       name,
@@ -139,75 +140,83 @@ const ProfileScreen = ({navigation}) => {
   };
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={style.container}>
-        <ProfileHeader navigation={navigation} />
-        <ProfileImage
-          PickPics={PickPics}
-          showPic={showPic}
-          setPickPics={setPickPics}
-        />
-
-        <View>
-          <View style={style.txtContainer}>
-            <AntDesign
-              name="contacts"
-              size={17}
-              color="green"
-              style={style.icon}
-            />
-            <TextInput
-              style={style.text}
-              value={name}
-              placeholder="Your Name"
-              onChangeText={(text) => setName(text)}
-              placeholderTextColor="green"
-              keyboardType="name-phone-pad"
-              onChange={handleChange}
-            />
-          </View>
-
-          <Text style={style.dateOB}>{DateOb}</Text>
-
-          <TouchableOpacity style={style.dateContainer}>
-            <DatePicker
-              date={date}
-              onDateChange={(text) => setDate(text)}
-              mode="date"
-              style={style.datePicker}
-            />
-          </TouchableOpacity>
-
-          <View style={style.txtContainer}>
-            <MaterialCommunityIcons
-              name="cast-education"
-              size={17}
-              color="green"
-              style={style.icon}
-            />
-            <TextInput
-              style={style.text}
-              placeholder="Your Education"
-              value={education}
-              onChangeText={(text) => setEducation(text)}
-              placeholderTextColor="green"
-              keyboardType="name-phone-pad"
-              onChange={handleChange}
-            />
-          </View>
+    <>
+      {isMyLoading ? (
+        <View style={style.loader}>
+          <ActivityIndicator size={40} color="green" />
         </View>
+      ) : (
+        <KeyboardAwareScrollView>
+          <View style={style.container}>
+            <ProfileHeader navigation={navigation} />
+            <ProfileImage
+              PickPics={PickPics}
+              showPic={showPic}
+              setPickPics={setPickPics}
+            />
 
-        <ProfileCv Pics={Pics} setPics={setPics} cvPic={cvPic} />
+            <View>
+              <View style={style.txtContainer}>
+                <AntDesign
+                  name="contacts"
+                  size={17}
+                  color="green"
+                  style={style.icon}
+                />
+                <TextInput
+                  style={style.text}
+                  value={name}
+                  placeholder="Your Name"
+                  onChangeText={(text) => setName(text)}
+                  placeholderTextColor="green"
+                  keyboardType="name-phone-pad"
+                  onChange={handleChange}
+                />
+              </View>
 
-        <Text style={style.errStyle}>{showErr}</Text>
+              <Text style={style.dateOB}>{DateOb}</Text>
 
-        <ProfileButton
-          Submit={SubmitBtn}
-          isLoading={isLoading}
-          disabled={!name}
-        />
-      </View>
-    </KeyboardAwareScrollView>
+              <TouchableOpacity style={style.dateContainer}>
+                <DatePicker
+                  date={date}
+                  onDateChange={(text) => setDate(text)}
+                  mode="date"
+                  style={style.datePicker}
+                />
+              </TouchableOpacity>
+
+              <View style={style.txtContainer}>
+                <MaterialCommunityIcons
+                  name="cast-education"
+                  size={17}
+                  color="green"
+                  style={style.icon}
+                />
+                <TextInput
+                  style={style.text}
+                  placeholder="Your Education"
+                  value={education}
+                  onChangeText={(text) => setEducation(text)}
+                  placeholderTextColor="green"
+                  keyboardType="name-phone-pad"
+                  onChange={handleChange}
+                />
+              </View>
+            </View>
+
+            <ProfileCv Pics={Pics} setPics={setPics} cvPic={cvPic} />
+
+            <Text style={style.errStyle}>{showErr}</Text>
+
+            <ProfileButton
+              Submit={SubmitBtn}
+              isLoading={isLoading}
+              disabled={!name}
+            />
+          </View>
+        </KeyboardAwareScrollView>
+      )}
+    </>
   );
 };
 
