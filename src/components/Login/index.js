@@ -17,7 +17,7 @@ import {firebase} from '@react-native-firebase/auth';
 import {userLogin} from '../redux/Actions/LogIn/LogInAction';
 import {useDispatch, useSelector} from 'react-redux';
 
-const SignIn = ({navigation}) => {
+const SignIn = ({navigation, route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -25,10 +25,12 @@ const SignIn = ({navigation}) => {
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
-    setEmail('');
-    setPassword('');
-    setErrMsg('');
-  }, []);
+    if (route.params?.from === 'signup') {
+      setEmail('');
+      setPassword('');
+      setErrMsg('');
+    }
+  }, [route.params]);
 
   const Submit = async () => {
     setIsLoading(true);

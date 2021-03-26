@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View, Image, ActivityIndicator} from 'react-native';
 import style from '../../../MyDrawer/Profile/style';
 import UploadIcon from 'react-native-vector-icons/Feather';
 import DocumentPicker from 'react-native-document-picker';
@@ -9,7 +9,13 @@ import {
 } from '../../../responsive/responsive';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const ProfileImage = ({PickPics, setPickPics, showPic}) => {
+const ProfileImage = ({
+  PickPics,
+  setPickPics,
+  showPic,
+  updateImages,
+  profilePicLoading,
+}) => {
   const [show, setShow] = useState(true);
   const [myImage] = useState(require('../../../../../assets/pro.jpg'));
   const upload = async () => {
@@ -18,6 +24,7 @@ const ProfileImage = ({PickPics, setPickPics, showPic}) => {
         type: [DocumentPicker.types.allFiles],
       });
       setPickPics(file);
+      updateImages(file);
       setShow(false);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -29,28 +36,36 @@ const ProfileImage = ({PickPics, setPickPics, showPic}) => {
   };
   return (
     <TouchableOpacity style={style.imgContainer} onPress={upload}>
-      <View>
-        <Image
-          source={
-            showPic
-              ? show
-                ? {uri: showPic}
-                : PickPics
-              : myImage && show
-              ? myImage
-              : PickPics
-          }
-          style={style.img}
-        />
-      </View>
-      <View style={styles.uploadIconContainer}>
-        <UploadIcon
-          name="upload"
-          size={25}
-          color="black"
-          style={styles.uploadIcon}
-        />
-      </View>
+      {profilePicLoading ? (
+        <View>
+          <ActivityIndicator size={100} color="green" />
+        </View>
+      ) : (
+        <>
+          <View>
+            <Image
+              source={
+                showPic
+                  ? show
+                    ? {uri: showPic}
+                    : PickPics
+                  : myImage && show
+                  ? myImage
+                  : PickPics
+              }
+              style={style.img}
+            />
+          </View>
+          <View style={styles.uploadIconContainer}>
+            <UploadIcon
+              name="upload"
+              size={25}
+              color="black"
+              style={styles.uploadIcon}
+            />
+          </View>
+        </>
+      )}
     </TouchableOpacity>
   );
 };

@@ -8,7 +8,8 @@ const SignUpNavigation = ({navigation}) => {
   return (
     <View style={style.signupContainer}>
       <Text>{Txt}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('LogIn', {from: 'signup'})}>
         <Text style={style.signupTxt}>{SignUpTxt}</Text>
       </TouchableOpacity>
     </View>

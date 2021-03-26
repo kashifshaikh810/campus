@@ -52,7 +52,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     padding: 4,
     alignSelf: 'center',
-    marginTop: wp('3'),
     backgroundColor: 'green',
     width: '40%',
     borderRadius: 20,
@@ -63,12 +62,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
   selectedImg: {
-    justifyContent: 'center',
+    marginTop: wp('5'),
     alignItems: 'center',
+    justifyContent: 'center',
   },
   selected: {
-    marginTop: wp('2'),
-    width: hp('25'),
+    width: wp('100'),
     height: hp('15'),
   },
   datePicker: {

@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import style from '../../../MyDrawer/Profile/style';
 import DocumentPicker from 'react-native-document-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -36,7 +30,7 @@ const ProfileButton = ({isLoading, Submit, disabled}) => {
   );
 };
 
-const ProfileCv = ({Pics, setPics, cvPic}) => {
+const ProfileCv = ({Pics, setPics, cvPic, saveCvImgUrl, cvPicLoading}) => {
   const [show, setShow] = useState(true);
   const [myImage] = useState(require('../../../../../assets/cv-main.jpg'));
   const cvUpload = async () => {
@@ -45,6 +39,7 @@ const ProfileCv = ({Pics, setPics, cvPic}) => {
         type: [DocumentPicker.types.images],
       });
       setPics(res);
+      saveCvImgUrl(res);
       setShow(false);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
@@ -60,18 +55,25 @@ const ProfileCv = ({Pics, setPics, cvPic}) => {
         <Text style={style.cvMain}>Attach Your Cv...</Text>
       </TouchableOpacity>
       <View style={style.selectedImg}>
-        <Image
-          source={
-            cvPic
-              ? show
-                ? {uri: cvPic}
+        {cvPicLoading ? (
+          <View>
+            <ActivityIndicator size={100} color="green" />
+          </View>
+        ) : (
+          <ImageModal
+            resizeMode="contain"
+            style={style.selected}
+            source={
+              cvPic
+                ? show
+                  ? {uri: cvPic}
+                  : Pics
+                : myImage && show
+                ? myImage
                 : Pics
-              : myImage && show
-              ? myImage
-              : Pics
-          }
-          style={style.selected}
-        />
+            }
+          />
+        )}
       </View>
     </View>
   );

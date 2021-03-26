@@ -18,6 +18,7 @@ import {
 } from '../ScreensMaterials/SignupMaterial/SignUpInputes/index';
 import {firebase} from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 
 const SignUp = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -29,9 +30,6 @@ const SignUp = ({navigation}) => {
   const [errMsg, setErrMsg] = useState('');
   const [showErr, setShowErr] = useState('');
 
-  // .then((data) => {
-  //   console.log('data ', data.user.uid);
-  // });
   const Submit = async () => {
     if (firstName && lastName && email && password) {
       setIsLoading(true);
@@ -50,6 +48,7 @@ const SignUp = ({navigation}) => {
         setEmail('');
         setPassword('');
         setIsLoading(false);
+        await auth().signOut();
         navigation.navigate('LogIn');
       } catch (err) {
         console.log(err, 'error');

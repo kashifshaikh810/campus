@@ -6,6 +6,7 @@ import {
   BackHandler,
   Platform,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import style from './style';
 import ProfileHeader from '../../ScreensMaterials/Headerss/ProfileHeader/index';
@@ -23,6 +24,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import database from '@react-native-firebase/database';
 import {firebase} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
+import ImageModal from 'react-native-image-modal';
 import RNFetchBlob from 'rn-fetch-blob';
 // import {useDispatch} from 'react-redux';
 
@@ -37,6 +39,10 @@ const ProfileScreen = ({navigation}) => {
   const [cvPic, setCvPic] = useState('');
   const [showPic, setShowPic] = useState('');
   const [showErr, setShowErr] = useState('');
+  const [profilePic, setProfilePic] = useState('');
+  const [cvPicture, setCvPicture] = useState('');
+  const [profilePicLoading, setprofilePicLoading] = useState(false);
+  const [cvPicLoading, setCvPicLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMyLoading, setIsMyLoading] = useState(false);
   const storageRef = storage().ref(
@@ -55,13 +61,12 @@ const ProfileScreen = ({navigation}) => {
     database()
       .ref(`/StudentProfileData/${uid}`)
       .on('value', (snapshot) => {
-        let newSnap = snapshot.val() ? Object.values(snapshot.val()) : [];
-        let [snap] = newSnap;
-        let myCurrPic = snap ? snap.downloadURL : '';
-        let myCurrCvPic = snap ? snap.myDownloadURL : '';
-        let myName = snap ? snap.name : '';
-        let myDatOfBirth = snap ? snap.date : '';
-        let myEducation = snap ? snap.education : '';
+        let newSnap = snapshot.val();
+        let myCurrPic = newSnap ? newSnap.downloadURL : '';
+        let myCurrCvPic = newSnap ? newSnap.myDownloadURL : '';
+        let myName = newSnap ? newSnap.name : '';
+        let myDatOfBirth = newSnap ? newSnap.date : '';
+        let myEducation = newSnap ? newSnap.education : '';
         setName(myName);
         setEducation(myEducation);
         setShowPic(myCurrPic);
@@ -72,24 +77,13 @@ const ProfileScreen = ({navigation}) => {
     BackHandler.addEventListener('hardwareBackPress', disableBackButton);
   }, []);
 
-  const SubmitBtn = async () => {
-    if (name && date && education) {
-      setIsLoading(true);
-      const myCvPic = Pics.uri;
-      const cvResult = await RNFetchBlob.fs.readFile(myCvPic, 'base64');
-      const cvTask = storageCv.putString(cvResult, 'base64', {
-        contentType: Pics.type,
-      });
-      cvTask.on('state_changed', (taskSnapshot) => {
-        console.log(
-          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-        );
-      });
-
-      const myPicOrg = PickPics.uri;
+  const updateImages = async (file) => {
+    try {
+      setprofilePicLoading(true);
+      const myPicOrg = file.uri;
       const result = await RNFetchBlob.fs.readFile(myPicOrg, 'base64');
       const task = storageRef.putString(result, 'base64', {
-        contentType: PickPics.type,
+        contentType: file.type,
       });
       task.on('state_changed', (taskSnapshot) => {
         console.log(
@@ -103,40 +97,73 @@ const ProfileScreen = ({navigation}) => {
           .getDownloadURL()
           .then((downloadURL) => {
             console.log('image ', downloadURL);
-            const uid = firebase.auth().currentUser?.uid;
-            try {
-              cvTask.then((imageSnapshot) => {
-                console.log('Image Upload Successfully');
-                let abc = date ? date?.toISOString()?.split('t')[0] : [];
-                storage()
-                  .ref(imageSnapshot.metadata.fullPath)
-                  .getDownloadURL()
-                  .then((myDownloadURL) => {
-                    console.log('image ', myDownloadURL);
-                    database().ref(`/StudentProfileData/${uid}`).push({
-                      downloadURL,
-                      name,
-                      education,
-                      myDownloadURL,
-                      date: abc,
-                    });
-                  });
-              });
-              setIsLoading(false);
-              alert('Your Data is Now Saved');
-            } catch (err) {
-              console.log(err);
-              setIsLoading(false);
-            }
+            setProfilePic(downloadURL);
+          });
+        setprofilePicLoading(false);
+      });
+    } catch (err) {
+      alert(JSON.stringify(err));
+      console.log('errr ', err);
+      setprofilePicLoading(false);
+    }
+  };
+
+  const saveCvImgUrl = async (res) => {
+    try {
+      setCvPicLoading(true);
+      const myCvPic = res.uri;
+      const cvResult = await RNFetchBlob.fs.readFile(myCvPic, 'base64');
+      const cvTask = storageCv.putString(cvResult, 'base64', {
+        contentType: res.type,
+      });
+      cvTask.on('state_changed', (taskSnapshot) => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+      });
+      await cvTask.then((imageSnapshot) => {
+        console.log('Image Upload Successfully');
+        storage()
+          .ref(imageSnapshot.metadata.fullPath)
+          .getDownloadURL()
+          .then((myDownloadURL) => {
+            console.log('image ', myDownloadURL);
+            setCvPicture(myDownloadURL);
           });
       });
-    } else {
-      setShowErr('All Fields Are Required');
+      setCvPicLoading(false);
+    } catch (err) {
+      console.log(err);
+      setCvPicLoading(false);
     }
   };
 
   const handleChange = () => {
     setShowErr('');
+  };
+
+  const handleSubmit = async () => {
+    if (name && date && education) {
+      try {
+        setIsLoading(true);
+        const uid = firebase.auth().currentUser?.uid;
+        let currDate = date ? date?.toISOString()?.split('t')[0] : [];
+        await database().ref(`/StudentProfileData/${uid}`).update({
+          downloadURL: profilePic,
+          name,
+          education,
+          myDownloadURL: cvPicture,
+          date: currDate,
+        });
+        setIsLoading(false);
+        Alert.alert('Your Data Is Now SaveD!');
+      } catch (err) {
+        console.log(err);
+        setIsLoading(false);
+      }
+    } else {
+      setShowErr('PleasE Required All Fields');
+    }
   };
 
   return (
@@ -153,6 +180,9 @@ const ProfileScreen = ({navigation}) => {
               PickPics={PickPics}
               showPic={showPic}
               setPickPics={setPickPics}
+              updateImages={updateImages}
+              profilePicLoading={profilePicLoading}
+              setprofilePicLoading={setprofilePicLoading}
             />
 
             <View>
@@ -204,12 +234,18 @@ const ProfileScreen = ({navigation}) => {
               </View>
             </View>
 
-            <ProfileCv Pics={Pics} setPics={setPics} cvPic={cvPic} />
+            <ProfileCv
+              Pics={Pics}
+              setPics={setPics}
+              saveCvImgUrl={saveCvImgUrl}
+              cvPic={cvPic}
+              cvPicLoading={cvPicLoading}
+            />
 
             <Text style={style.errStyle}>{showErr}</Text>
 
             <ProfileButton
-              Submit={SubmitBtn}
+              Submit={handleSubmit}
               isLoading={isLoading}
               disabled={!name}
             />

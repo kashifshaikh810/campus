@@ -170,7 +170,10 @@ const JobsScreen = ({navigation}) => {
                         activeOpacity={0.8}
                         style={style.touchAbleContent}
                         onPress={() => jobsDetails(index)}>
-                        <Text numberOfLines={1} style={style.teXt}>
+                        <Text
+                          index={index}
+                          numberOfLines={1}
+                          style={style.teXt}>
                           Job Title : {applyJob.jobTitle}
                         </Text>
                         <Text numberOfLines={1} style={style.teXt}>
