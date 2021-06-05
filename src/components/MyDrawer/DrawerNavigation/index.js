@@ -16,22 +16,21 @@ import CustomContent from './CustomContent';
 const Drawer = createDrawerNavigator();
 
 const DrawerNav = ({navigation}) => {
-  const [userRoll, setUserRoll] = useState();
+  const [userRoll, setUserRoll] = useState('');
   // const dispatch = useDispatch();
   // const myLogin = useSelector((state) => state.myLog.LoginData);
 
   useEffect(() => {
     // const roll = myLogin;
     // setUserRoll(roll.selectedValue);
-    const uid = firebase.auth().currentUser?.uid;
-    console.log(uid);
+    const uid = firebase.auth()?.currentUser?.uid;
     database()
       .ref(`NewUsers/${uid}`)
       .on('value', (snapshot) => {
-        const user = snapshot.val();
-        const newUser = user.selectedValue;
-        console.log('User data: ', user.selectedValue);
-        setUserRoll(newUser);
+        const user = snapshot ? snapshot.val() : [];
+        const newUser = snapshot ? user?.selectedValue : '';
+        console.log(uid);
+        setUserRoll(snapshot.val()?.selectedValue);
       });
   }, []);
 

@@ -37,8 +37,8 @@ const JobsScreen = ({navigation}) => {
     database()
       .ref(`NewUsers/${uid}`)
       .on('value', (snapshot) => {
-        let user = snapshot.val();
-        let newUser = user.selectedValue;
+        let user = snapshot ? snapshot.val() : [];
+        let newUser = user ? user?.selectedValue : '';
         setUserRoll(newUser);
       });
   }, []);

@@ -30,31 +30,33 @@ const SignUp = ({navigation}) => {
   const [errMsg, setErrMsg] = useState('');
   const [showErr, setShowErr] = useState('');
 
-  const Submit = async () => {
+  const Submit = () => {
     if (firstName && lastName && email && password) {
       setIsLoading(true);
-      try {
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
-        const uid = firebase.auth().currentUser?.uid;
-        database().ref(`/NewUsers/${uid}`).set({
-          firstName,
-          lastName,
-          email,
-          password,
-          selectedValue,
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(async ({user}) => {
+          // console.log(user.uid, 'userr signup');
+          database().ref(`/NewUsers/${user.uid}`).set({
+            firstName,
+            lastName,
+            email,
+            password,
+            selectedValue,
+          });
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPassword('');
+          setIsLoading(false);
+          await auth().signOut();
+          navigation.navigate('LogIn');
+        })
+        .catch((err) => {
+          console.log(err.code, err.message);
+          setIsLoading(false);
         });
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPassword('');
-        setIsLoading(false);
-        await auth().signOut();
-        navigation.navigate('LogIn');
-      } catch (err) {
-        console.log(err, 'error');
-        setErrMsg(err?.message);
-        setIsLoading(false);
-      }
     } else {
       setShowErr('All Fields Are Required');
     }
